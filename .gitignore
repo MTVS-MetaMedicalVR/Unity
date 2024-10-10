@@ -1,14 +1,12 @@
-# This .gitignore file should be placed at the root of your Unity project directory
-#
-# Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
-#
-/Unity/AR/[Ll]ibrary/
-/Unity/AR/[Tt]emp/
-/Unity/AR/[Oo]bj/
-/Unity/AR/[Bb]uild/
-/Unity/AR/[Bb]uilds/
-/Unity/AR/[Ll]ogs/
-/Unity/AR/[Uu]ser[Ss]ettings/
+# This .gitignore file should be placed at the root of your Unity project dire
+latest from https://github.com/github/gitignore/blob/main/Unity.gitig
+/AR/[Ll]ibrary/
+/AR/[Tt]emp/
+/AR/[Oo]bj/
+/AR/[Bb]uild/
+/AR/[Bb]uilds/
+/AR/[Ll]ogs/
+/AR/[Uu]ser[Ss]ettings/
 /Unity/VR/[Ll]ibrary/
 /Unity/VR/[Tt]emp/
 /Unity/VR/[Oo]bj/
