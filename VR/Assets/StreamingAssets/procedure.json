@@ -1,0 +1,45 @@
+{
+  "procedure": {
+    "id": "hand_wash",
+    "name": "손 씻기 절차",
+    "steps": [
+      {
+        "id": "move_to_sink",
+        "description": "개수대로 이동하세요.",
+        "action": "MoveToSink",
+        "target": "sink",
+        "requiredProximity": 1.5
+      },
+      {
+        "id": "turn_on_water",
+        "description": "물을 트세요.",
+        "action": "TurnOnWater",
+        "target": "water_faucet"
+      },
+      {
+        "id": "use_soap",
+        "description": "비누를 펌프하세요.",
+        "action": "UseSoap",
+        "target": "soap_pump"
+      },
+      {
+        "id": "hand_washing",
+        "description": "손을 30초간 씻으세요.",
+        "action": "HandWashing",
+        "duration": 30
+      },
+      {
+        "id": "dry_hands",
+        "description": "손을 티슈로 닦으세요.",
+        "action": "DryHands",
+        "target": "tissue"
+      },
+      {
+        "id": "turn_off_water",
+        "description": "물을 끄세요.",
+        "action": "TurnOffWater",
+        "target": "water_faucet"
+      }
+    ]
+  }
+}
