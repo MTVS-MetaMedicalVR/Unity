@@ -6501,6 +6501,7 @@ GameObject:
   - component: {fileID: 1244410694260947866}
   - component: {fileID: 5672334443449877558}
   - component: {fileID: 5672334443449877559}
+  - component: {fileID: 5672334443449877560}
   m_Layer: 0
   m_Name: holder_arm
   m_TagString: Untagged
@@ -9169,6 +9170,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0032973175, y: 0.0009965404, z: 0.0011111324}
   m_Center: {x: -0.0013199997, y: -0.0001439897, z: 0.000741128}
+--- !u!114 &5672334443449877560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2830676333090615978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a6ab9ee3dee51b49b670b887f970a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _snapInteractable: {fileID: 1897448825}
+  _material: {fileID: 2100000, guid: ae1b2b57696ff06408fd5cb25989eff0, type: 2}
 --- !u!23 &5682701092065513356
 MeshRenderer:
   m_ObjectHideFlags: 0
