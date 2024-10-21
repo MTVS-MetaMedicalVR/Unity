@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LobbyMenu : MonoBehaviour
 {
@@ -33,8 +34,11 @@ public class LobbyMenu : MonoBehaviour
         // 로비 메뉴 UI 비활성화
         lobbyMenuUI.SetActive(false);
 
-        // 콘텐츠 선택 UI 활성화
-        contentSelectionUI.SetActive(true);
+        // 씬 전환 (나중에 콘텐츠 UI 완성되면 교체 예정)
+        SceneManager.LoadScene(1);
+
+        //// 콘텐츠 선택 UI 활성화
+        //contentSelectionUI.SetActive(true);
         
     }
     // Settings Button 눌렀을 때 호출할 함수
@@ -53,8 +57,8 @@ public class LobbyMenu : MonoBehaviour
     {
         Debug.Log("시뮬레이션을 종료합니다.");
 
-        // 유니티 에디터에서 플레이 종료 (빌드하기 전에 삭제해야 함)
-        EditorApplication.isPlaying = false;
+        //// 유니티 에디터에서 플레이 종료 (빌드하기 전에 삭제해야 함)
+        //EditorApplication.isPlaying = false;
         
         // 게임 종료 >>> 빌드 후에 작동함
         Application.Quit();
