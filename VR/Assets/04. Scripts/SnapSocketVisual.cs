@@ -44,7 +44,7 @@ public class SnapSocketVisual : MonoBehaviour
         _socket = new GameObject(interactor.transform.parent?.name);
         _socket.transform.parent = transform;
         _socket.transform.localScale = Vector3.one;
-        _socket.transform.localPosition = Vector3.zero;
+        _socket.transform.position = interactor.transform.position;
         _socket.transform.localRotation = Quaternion.identity;
 
         var parentMesh = interactor.transform.parent.GetComponent<MeshFilter>();
@@ -89,12 +89,12 @@ public class SnapSocketVisual : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
