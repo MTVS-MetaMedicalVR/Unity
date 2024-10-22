@@ -50,6 +50,7 @@ public class LobbyMenu : MonoBehaviour
         // 세팅 메뉴 UI 활성화
         settingsMenuUI.SetActive(true);
 
+
         Debug.Log("세팅 메뉴 짠 !");
     }
     // Quit Button 눌렀을 때 호출할 함수
