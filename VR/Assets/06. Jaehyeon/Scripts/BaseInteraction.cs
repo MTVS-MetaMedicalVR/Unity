@@ -15,16 +15,24 @@ public abstract class BaseInteraction : MonoBehaviour
         objectAnimator = GetComponent<Animator>();
         if(objectAnimator == null)
         {
-            Debug.LogError("Animator를 찾을 수 없습니다.");
+            Debug.LogError($"{gameObject.name}에서 Animator를 찾을 수 없습니다. Animator 컴포넌트를 확인하세요.");
         }
     }
 
     // 상호작용을 수행하는 공통 메서드
     public virtual void PerformInteraction()
     {
-        //Debug.Log($"{stepId} 단계 수행 중...");
-        ProcedureManager.Instance.CompleteStep(stepId);  // 절차 완료
-        Debug.Log($"{stepId} 단계 수행 중...");
+        if(ProcedureManager.Instance != null)
+        {
+            //Debug.Log($"{stepId} 단계 수행 중...");
+            ProcedureManager.Instance.CompleteStep(stepId);  // 절차 완료
+            Debug.Log($"{stepId} 단계 수행 중...");
+        }
+        else
+        {
+            Debug.LogError("ProcedureManager 인스턴스를 찾을 수가 없습니다");
+        }
+       
     }
 
     private void Update()

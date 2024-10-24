@@ -49,9 +49,17 @@ public class ProcedureManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(gameObject); //씬 전환 시에 유지
+        }
+            
         else
-            Destroy(gameObject);  // 중복 방지
+        {
+            Debug.LogError("이미 ProcedureManger 인스턴스가 존재합니다. 기존 인스턴스를 사용합니다.");
+            //Destroy(gameObject);  // 중복 방지
+        }
+            
     }
 
     private void Start()
@@ -62,7 +70,7 @@ public class ProcedureManager : MonoBehaviour
     // **Android와 모든 플랫폼에서 JSON 파일을 읽는 코루틴**
     private IEnumerator LoadProcedures()
     {
-        string path = Path.Combine(Application.streamingAssetsPath, "procedures.json");
+        string path = Path.Combine(Application.streamingAssetsPath, "procedure.json");
 
         UnityWebRequest request = UnityWebRequest.Get(path);  // JSON 파일 요청 생성
         yield return request.SendWebRequest();  // 요청이 완료될 때까지 대기
@@ -72,6 +80,11 @@ public class ProcedureManager : MonoBehaviour
             string json = request.downloadHandler.text;  // JSON 내용 가져오기
             ProcedureData data = JsonConvert.DeserializeObject<ProcedureData>(json);
             allProcedures = data.procedures;
+            // 모든 절차 로그 출력
+            foreach (var procedure in allProcedures)
+            {
+                Debug.Log($"로드된 절차: ID = {procedure.id}, Name = {procedure.name}");
+            }
             Debug.Log("절차가 성공적으로 로드되었습니다.");
         }
         else
@@ -82,6 +95,7 @@ public class ProcedureManager : MonoBehaviour
 
     public void StartProcedure(string procedureId)
     {
+        Debug.Log($"Starting procedure with ID: {procedureId}");
         currentProcedure = allProcedures.Find(p => p.id == procedureId);
         if (currentProcedure != null)
         {
@@ -111,6 +125,8 @@ public class ProcedureManager : MonoBehaviour
 
     public void CompleteStep(string stepId)
     {
+        print(currentProcedure.steps[currentStepIndex].id);
+
         if (currentProcedure.steps[currentStepIndex].id == stepId)
         {
             Debug.Log($"'{stepId}' 단계가 완료되었습니다.");
