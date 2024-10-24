@@ -1,77 +1,71 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // TextMeshPro를 사용하기 위한 네임스페이스
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    // UI 요소
+    public static UIManager Instance;  // 싱글톤 인스턴스
+    public List<Toggle> stepToggles;   // 절차 단계별 Toggle 리스트
+    public ProcedureManager procedureManager;  // ProcedureManager와 연결
 
-    // 메인 메뉴 패널
-    public GameObject mainMenuPanel;
-    // 절차 안내 패널
-    public GameObject procedurePanel;
-    // 현재 절차 단계 안내 텍스트
-    public TextMeshProUGUI stepText;
-    // 피드백 텍스트
-    public TextMeshProUGUI feedbackText;
-    // 절차 완료 시 표시될 패널
-    public GameObject completionPanel; 
+    private void Awake()
+    {
+        // 싱글톤 패턴을 적용해 인스턴스의 중복 생성을 방지
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     private void Start()
     {
-        // 게임 시작 시 메인 메뉴를 표시
-        ShowMainMenu(); 
+        InitializeToggles();  // Toggle 초기화
     }
 
-    // 메인 메뉴 표시
-    public void ShowMainMenu()
+    // 모든 Toggle에 On Value Changed 이벤트 리스너 등록
+    private void InitializeToggles()
     {
-        mainMenuPanel.SetActive(true);
-        procedurePanel.SetActive(false);
-        // 피드백 텍스트 초기화
-        feedbackText.text = ""; 
-        // 완료 패널 비활성화
-        completionPanel.SetActive(false); 
+        foreach (var toggle in stepToggles)
+        {
+            toggle.onValueChanged.AddListener((isOn) => OnToggleValueChanged(toggle, isOn));
+        }
     }
 
-    // 절차 패널 표시
-    public void ShowProcedurePanel()
+    // Toggle의 상태가 변경될 때 호출되는 메서드
+    private void OnToggleValueChanged(Toggle toggle, bool isOn)
     {
-        mainMenuPanel.SetActive(false);
-        procedurePanel.SetActive(true);
-        // 피드백 초기화
-        feedbackText.text = ""; 
+        if (isOn)  // Toggle이 켜졌을 때만 실행
+        {
+            string stepId = toggle.name.ToLower();  // Toggle 이름에서 단계 ID 추출
+            Debug.Log($"'{stepId}' 단계가 활성화되었습니다.");
+
+            // ProcedureManager에 단계 완료 알림
+            procedureManager.CompleteStep(stepId);
+        }
     }
 
-    // 절차 단계 텍스트 업데이트
-    public void UpdateStepText(string stepDescription)
+    // 특정 단계의 Toggle 상태를 업데이트
+    public void UpdateToggleState(string stepId, bool state)
     {
-        stepText.text = stepDescription;
+        var toggle = stepToggles.Find(t => t.name.ToLower() == stepId);
+        if (toggle != null)
+        {
+            toggle.isOn = state;  // 주어진 상태로 Toggle 업데이트
+            Debug.Log($"{stepId} 단계의 Toggle 상태가 업데이트되었습니다: {state}");
+        }
+        else
+        {
+            Debug.LogError($"'{stepId}'에 해당하는 Toggle을 찾을 수 없습니다.");
+        }
     }
 
-    // 피드백 표시
-    public void ShowFeedback(string feedback)
+    // UI 초기화: 모든 단계의 Toggle 상태를 초기화 (옵션)
+    public void ResetAllToggles()
     {
-        // 피드백 텍스트 업데이트
-        feedbackText.text = feedback;
-        // 일정 시간 후에 피드백을 숨기기 위한 코루틴 실행
-        StartCoroutine(HideFeedbackAfterDelay()); 
-    }
-
-    // 피드백을 일정 시간 후에 숨기기 위한 코루틴
-    private IEnumerator HideFeedbackAfterDelay()
-    {
-        // 2초 후에 피드백 텍스트를 초기화
-        yield return new WaitForSeconds(2.0f); 
-        feedbackText.text = "";
-    }
-
-    // 절차 완료 처리
-    public void ShowCompletion()
-    {
-        // 절차 패널 비활성화
-        procedurePanel.SetActive(false);
-        // 완료 패널 활성화
-        completionPanel.SetActive(true); 
+        foreach (var toggle in stepToggles)
+        {
+            toggle.isOn = false;  // 모든 Toggle 비활성화
+        }
+        Debug.Log("모든 Toggle이 초기화되었습니다.");
     }
 }

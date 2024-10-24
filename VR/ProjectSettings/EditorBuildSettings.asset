@@ -5,10 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/01. Scenes/Lobby.unity
+    guid: f5ec9a47e2cce9f4a8be16669950257d
+  - enabled: 1
+    path: Assets/01. Scenes/1st Training.unity
+    guid: e8da52aa14a98bd43a2f7af356f19a10
   - enabled: 0
     path: Assets/01. Scenes/Main.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/01. Scenes/VR Test Jae.unity
     guid: 579214af82ff31648a64e1d7cdfbd82b
   m_configObjects:
