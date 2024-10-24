@@ -12,6 +12,10 @@ public class WaterFaucet : BaseInteraction
             objectAnimator.SetTrigger("TurnOn");  // 물 트는 애니메이션 실행
             PerformInteraction();  // 절차 완료 알림
         }
+        else
+        {
+            Debug.LogWarning("PlayerHand 태그를 가진 객체가 아닙니다.");
+        }
     }
 
     protected override void OnPlayerInteraction()

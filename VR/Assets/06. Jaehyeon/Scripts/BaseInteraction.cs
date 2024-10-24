@@ -13,6 +13,10 @@ public abstract class BaseInteraction : MonoBehaviour
     {
         // 오브젝트에 Animator가 있으면 할당
         objectAnimator = GetComponent<Animator>();
+        if(objectAnimator == null)
+        {
+            Debug.LogError("Animator를 찾을 수 없습니다.");
+        }
     }
 
     // 상호작용을 수행하는 공통 메서드

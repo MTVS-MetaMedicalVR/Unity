@@ -32428,7 +32428,7 @@ GameObject:
   - component: {fileID: 8944484265735141438}
   m_Layer: 0
   m_Name: RightHand
-  m_TagString: Untagged
+  m_TagString: PlayerHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49045,7 +49045,7 @@ GameObject:
   - component: {fileID: 1661369319}
   m_Layer: 0
   m_Name: OVRCameraRigInteraction
-  m_TagString: PlayerHand
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58126,7 +58126,7 @@ GameObject:
   - component: {fileID: 2159183241863287143}
   m_Layer: 0
   m_Name: LeftHand
-  m_TagString: Untagged
+  m_TagString: PlayerHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97786,6 +97786,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2543830225396926142}
   - component: {fileID: 8264227600045621803}
+  - component: {fileID: 8264227600045621805}
+  - component: {fileID: 8264227600045621804}
   m_Layer: 0
   m_Name: water_faucet
   m_TagString: Untagged
@@ -97808,6 +97810,48 @@ MonoBehaviour:
   stepId: turn_on_water
   player: {fileID: 2514675399644790983}
   proximityThreshold: 1.5
+--- !u!95 &8264227600045621804
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264227600045621802}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f032790489a0910419210ca946fda307, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &8264227600045621805
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264227600045621802}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &8265030479014633918
 MeshFilter:
   m_ObjectHideFlags: 0
