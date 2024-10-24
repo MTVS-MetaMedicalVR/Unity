@@ -29,13 +29,16 @@ public class UIManager : MonoBehaviour
     {
         foreach (var toggle in stepToggles)
         {
-            toggle.onValueChanged.AddListener((isOn) => OnToggleValueChanged(toggle, isOn));
+            toggle.onValueChanged.AddListener(delegate {
+                OnToggleValueChanged(toggle, toggle.isOn);
+            });
         }
     }
 
+
     private void OnToggleValueChanged(Toggle toggle, bool isOn)
     {
-        if (isOn)  // Toggle이 켜졌을 때만 처리
+        if (isOn)
         {
             string stepId = toggle.name.ToLower();
             Debug.Log($"{stepId} 단계가 완료되었습니다.");
