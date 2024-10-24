@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance;  // 싱글톤 인스턴스
-    public List<Toggle> stepToggles;   // 절차 단계별 Toggle 리스트
-    public ProcedureManager procedureManager;  // ProcedureManager와 연결
+    public static UIManager Instance;
+    public List<Toggle> stepToggles;
+    public ProcedureManager procedureManager;
+    public Text stepDescriptionText;  // 단계 설명 텍스트 UI
 
     private void Awake()
     {
-        // 싱글톤 패턴을 적용해 인스턴스의 중복 생성을 방지
         if (Instance == null)
             Instance = this;
         else
@@ -19,10 +19,12 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        InitializeToggles();  // Toggle 초기화
+        InitializeToggles();  // 모든 Toggle 초기화
+        CenterUI();           // UI를 화면 중앙에 배치
+        ShowProcedureUI(true); // UI 표시
+        procedureManager.StartProcedure("hand_wash");  // 첫 번째 절차 시작
     }
 
-    // 모든 Toggle에 On Value Changed 이벤트 리스너 등록
     private void InitializeToggles()
     {
         foreach (var toggle in stepToggles)
@@ -31,26 +33,31 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Toggle의 상태가 변경될 때 호출되는 메서드
     private void OnToggleValueChanged(Toggle toggle, bool isOn)
     {
-        if (isOn)  // Toggle이 켜졌을 때만 실행
+        if (isOn)  // Toggle이 켜졌을 때만 처리
         {
-            string stepId = toggle.name.ToLower();  // Toggle 이름에서 단계 ID 추출
-            Debug.Log($"'{stepId}' 단계가 활성화되었습니다.");
+            string stepId = toggle.name.ToLower();
+            Debug.Log($"{stepId} 단계가 완료되었습니다.");
 
-            // ProcedureManager에 단계 완료 알림
-            procedureManager.CompleteStep(stepId);
+            if (procedureManager != null && procedureManager.GetCurrentStepId() == stepId)
+            {
+                procedureManager.CompleteStep(stepId);  // 해당 단계 완료
+            }
+            else
+            {
+                Debug.LogError($"{stepId} 단계가 현재 단계와 일치하지 않습니다.");
+                toggle.isOn = false;  // 일치하지 않으면 다시 비활성화
+            }
         }
     }
 
-    // 특정 단계의 Toggle 상태를 업데이트
     public void UpdateToggleState(string stepId, bool state)
     {
         var toggle = stepToggles.Find(t => t.name.ToLower() == stepId);
         if (toggle != null)
         {
-            toggle.isOn = state;  // 주어진 상태로 Toggle 업데이트
+            toggle.isOn = state;
             Debug.Log($"{stepId} 단계의 Toggle 상태가 업데이트되었습니다: {state}");
         }
         else
@@ -59,12 +66,38 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // UI 초기화: 모든 단계의 Toggle 상태를 초기화 (옵션)
+
+    public void CenterUI()
+    {
+        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane);
+        transform.position = Camera.main.ScreenToWorldPoint(screenCenter);
+        Debug.Log("UI가 화면 중앙에 배치되었습니다.");
+    }
+
+    public void UpdateStepDescription(string description)
+    {
+        if (stepDescriptionText != null)
+        {
+            stepDescriptionText.text = description;
+            Debug.Log($"단계 설명이 업데이트되었습니다: {description}");
+        }
+        else
+        {
+            Debug.LogError("단계 설명 텍스트가 할당되지 않았습니다.");
+        }
+    }
+
+    public void ShowProcedureUI(bool show)
+    {
+        gameObject.SetActive(show);
+        Debug.Log($"Procedure UI가 {(show ? "표시" : "숨김")}되었습니다.");
+    }
+
     public void ResetAllToggles()
     {
         foreach (var toggle in stepToggles)
         {
-            toggle.isOn = false;  // 모든 Toggle 비활성화
+            toggle.isOn = false;
         }
         Debug.Log("모든 Toggle이 초기화되었습니다.");
     }
