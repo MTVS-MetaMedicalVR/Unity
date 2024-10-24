@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class UnitChairController : UnitChairAnimator
 {
-
-
     // Start is called before the first frame update
     void Start()
     {
