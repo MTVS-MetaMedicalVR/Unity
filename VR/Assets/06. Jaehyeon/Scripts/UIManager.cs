@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
-    public List<Toggle> stepToggles;
+    public List<Toggle> stepToggles;  // 각 단계의 Toggle 리스트
     public ProcedureManager procedureManager;
     public Text stepDescriptionText;  // 단계 설명 텍스트 UI
 
@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
     {
         InitializeToggles();  // 모든 Toggle 초기화
         CenterUI();           // UI를 화면 중앙에 배치
-        ShowProcedureUI(true); // UI 표시
+        ShowProcedureUI(true);  // UI 표시
         procedureManager.StartProcedure("hand_wash");  // 첫 번째 절차 시작
     }
 
@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     {
         foreach (var toggle in stepToggles)
         {
+            toggle.onValueChanged.RemoveAllListeners();  // 기존 리스너 제거
             toggle.onValueChanged.AddListener(delegate {
                 OnToggleValueChanged(toggle, toggle.isOn);
             });
@@ -50,14 +51,33 @@ public class UIManager : MonoBehaviour
             else
             {
                 Debug.LogError($"{stepId} 단계가 현재 단계와 일치하지 않습니다.");
-                toggle.isOn = false;  // 일치하지 않으면 다시 비활성화
+                toggle.isOn = false;  // 잘못된 경우 비활성화
             }
+        }
+    }
+
+    public void UpdateUI(string stepId, string description)
+    {
+        UpdateStepDescription(description);  // 단계 설명 업데이트
+        UpdateToggleState(stepId, true);  // 해당 단계의 Toggle 활성화
+    }
+
+    public void UpdateStepDescription(string description)
+    {
+        if (stepDescriptionText != null)
+        {
+            stepDescriptionText.text = description;
+            Debug.Log($"단계 설명이 업데이트되었습니다: {description}");
+        }
+        else
+        {
+            Debug.LogError("단계 설명 텍스트가 할당되지 않았습니다.");
         }
     }
 
     public void UpdateToggleState(string stepId, bool state)
     {
-        var toggle = stepToggles.Find(t => t.name.ToLower() == stepId);
+        var toggle = stepToggles.Find(t => t.name.ToLower() == stepId.ToLower());
         if (toggle != null)
         {
             toggle.isOn = state;
@@ -75,19 +95,6 @@ public class UIManager : MonoBehaviour
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane);
         transform.position = Camera.main.ScreenToWorldPoint(screenCenter);
         Debug.Log("UI가 화면 중앙에 배치되었습니다.");
-    }
-
-    public void UpdateStepDescription(string description)
-    {
-        if (stepDescriptionText != null)
-        {
-            stepDescriptionText.text = description;
-            Debug.Log($"단계 설명이 업데이트되었습니다: {description}");
-        }
-        else
-        {
-            Debug.LogError("단계 설명 텍스트가 할당되지 않았습니다.");
-        }
     }
 
     public void ShowProcedureUI(bool show)

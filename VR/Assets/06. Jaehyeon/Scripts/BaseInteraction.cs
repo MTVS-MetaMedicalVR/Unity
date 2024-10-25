@@ -26,22 +26,21 @@ public abstract class BaseInteraction : MonoBehaviour
     // 상호작용 수행
     public virtual void PerformInteraction()
     {
-        if (interactionCompleted) return;  // 이미 완료된 상호작용이면 무시
+        if (interactionCompleted) return;
 
         string currentStepId = ProcedureManager.Instance.GetCurrentStepId();
-        Debug.Log($"현재 단계: {currentStepId}, 요청된 단계: {stepId}");
-
         if (currentStepId == stepId)
         {
-            ProcedureManager.Instance.CompleteStep(stepId);  // 절차 완료
-            interactionCompleted = true;  // 상호작용 완료
-            Debug.Log($"{stepId} 단계 완료.");
+            ProcedureManager.Instance.CompleteStep(stepId);
+            interactionCompleted = true;
+            Debug.Log($"{stepId} 단계가 완료되었습니다.");
         }
         else
         {
             Debug.LogError($"'{stepId}'가 현재 단계와 일치하지 않습니다.");
         }
     }
+
 
     private void Update()
     {

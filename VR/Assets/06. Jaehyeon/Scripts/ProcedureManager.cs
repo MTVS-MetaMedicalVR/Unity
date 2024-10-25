@@ -45,15 +45,6 @@ public class ProcedureManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        if (uiManager == null)
-        {
-            uiManager = FindObjectOfType<UIManager>();
-            if (uiManager == null)
-            {
-                Debug.LogError("UIManager 인스턴스를 찾을 수 없습니다.");
-            }
-        }
     }
 
     public string GetCurrentStepId()
@@ -63,10 +54,10 @@ public class ProcedureManager : MonoBehaviour
             return currentProcedure.steps[currentStepIndex].id;
         }
         return null;
+
+    
     }
-
-
-
+    
     private void Start()
     {
         StartCoroutine(LoadProcedures());
@@ -111,6 +102,9 @@ public class ProcedureManager : MonoBehaviour
         if (currentStepIndex < currentProcedure.steps.Count)
         {
             var step = currentProcedure.steps[currentStepIndex];
+            Debug.Log($"현재 단계: {step.description}");
+
+            // 단계 설명 업데이트 및 토글 활성화
             uiManager.UpdateStepDescription(step.description);
             uiManager.UpdateToggleState(step.id, true);
         }
@@ -120,20 +114,19 @@ public class ProcedureManager : MonoBehaviour
         }
     }
 
+
     public void CompleteStep(string stepId)
     {
         if (currentProcedure.steps[currentStepIndex].id == stepId)
         {
             Debug.Log($"'{stepId}' 단계가 완료되었습니다.");
-
-            // Toggle 비활성화
-            uiManager.UpdateToggleState(stepId, false);
+            uiManager.UpdateToggleState(stepId, false);  // 해당 단계 비활성화
 
             currentStepIndex++;
 
             if (currentStepIndex < currentProcedure.steps.Count)
             {
-                ExecuteCurrentStep();
+                ExecuteCurrentStep();  // 다음 단계 실행
             }
             else
             {
@@ -145,7 +138,6 @@ public class ProcedureManager : MonoBehaviour
             Debug.LogError($"잘못된 단계: '{stepId}'가 현재 단계와 일치하지 않습니다.");
         }
     }
-
 
     private void CompleteProcedure()
     {
