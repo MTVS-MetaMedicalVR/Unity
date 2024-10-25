@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -6,73 +7,85 @@ using UnityEngine;
 using UnityEngine.Networking;  // UnityWebRequest 사용을 위해 필요
 
 [System.Serializable]
-public class ProcedureStep
-{
-    public string id;
-    public string description;
-    public string action;
-    public string target;
-    public float requiredProximity;
-    public Interaction interaction;
-}
-
-[System.Serializable]
-public class Interaction
-{
-    public string type;
-    public string objectName;
-    public string location;
-}
-
-[System.Serializable]
-public class MedicalProcedure
-{
-    public string id;
-    public string name;
-    public List<ProcedureStep> steps;
-}
-
-[System.Serializable]
-public class ProcedureData
-{
-    public List<MedicalProcedure> procedures;
-}
-
 public class ProcedureManager : MonoBehaviour
 {
     public static ProcedureManager Instance;
     public List<MedicalProcedure> allProcedures;
-    private MedicalProcedure currentProcedure;
+    public MedicalProcedure currentProcedure;
     private int currentStepIndex;
     public UIManager uiManager;
+    public Transform Player;
+
+    [System.Serializable]
+    public class MedicalProcedure
+    {
+        public string id;
+        public string name;
+        public List<ProcedureStep> steps;
+    }
+
+    [System.Serializable]
+    public class ProcedureData
+    {
+        public List<MedicalProcedure> procedures;
+    }
+
+    [System.Serializable]
+    public class ProcedureStep
+    {
+        public string id;
+        public string description;
+        public string action;
+        public string target;
+        public float requiredProximity;
+        public Interaction interaction;  // Interaction 사용
+    }
+
+    [System.Serializable]
+    public class Interaction
+    {
+        public string type;      // 상호작용 유형 (예: grab, move)
+        public string objectName; // 상호작용할 오브젝트 이름
+        public string location;  // 상호작용 위치
+    }
 
     private void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
         else
-            Destroy(gameObject);  // 중복 방지
+        {
+            Destroy(gameObject);
+        }
+
+        if (uiManager == null)
+        {
+            uiManager = FindObjectOfType<UIManager>();
+            if (uiManager == null)
+                Debug.LogError("UIManager 인스턴스를 찾을 수 없습니다.");
+        }
     }
 
     private void Start()
     {
-        StartCoroutine(LoadProcedures());  // 코루틴으로 JSON 파일 로드
+        StartCoroutine(LoadProcedures());
     }
 
-    // **Android와 모든 플랫폼에서 JSON 파일을 읽는 코루틴**
     private IEnumerator LoadProcedures()
     {
-        string path = Path.Combine(Application.streamingAssetsPath, "procedures.json");
-
-        UnityWebRequest request = UnityWebRequest.Get(path);  // JSON 파일 요청 생성
-        yield return request.SendWebRequest();  // 요청이 완료될 때까지 대기
+        string path = Path.Combine(Application.streamingAssetsPath, "procedure.json");
+        UnityWebRequest request = UnityWebRequest.Get(path);
+        yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            string json = request.downloadHandler.text;  // JSON 내용 가져오기
+            string json = request.downloadHandler.text;
             ProcedureData data = JsonConvert.DeserializeObject<ProcedureData>(json);
             allProcedures = data.procedures;
-            Debug.Log("절차가 성공적으로 로드되었습니다.");
+            StartProcedure(allProcedures[0].id);
         }
         else
         {
@@ -94,17 +107,23 @@ public class ProcedureManager : MonoBehaviour
         }
     }
 
-    private void ExecuteCurrentStep()
+    public string GetCurrentStepId()
+    {
+        if (currentProcedure != null && currentStepIndex < currentProcedure.steps.Count)
+            return currentProcedure.steps[currentStepIndex].id;
+        return null;
+    }
+
+    public void ExecuteCurrentStep()
     {
         if (currentStepIndex < currentProcedure.steps.Count)
         {
             var step = currentProcedure.steps[currentStepIndex];
-            Debug.Log($"현재 단계: {step.description}");
-            uiManager.UpdateToggleState(step.id, true);  // UI 단계 표시
+            uiManager.UpdateStepDescription(step.description);
+            uiManager.SetStepObjectActive(step.id, true);
         }
         else
         {
-            Debug.Log("모든 절차가 완료되었습니다.");
             CompleteProcedure();
         }
     }
@@ -113,10 +132,8 @@ public class ProcedureManager : MonoBehaviour
     {
         if (currentProcedure.steps[currentStepIndex].id == stepId)
         {
-            Debug.Log($"'{stepId}' 단계가 완료되었습니다.");
-            uiManager.UpdateToggleState(stepId, false);  // UI 단계 비활성화
             currentStepIndex++;
-            ExecuteCurrentStep();  // 다음 단계 실행
+            ExecuteCurrentStep();
         }
         else
         {
@@ -127,6 +144,5 @@ public class ProcedureManager : MonoBehaviour
     private void CompleteProcedure()
     {
         Debug.Log($"{currentProcedure.name} 절차가 완료되었습니다.");
-        uiManager.ResetAllToggles();  // 모든 UI 초기화
     }
 }
