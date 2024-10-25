@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
-    public ProcedureManager procedureManager;
+    public ProcedureManager procedureManager;  
     public Text stepDescriptionText;  // 단계 설명 텍스트
     public List<GameObject> stepObjects;  // 모든 단계별 GameObject
 
@@ -26,8 +26,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        InitializeStepObjects();  // 단계 개체 초기화
-        CenterUI();               // UI를 화면 중앙에 배치
+        InitializeStepObjects();  // 모든 단계 개체 초기화
+        CenterUI();  // UI를 중앙에 배치
         procedureManager.StartProcedure("hand_wash");  // 절차 시작
     }
 
@@ -40,26 +40,26 @@ public class UIManager : MonoBehaviour
             if (button != null)
             {
                 button.onClick.AddListener(() => OnStepObjectClicked(stepObject));
-                Debug.Log($"{stepObject.name} 버튼이 초기화되었습니다.");
             }
             else
             {
-                Debug.LogWarning($"{stepObject.name}에 Button 컴포넌트가 없습니다.");
+                Debug.LogError($"{stepObject.name}에 Button 컴포넌트가 없습니다.");
             }
 
-            stepObject.SetActive(false);  // 초기에는 모든 단계 비활성화
+            stepObject.SetActive(false);  // 모든 단계 비활성화
         }
     }
 
     // 단계별 GameObject 클릭 시 호출되는 메서드
     private void OnStepObjectClicked(GameObject stepObject)
     {
+        Debug.Log($"'{stepObject.name}'가 클릭되었습니다.");  // 클릭 이벤트 확인
         string stepId = stepObject.name.ToLower();
         Debug.Log($"{stepId} 단계가 완료되었습니다.");
 
         if (procedureManager != null && procedureManager.GetCurrentStepId() == stepId)
         {
-            procedureManager.CompleteStep(stepId);  // 해당 단계 완료 처리
+            procedureManager.CompleteStep(stepId);  // 단계 완료
             stepObject.SetActive(false);  // 단계 비활성화
         }
         else
@@ -68,16 +68,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // UI를 플레이어 시야 중앙에 배치
-    public void CenterUI()
-    {
-        Vector3 uiPosition = Camera.main.transform.position + Camera.main.transform.forward * 2.0f;
-        transform.position = uiPosition;
-        transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
-        Debug.Log("UI가 화면 중앙에 배치되었습니다.");
-    }
-
-    // 단계 설명 업데이트
     public void UpdateStepDescription(string description)
     {
         if (stepDescriptionText != null)
@@ -89,6 +79,14 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("단계 설명 텍스트가 없습니다.");
         }
+    }
+
+    public void CenterUI()
+    {
+        Vector3 uiPosition = Camera.main.transform.position + Camera.main.transform.forward * 2.0f;
+        transform.position = uiPosition;
+        transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+        Debug.Log("UI가 화면 중앙에 배치되었습니다.");
     }
 
     // 특정 단계 GameObject 활성화/비활성화
