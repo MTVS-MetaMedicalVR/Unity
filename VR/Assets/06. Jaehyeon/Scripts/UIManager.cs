@@ -5,16 +5,15 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
-    public ProcedureManager procedureManager;  
+    public ProcedureManager procedureManager;
     public Text stepDescriptionText;  // 단계 설명 텍스트
-    public List<GameObject> stepObjects;  // 모든 단계별 GameObject
+    public List<GameObject> stepObjects;  // 단계별 오브젝트 리스트
+
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
 
         if (procedureManager == null)
         {
@@ -26,45 +25,36 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        InitializeStepObjects();  // 모든 단계 개체 초기화
+        InitializeStepObjects();  // 모든 단계 오브젝트 초기화
         CenterUI();  // UI를 중앙에 배치
         procedureManager.StartProcedure("hand_wash");  // 절차 시작
     }
 
-    // 단계별 GameObject 초기화
+    // 단계별 오브젝트 초기화
     private void InitializeStepObjects()
     {
         foreach (var stepObject in stepObjects)
         {
-            Button button = stepObject.GetComponentInChildren<Button>();
-            if (button != null)
-            {
-                button.onClick.AddListener(() => OnStepObjectClicked(stepObject));
-            }
-            else
-            {
-                Debug.LogError($"{stepObject.name}에 Button 컴포넌트가 없습니다.");
-            }
-
-            stepObject.SetActive(false);  // 모든 단계 비활성화
+            stepObject.SetActive(false);  // 모든 오브젝트 비활성화
         }
     }
 
-    // 단계별 GameObject 클릭 시 호출되는 메서드
-    private void OnStepObjectClicked(GameObject stepObject)
+    private void OnToggleValueChanged(Toggle toggle, bool isOn)
     {
-        Debug.Log($"'{stepObject.name}'가 클릭되었습니다.");  // 클릭 이벤트 확인
-        string stepId = stepObject.name.ToLower();
-        Debug.Log($"{stepId} 단계가 완료되었습니다.");
+        if (isOn)
+        {
+            string stepId = toggle.name.ToLower();
+            Debug.Log($"{stepId} 단계가 활성화되었습니다.");
 
-        if (procedureManager != null && procedureManager.GetCurrentStepId() == stepId)
-        {
-            procedureManager.CompleteStep(stepId);  // 단계 완료
-            stepObject.SetActive(false);  // 단계 비활성화
-        }
-        else
-        {
-            Debug.LogError($"{stepId} 단계가 현재 단계와 일치하지 않습니다.");
+            if (procedureManager.GetCurrentStepId() == stepId)
+            {
+                procedureManager.CompleteStep(stepId);  // 단계 완료 처리
+            }
+            else
+            {
+                Debug.LogError($"'{stepId}' 단계가 현재 단계와 일치하지 않습니다.");
+                toggle.isOn = false;  // 잘못된 경우 다시 비활성화
+            }
         }
     }
 
@@ -81,15 +71,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void CenterUI()
-    {
-        Vector3 uiPosition = Camera.main.transform.position + Camera.main.transform.forward * 2.0f;
-        transform.position = uiPosition;
-        transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
-        Debug.Log("UI가 화면 중앙에 배치되었습니다.");
-    }
-
-    // 특정 단계 GameObject 활성화/비활성화
+    // 특정 단계 오브젝트 활성화/비활성화
     public void SetStepObjectActive(string stepId, bool state)
     {
         var stepObject = stepObjects.Find(obj => obj.name.ToLower() == stepId);
@@ -103,4 +85,13 @@ public class UIManager : MonoBehaviour
             Debug.LogError($"{stepId}에 해당하는 GameObject를 찾을 수 없습니다.");
         }
     }
+
+    public void CenterUI()
+    {
+        Vector3 uiPosition = Camera.main.transform.position + Camera.main.transform.forward * 2.0f;
+        transform.position = uiPosition;
+        transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+        Debug.Log("UI가 화면 중앙에 배치되었습니다.");
+    }
+
 }

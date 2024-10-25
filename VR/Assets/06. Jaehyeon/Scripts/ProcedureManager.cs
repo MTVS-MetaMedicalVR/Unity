@@ -1,12 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Networking;  // UnityWebRequest 사용을 위해 필요
+using UnityEngine.Networking;
 
-[System.Serializable]
 public class ProcedureManager : MonoBehaviour
 {
     public static ProcedureManager Instance;
@@ -15,6 +13,26 @@ public class ProcedureManager : MonoBehaviour
     private int currentStepIndex;
     public UIManager uiManager;
     public Transform Player;
+
+    [System.Serializable]
+    public class ProcedureStep
+    {
+        public string id;  // 단계 ID
+        public string description;  // 단계 설명
+        public string action;  // 수행할 액션
+        public string target;  // 타겟 오브젝트
+        public float requiredProximity;  // 필요한 거리
+        public Interaction interaction;  // 상호작용 정보
+    }
+
+    [System.Serializable]
+    public class Interaction
+    {
+        public string type;  // 상호작용 타입 (예: move, grab)
+        public string objectName;  // 상호작용할 오브젝트 이름
+        public string location;  // 상호작용 위치
+    }
+
 
     [System.Serializable]
     public class MedicalProcedure
@@ -30,24 +48,9 @@ public class ProcedureManager : MonoBehaviour
         public List<MedicalProcedure> procedures;
     }
 
-    [System.Serializable]
-    public class ProcedureStep
-    {
-        public string id;
-        public string description;
-        public string action;
-        public string target;
-        public float requiredProximity;
-        public Interaction interaction;  // Interaction 사용
-    }
 
-    [System.Serializable]
-    public class Interaction
-    {
-        public string type;      // 상호작용 유형 (예: grab, move)
-        public string objectName; // 상호작용할 오브젝트 이름
-        public string location;  // 상호작용 위치
-    }
+
+
 
     private void Awake()
     {
@@ -83,7 +86,7 @@ public class ProcedureManager : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             string json = request.downloadHandler.text;
-            ProcedureData data = JsonConvert.DeserializeObject<ProcedureData>(json);
+            var data = JsonConvert.DeserializeObject<ProcedureData>(json);
             allProcedures = data.procedures;
             StartProcedure(allProcedures[0].id);
         }
@@ -132,13 +135,28 @@ public class ProcedureManager : MonoBehaviour
     {
         if (currentProcedure.steps[currentStepIndex].id == stepId)
         {
-            currentStepIndex++;
+            Debug.Log($"'{stepId}' 단계가 완료되었습니다.");
+            uiManager.SetStepObjectActive(stepId, false);  // 현재 단계 비활성화
+            //currentStepIndex++;
             ExecuteCurrentStep();
+            currentStepIndex++;
         }
         else
         {
             Debug.LogError($"잘못된 단계: '{stepId}'가 현재 단계와 일치하지 않습니다.");
         }
+
+
+        if (currentStepIndex < currentProcedure.steps.Count)
+        {
+            ExecuteCurrentStep();  // 다음 단계 실행
+        }
+        else
+        {
+            CompleteProcedure();  // 절차 완료 처리
+        }
+
+       
     }
 
     private void CompleteProcedure()
