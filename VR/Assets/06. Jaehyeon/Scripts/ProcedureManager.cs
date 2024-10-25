@@ -1,27 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Networking;  // UnityWebRequest 사용을 위해 필요
+using UnityEngine.Networking;
 
 [System.Serializable]
 public class ProcedureStep
 {
     public string id;
     public string description;
-    public string action;
-    public string target;
-    public float requiredProximity;
-    public Interaction interaction;
-}
-
-[System.Serializable]
-public class Interaction
-{
-    public string type;
-    public string objectName;
-    public string location;
 }
 
 [System.Serializable]
@@ -31,76 +20,123 @@ public class MedicalProcedure
     public string name;
     public List<ProcedureStep> steps;
 }
-
 [System.Serializable]
 public class ProcedureData
 {
     public List<MedicalProcedure> procedures;
 }
-
 public class ProcedureManager : MonoBehaviour
 {
     public static ProcedureManager Instance;
     public List<MedicalProcedure> allProcedures;
-    private MedicalProcedure currentProcedure;
-    private int currentStepIndex;
+    public MedicalProcedure currentProcedure;
+    private int currentStepIndex = 0;
     public UIManager uiManager;
+    private bool isProcedureComplete = false;  // 절차 완료 여부
+    private Vector3 cachedPosition;
+    public Transform player;  // 플레이어의 Transform 객체
+
 
     private void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
         else
-            Destroy(gameObject);  // 중복 방지
+        {
+            Destroy(gameObject);
+        }
+            
+
+        if (uiManager == null)
+        {
+            uiManager = FindObjectOfType<UIManager>();
+            if (uiManager == null)
+                Debug.LogError("UIManager 인스턴스를 찾을 수 없습니다.");
+        }
     }
+
 
     private void Start()
     {
-        StartCoroutine(LoadProcedures());  // 코루틴으로 JSON 파일 로드
+        cachedPosition = new Vector3(0, 0, 0);
+        StartCoroutine(LoadProcedures());  // 절차 로드
     }
 
-    // **Android와 모든 플랫폼에서 JSON 파일을 읽는 코루틴**
     private IEnumerator LoadProcedures()
     {
-        string path = Path.Combine(Application.streamingAssetsPath, "procedures.json");
+        string path = Path.Combine(Application.streamingAssetsPath, "procedure.json");
+        UnityWebRequest request = UnityWebRequest.Get(path);
+        WaitForSeconds wait = new WaitForSeconds(1f);  // 객체 재사용
+        yield return request.SendWebRequest();
 
-        UnityWebRequest request = UnityWebRequest.Get(path);  // JSON 파일 요청 생성
-        yield return request.SendWebRequest();  // 요청이 완료될 때까지 대기
+        while(true)
+        {
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                ProcedureData data = JsonConvert.DeserializeObject<ProcedureData>(json);
+                allProcedures = data.procedures;
+                StartProcedure(allProcedures[0].id);
+            }
+            else
+            {
+                Debug.LogError($"JSON 파일을 로드할 수 없습니다: {request.error}");
+            }
 
-        if (request.result == UnityWebRequest.Result.Success)
-        {
-            string json = request.downloadHandler.text;  // JSON 내용 가져오기
-            ProcedureData data = JsonConvert.DeserializeObject<ProcedureData>(json);
-            allProcedures = data.procedures;
-            Debug.Log("절차가 성공적으로 로드되었습니다.");
+            yield return wait;
         }
-        else
-        {
-            Debug.LogError($"JSON 파일을 로드할 수 없습니다: {request.error}");
-        }
+        
+    }
+
+    private void Update()
+    {
+        transform.position = cachedPosition;  // 매 프레임마다 새 객체 생성 대신 캐싱된 값 사용
     }
 
     public void StartProcedure(string procedureId)
     {
+        if (isProcedureComplete)
+        {
+            Debug.Log("절차가 이미 완료되었습니다. 다시 시작할 수 없습니다.");
+            return;
+        }
+
         currentProcedure = allProcedures.Find(p => p.id == procedureId);
+
         if (currentProcedure != null)
         {
             currentStepIndex = 0;
+            uiManager.ResetAllToggles();
             ExecuteCurrentStep();
         }
         else
         {
-            Debug.LogError($"ID '{procedureId}'에 해당하는 절차를 찾을 수 없습니다.");
+            Debug.LogError($"'{procedureId}'에 해당하는 절차를 찾을 수 없습니다.");
         }
     }
 
-    private void ExecuteCurrentStep()
+    public string GetCurrentStepId()
+    {
+        if (currentProcedure != null && currentStepIndex < currentProcedure.steps.Count)
+        {
+            return currentProcedure.steps[currentStepIndex].id;
+        }
+        return null;
+    }
+
+    public void ExecuteCurrentStep()
     {
         if (currentStepIndex < currentProcedure.steps.Count)
         {
             var step = currentProcedure.steps[currentStepIndex];
             Debug.Log($"현재 단계: {step.description}");
-            uiManager.UpdateToggleState(step.id, true);  // UI 단계 표시
+
+            // UI 초기화 및 Toggle 비활성화는 필요할 때만 실행
+            uiManager.UpdateStepDescription(step.description);
+            uiManager.UpdateToggleState(step.id, true);  // 현재 단계 토글 활성화
         }
         else
         {
@@ -111,12 +147,22 @@ public class ProcedureManager : MonoBehaviour
 
     public void CompleteStep(string stepId)
     {
+        if (isProcedureComplete) return;  // 절차 완료 시 무시
+
         if (currentProcedure.steps[currentStepIndex].id == stepId)
         {
             Debug.Log($"'{stepId}' 단계가 완료되었습니다.");
-            uiManager.UpdateToggleState(stepId, false);  // UI 단계 비활성화
+            uiManager.UpdateToggleState(stepId, false);
             currentStepIndex++;
-            ExecuteCurrentStep();  // 다음 단계 실행
+
+            if (currentStepIndex < currentProcedure.steps.Count)
+            {
+                ExecuteCurrentStep();
+            }
+            else
+            {
+                CompleteProcedure();
+            }
         }
         else
         {
@@ -124,9 +170,11 @@ public class ProcedureManager : MonoBehaviour
         }
     }
 
+
     private void CompleteProcedure()
     {
         Debug.Log($"{currentProcedure.name} 절차가 완료되었습니다.");
-        uiManager.ResetAllToggles();  // 모든 UI 초기화
+        uiManager.ResetAllToggles();
+        isProcedureComplete = true;  // 절차 완료 상태 설정
     }
 }
