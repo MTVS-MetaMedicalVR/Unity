@@ -1,10 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
-using Newtonsoft.Json;
-using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine;
+using Newtonsoft.Json;
 
+[System.Serializable]
 public class ProcedureManager : MonoBehaviour
 {
     public static ProcedureManager Instance;
@@ -13,26 +14,6 @@ public class ProcedureManager : MonoBehaviour
     private int currentStepIndex;
     public UIManager uiManager;
     public Transform Player;
-
-    [System.Serializable]
-    public class ProcedureStep
-    {
-        public string id;  // 단계 ID
-        public string description;  // 단계 설명
-        public string action;  // 수행할 액션
-        public string target;  // 타겟 오브젝트
-        public float requiredProximity;  // 필요한 거리
-        public Interaction interaction;  // 상호작용 정보
-    }
-
-    [System.Serializable]
-    public class Interaction
-    {
-        public string type;  // 상호작용 타입 (예: move, grab)
-        public string objectName;  // 상호작용할 오브젝트 이름
-        public string location;  // 상호작용 위치
-    }
-
 
     [System.Serializable]
     public class MedicalProcedure
@@ -48,9 +29,24 @@ public class ProcedureManager : MonoBehaviour
         public List<MedicalProcedure> procedures;
     }
 
+    [System.Serializable]
+    public class ProcedureStep
+    {
+        public string id;
+        public string description;
+        public string action;
+        public string target;
+        public float requiredProximity;
+        public Interaction interaction;  // Interaction 사용
+    }
 
-
-
+    [System.Serializable]
+    public class Interaction
+    {
+        public string type;      // 상호작용 유형 (예: grab, move)
+        public string objectName; // 상호작용할 오브젝트 이름
+        public string location;  // 상호작용 위치
+    }
 
     private void Awake()
     {
@@ -64,11 +60,10 @@ public class ProcedureManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        uiManager ??= FindObjectOfType<UIManager>();
         if (uiManager == null)
         {
-            uiManager = FindObjectOfType<UIManager>();
-            if (uiManager == null)
-                Debug.LogError("UIManager 인스턴스를 찾을 수 없습니다.");
+            Debug.LogError("UIManager 인스턴스를 찾을 수 없습니다.");
         }
     }
 
@@ -80,8 +75,8 @@ public class ProcedureManager : MonoBehaviour
     private IEnumerator LoadProcedures()
     {
         string path = Path.Combine(Application.streamingAssetsPath, "procedure.json");
-        UnityWebRequest request = UnityWebRequest.Get(path);
-        yield return request.SendWebRequest();
+        UnityWebRequest request = UnityWebRequest.Get(path);  // using 구문 제거
+        yield return request.SendWebRequest();  // 요청을 보낸 후 응답 대기
 
         if (request.result == UnityWebRequest.Result.Success)
         {
@@ -94,7 +89,10 @@ public class ProcedureManager : MonoBehaviour
         {
             Debug.LogError($"JSON 파일을 로드할 수 없습니다: {request.error}");
         }
+
+        request.Dispose();  // 요청 해제
     }
+
 
     public void StartProcedure(string procedureId)
     {
@@ -135,28 +133,22 @@ public class ProcedureManager : MonoBehaviour
     {
         if (currentProcedure.steps[currentStepIndex].id == stepId)
         {
-            Debug.Log($"'{stepId}' 단계가 완료되었습니다.");
-            uiManager.SetStepObjectActive(stepId, false);  // 현재 단계 비활성화
-            //currentStepIndex++;
-            ExecuteCurrentStep();
-            currentStepIndex++;
+            uiManager.SetStepObjectActive(stepId, false);
+            currentStepIndex++;  // 인덱스 증가를 먼저 수행
+
+            if (currentStepIndex < currentProcedure.steps.Count)
+            {
+                ExecuteCurrentStep();  // 다음 단계 실행
+            }
+            else
+            {
+                CompleteProcedure();  // 절차 완료 처리
+            }
         }
         else
         {
             Debug.LogError($"잘못된 단계: '{stepId}'가 현재 단계와 일치하지 않습니다.");
         }
-
-
-        if (currentStepIndex < currentProcedure.steps.Count)
-        {
-            ExecuteCurrentStep();  // 다음 단계 실행
-        }
-        else
-        {
-            CompleteProcedure();  // 절차 완료 처리
-        }
-
-       
     }
 
     private void CompleteProcedure()
