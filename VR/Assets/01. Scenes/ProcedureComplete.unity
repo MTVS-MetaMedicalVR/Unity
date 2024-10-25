@@ -2439,8 +2439,6 @@ Transform:
   - {fileID: 336319602}
   - {fileID: 900373001}
   - {fileID: 1112501324}
-  - {fileID: 4684323316481496881}
-  - {fileID: 5380895390346077210}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!1001 &491174940
@@ -8340,7 +8338,7 @@ GameObject:
   - component: {fileID: 1572402302}
   - component: {fileID: 1572402301}
   m_Layer: 0
-  m_Name: UI_1st
+  m_Name: hand_wash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18943,7 +18941,7 @@ GameObject:
   - component: {fileID: 5058368451676347675}
   - component: {fileID: 8043713634625715873}
   m_Layer: 0
-  m_Name: UI_1st3
+  m_Name: use_soap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25333,7 +25331,7 @@ GameObject:
   - component: {fileID: 3366213508682091661}
   - component: {fileID: 5697015625489776084}
   m_Layer: 0
-  m_Name: UI_1st2
+  m_Name: turn_on_water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34563,7 +34561,7 @@ GameObject:
   - component: {fileID: 246000369225821672}
   - component: {fileID: 1447172247845526790}
   m_Layer: 0
-  m_Name: UI_1st5
+  m_Name: dry_hands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54765,16 +54763,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c93cf98877b680149a0da6916fe17a2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepToggles:
-  - {fileID: 1424877558}
-  - {fileID: 7317246593754846617}
-  - {fileID: 4462700218955942678}
-  - {fileID: 8870058299416204879}
-  - {fileID: 6455078174169792790}
-  - {fileID: 7635069045264107603}
-  - {fileID: 2879568947806717252}
   procedureManager: {fileID: 4317440162345132955}
   stepDescriptionText: {fileID: 1882577833}
+  stepObjects:
+  - {fileID: 1572402299}
+  - {fileID: 8342410534057653994}
+  - {fileID: 1818259310494070229}
+  - {fileID: 816525733184960830}
+  - {fileID: 5226126433175216319}
+  - {fileID: 2645696955683209360}
+  - {fileID: 6965328134792381408}
 --- !u!1 &3649524630230068998
 GameObject:
   m_ObjectHideFlags: 0
@@ -62787,22 +62785,64 @@ MonoBehaviour:
     steps:
     - id: move_to_sink
       description: "\uAC1C\uC218\uB300\uB85C \uC774\uB3D9\uD558\uC138\uC694."
+      action: 
+      target: 
+      requiredProximity: 0
+      interaction:
+        type: 
+        objectName: 
+        location: 
     - id: turn_on_water
       description: "\uBB3C\uC744 \uD2B8\uC138\uC694."
+      action: 
+      target: 
+      requiredProximity: 0
+      interaction:
+        type: 
+        objectName: 
+        location: 
     - id: use_soap
       description: "\uBE44\uB204\uB97C \uD38C\uD504\uD558\uC138\uC694."
+      action: 
+      target: 
+      requiredProximity: 0
+      interaction:
+        type: 
+        objectName: 
+        location: 
     - id: hand_washing
       description: "\uC190\uC744 30\uCD08\uAC04 \uC53B\uC73C\uC138\uC694."
+      action: 
+      target: 
+      requiredProximity: 0
+      interaction:
+        type: 
+        objectName: 
+        location: 
     - id: dry_hands
       description: "\uC190\uC744 \uD2F0\uC288\uB85C \uB2E6\uC73C\uC138\uC694."
+      action: 
+      target: 
+      requiredProximity: 0
+      interaction:
+        type: 
+        objectName: 
+        location: 
     - id: turn_off_water
       description: "\uBB3C\uC744 \uB044\uC138\uC694."
+      action: 
+      target: 
+      requiredProximity: 0
+      interaction:
+        type: 
+        objectName: 
+        location: 
   currentProcedure:
     id: 
     name: 
     steps: []
   uiManager: {fileID: 3646072499029299981}
-  player: {fileID: 0}
+  Player: {fileID: 2514675399644790983}
 --- !u!1 &4326987648164993427
 GameObject:
   m_ObjectHideFlags: 0
@@ -65135,12 +65175,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9137702073772437677}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.453947, y: 1.2130029, z: -4.365435}
+  m_LocalRotation: {x: -0, y: -1, z: 0, w: 0}
+  m_LocalPosition: {x: -5.703947, y: 1.5130029, z: 9.695435}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 488462597}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4684350666578384280
 Transform:
@@ -71656,7 +71696,7 @@ GameObject:
   - component: {fileID: 391567213953458871}
   - component: {fileID: 3483669140443229701}
   m_Layer: 0
-  m_Name: UI_1st4
+  m_Name: hand_washing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72684,16 +72724,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5022763640696063199}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 11.825436}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -6.4954357}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 488462597}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.1088533, y: 2.2730029}
+  m_AnchoredPosition: {x: -0.35885334, y: 2.5730028}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &5383002570563348950
@@ -91362,7 +91402,7 @@ GameObject:
   - component: {fileID: 1656718719292641582}
   - component: {fileID: 3779115646733853347}
   m_Layer: 0
-  m_Name: UI_1st6
+  m_Name: turn_off_water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -104957,7 +104997,7 @@ GameObject:
   - component: {fileID: 311513564365934041}
   - component: {fileID: 7210596141726940025}
   m_Layer: 0
-  m_Name: UI_1st1
+  m_Name: move_to_sink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115642,3 +115682,5 @@ SceneRoots:
   - {fileID: 488462597}
   - {fileID: 1297024773}
   - {fileID: 555306818}
+  - {fileID: 4684323316481496881}
+  - {fileID: 5380895390346077210}
