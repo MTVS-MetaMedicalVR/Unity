@@ -12,6 +12,7 @@ public class HandWash : MonoBehaviour
         {
             Debug.Log("손 씻기 절차가 시작되었습니다.");
             CompleteHandWash();
+
         }
     }
 

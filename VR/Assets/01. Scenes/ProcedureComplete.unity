@@ -3836,6 +3836,7 @@ RectTransform:
   - {fileID: 471419934}
   - {fileID: 1924375695}
   - {fileID: 1106937957}
+  - {fileID: 1882577832}
   m_Father: {fileID: 1572402300}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6652,7 +6653,7 @@ GameObject:
   - component: {fileID: 1424877557}
   - component: {fileID: 1424877556}
   m_Layer: 0
-  m_Name: move_to_sink
+  m_Name: hand_wash
   m_TagString: QDSUIPrimaryButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6772,7 +6773,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1436572876
 GameObject:
   m_ObjectHideFlags: 0
@@ -7102,8 +7103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stepId: move_to_sink
-  player: {fileID: 2514675399644790983}
-  proximityThreshold: 1.5
+  procedureManager: {fileID: 4317440162345132955}
 --- !u!1 &1490454834
 GameObject:
   m_ObjectHideFlags: 0
@@ -8355,7 +8355,7 @@ Transform:
   m_GameObject: {fileID: 1572402299}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.934, y: 0.08, z: 3.869}
+  m_LocalPosition: {x: -5.9322, y: 0.08, z: 3.869}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8409,6 +8409,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 8300000, guid: aebed88a33938c74f80e53b1386c2034,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3646072499029299981}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: UpdateStepDescription
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9239,9 +9251,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2050634938}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -15}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40, y: 14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1647326791
@@ -9688,7 +9700,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94c9d4192e857b943a1a9f825ea43f3a,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1775434340}
+      addedObject: {fileID: 1775434343}
   m_SourcePrefab: {fileID: 100100000, guid: 94c9d4192e857b943a1a9f825ea43f3a, type: 3}
 --- !u!4 &1775434339 stripped
 Transform:
@@ -9696,7 +9708,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1775434338}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1775434340
+--- !u!114 &1775434343
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9705,12 +9717,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1719424665}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c571e01615870d3489f8dda11ccca1c1, type: 3}
+  m_Script: {fileID: 11500000, guid: c677994c8500f0143bd824af39d50a3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  proximityThreshold: 1.5
-  stepDescriptionText: {fileID: 0}
+  stepToggles: []
+  stepDescriptionText: {fileID: 1882577833}
+  stepIds: []
 --- !u!1001 &1793634445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10272,6 +10284,91 @@ Transform:
   m_Children: []
   m_Father: {fileID: 488462597}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1882577831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1882577832}
+  - component: {fileID: 1882577834}
+  - component: {fileID: 1882577833}
+  m_Layer: 0
+  m_Name: stepDescriptionText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1882577832
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882577831}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 798273060}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 560, y: -50}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1882577833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882577831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 24
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "hand_wash\n\uC190 \uC53B\uAE30 \uC808\uCC28\n{\n\nmove_to_sink\n\"\uAC1C\uC218\uB300
+    \uC55E\uC73C\uB85C \uC774\uB3D9\uD558\uC138\uC694.\"\n\nturn_on_water\n\"\uAC1C\uC218\uB300\uC758
+    \uC218\uB3C4\uAF2D\uC9C0\uB97C \uC5F4\uC5B4 \uBB3C\uC744 \uD2B8\uC138\uC694.\"\n\nuse_soap\n\"\uBE44\uB204\uB97C
+    \uD38C\uD504\uD574\uC11C \uC190\uC5D0 \uBB3B\uD788\uC138\uC694.\"\n\nhand_washing\n\"\uC190\uC744
+    30\uCD08\uAC04 \uAE68\uB057\uC774 \uBB38\uC9C8\uB7EC \uC53B\uC73C\uC138\uC694.\"\n\ndry_hands\n\"\uC900\uBE44\uB41C
+    \uD2F0\uC288\uB85C \uC190\uC744 \uB9D0\uB9AC\uC138\uC694.\"\n\nturn_off_water\n\"\uBB3C\uC744
+    \uC7A0\uAC00\uC8FC\uC138\uC694.\"\n}"
+--- !u!222 &1882577834
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882577831}
+  m_CullTransparentMesh: 1
 --- !u!1 &1913024372
 GameObject:
   m_ObjectHideFlags: 0
@@ -11422,9 +11519,9 @@ RectTransform:
   - {fileID: 1998334315}
   m_Father: {fileID: 1617086517}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 154, y: -12}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2050634939
@@ -54669,14 +54766,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stepToggles:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1424877558}
+  - {fileID: 7317246593754846617}
+  - {fileID: 4462700218955942678}
+  - {fileID: 8870058299416204879}
+  - {fileID: 6455078174169792790}
+  - {fileID: 7635069045264107603}
+  - {fileID: 2879568947806717252}
   procedureManager: {fileID: 4317440162345132955}
-  stepDescriptionText: {fileID: 0}
+  stepDescriptionText: {fileID: 1882577833}
 --- !u!1 &3649524630230068998
 GameObject:
   m_ObjectHideFlags: 0
@@ -62704,6 +62802,7 @@ MonoBehaviour:
     name: 
     steps: []
   uiManager: {fileID: 3646072499029299981}
+  player: {fileID: 0}
 --- !u!1 &4326987648164993427
 GameObject:
   m_ObjectHideFlags: 0
@@ -72340,9 +72439,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c0b05f7524c9b4429e82909b6366aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepId: dry_hands
-  player: {fileID: 2514675399644790983}
-  proximityThreshold: 1.5
 --- !u!4 &5341691387715108004
 Transform:
   m_ObjectHideFlags: 0
@@ -72581,21 +72677,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5380895390346077210
-Transform:
+--- !u!224 &5380895390346077210
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5022763640696063199}
-  serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 1.1088533, y: 2.2730029, z: 11.825436}
+  m_LocalPosition: {x: 0, y: 0, z: 11.825436}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 488462597}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1.1088533, y: 2.2730029}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &5383002570563348950
 RectTransform:
   m_ObjectHideFlags: 0
@@ -86204,8 +86304,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stepId: use_soap
-  player: {fileID: 2514675399644790983}
-  proximityThreshold: 1.5
+  soapAnimator: {fileID: 4289231681936150724}
+  procedureManager: {fileID: 4317440162345132955}
 --- !u!1 &6261160395878780656
 GameObject:
   m_ObjectHideFlags: 0
@@ -87481,7 +87581,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!137 &6455150518489420767
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
