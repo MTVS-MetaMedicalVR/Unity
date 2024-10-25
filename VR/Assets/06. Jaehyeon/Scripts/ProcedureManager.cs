@@ -129,18 +129,18 @@ public class ProcedureManager : MonoBehaviour
 
     public void ExecuteCurrentStep()
     {
-        if (isProcedureComplete) return;
-
         if (currentStepIndex < currentProcedure.steps.Count)
         {
             var step = currentProcedure.steps[currentStepIndex];
             Debug.Log($"현재 단계: {step.description}");
 
+            // UI 초기화 및 Toggle 비활성화는 필요할 때만 실행
             uiManager.UpdateStepDescription(step.description);
-            uiManager.UpdateToggleState(step.id, true);
+            uiManager.UpdateToggleState(step.id, true);  // 현재 단계 토글 활성화
         }
         else
         {
+            Debug.Log("모든 절차가 완료되었습니다.");
             CompleteProcedure();
         }
     }
