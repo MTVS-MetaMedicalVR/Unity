@@ -5,15 +5,12 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
-    public List<Toggle> stepToggles;  // 각 단계에 해당하는 토글 리스트
-    public ProcedureManager procedureManager;  // ProcedureManager와 연결
+    public ProcedureManager procedureManager;
     public Text stepDescriptionText;  // 단계 설명 텍스트
-    private Vector3 cachedPosition;
-    private bool isInitialized = false;
+    public List<GameObject> stepObjects;  // 모든 단계별 GameObject
 
     private void Awake()
     {
-        // 싱글톤 패턴 적용
         if (Instance == null)
             Instance = this;
         else
@@ -23,86 +20,64 @@ public class UIManager : MonoBehaviour
         {
             procedureManager = FindObjectOfType<ProcedureManager>();
             if (procedureManager == null)
-            {
                 Debug.LogError("ProcedureManager 인스턴스를 찾을 수 없습니다.");
-            }
         }
     }
 
     private void Start()
     {
-        cachedPosition = transform.position;  // 초기 위치 캐싱
-        InitializeToggles();  // 모든 토글 초기화
-        CenterUI();  // UI를 화면 중앙에 배치
-        ShowProcedureUI(true);  // UI 표시
-        procedureManager.StartProcedure("hand_wash");  // 첫 번째 절차 시작
+        InitializeStepObjects();  // 단계 개체 초기화
+        CenterUI();               // UI를 화면 중앙에 배치
+        procedureManager.StartProcedure("hand_wash");  // 절차 시작
     }
 
-    // 모든 토글 초기화 및 이벤트 등록
-    private void InitializeToggles()
+    // 단계별 GameObject 초기화
+    private void InitializeStepObjects()
     {
-        isInitialized = false;  // 초기화 시작
-
-        foreach (var toggle in stepToggles)
+        foreach (var stepObject in stepObjects)
         {
-            toggle.isOn = false;  // 모든 토글을 비활성화
-            toggle.onValueChanged.AddListener((isOn) =>
+            Button button = stepObject.GetComponentInChildren<Button>();
+            if (button != null)
             {
-                if (isInitialized && isOn)  // 초기화 완료 후에만 작동
-                    OnToggleActivated(toggle);
-            });
-        }
+                button.onClick.AddListener(() => OnStepObjectClicked(stepObject));
+                Debug.Log($"{stepObject.name} 버튼이 초기화되었습니다.");
+            }
+            else
+            {
+                Debug.LogWarning($"{stepObject.name}에 Button 컴포넌트가 없습니다.");
+            }
 
-        isInitialized = true;  // 초기화 완료
+            stepObject.SetActive(false);  // 초기에는 모든 단계 비활성화
+        }
     }
 
-    // Toggle 값 변경 시 호출되는 메서드
-    private void OnToggleActivated(Toggle toggle)
+    // 단계별 GameObject 클릭 시 호출되는 메서드
+    private void OnStepObjectClicked(GameObject stepObject)
     {
-        string stepId = toggle.name.ToLower();
-        Debug.Log($"{stepId} 단계가 활성화되었습니다.");
+        string stepId = stepObject.name.ToLower();
+        Debug.Log($"{stepId} 단계가 완료되었습니다.");
 
         if (procedureManager != null && procedureManager.GetCurrentStepId() == stepId)
         {
-            procedureManager.CompleteStep(stepId);  // 해당 단계 완료
+            procedureManager.CompleteStep(stepId);  // 해당 단계 완료 처리
+            stepObject.SetActive(false);  // 단계 비활성화
         }
         else
         {
             Debug.LogError($"{stepId} 단계가 현재 단계와 일치하지 않습니다.");
-            toggle.isOn = false;  // 일치하지 않으면 다시 비활성화
         }
     }
 
-    private void Update()
-    {
-        transform.position = cachedPosition;  // 매 프레임마다 위치 유지
-    }
-
-    // UI를 화면 중앙에 배치
+    // UI를 플레이어 시야 중앙에 배치
     public void CenterUI()
     {
-        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane);
-        transform.position = Camera.main.ScreenToWorldPoint(screenCenter);
+        Vector3 uiPosition = Camera.main.transform.position + Camera.main.transform.forward * 2.0f;
+        transform.position = uiPosition;
+        transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
         Debug.Log("UI가 화면 중앙에 배치되었습니다.");
     }
 
-    // 특정 토글 상태 업데이트
-    public void UpdateToggleState(string stepId, bool state)
-    {
-        var toggle = stepToggles.Find(t => t.name.ToLower() == stepId);
-        if (toggle != null)
-        {
-            toggle.isOn = state;
-            toggle.gameObject.SetActive(state);  // UI 토글 활성화/비활성화
-            Debug.Log($"{stepId} 단계의 Toggle 상태가 업데이트되었습니다: {state}");
-        }
-        else
-        {
-            Debug.LogError($"'{stepId}'에 해당하는 Toggle을 찾을 수 없습니다.");
-        }
-    }
-
-    // 단계 설명을 UI에 업데이트
+    // 단계 설명 업데이트
     public void UpdateStepDescription(string description)
     {
         if (stepDescriptionText != null)
@@ -112,24 +87,22 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("단계 설명 텍스트가 할당되지 않았습니다.");
+            Debug.LogError("단계 설명 텍스트가 없습니다.");
         }
     }
 
-    // UI 표시/숨기기 메서드
-    public void ShowProcedureUI(bool show)
+    // 특정 단계 GameObject 활성화/비활성화
+    public void SetStepObjectActive(string stepId, bool state)
     {
-        gameObject.SetActive(show);
-        Debug.Log($"Procedure UI가 {(show ? "표시" : "숨김")}되었습니다.");
-    }
-
-    // 모든 토글 초기화
-    public void ResetAllToggles()
-    {
-        foreach (var toggle in stepToggles)
+        var stepObject = stepObjects.Find(obj => obj.name.ToLower() == stepId);
+        if (stepObject != null)
         {
-            toggle.isOn = false;
+            stepObject.SetActive(state);
+            Debug.Log($"{stepId} 단계가 {(state ? "활성화" : "비활성화")}되었습니다.");
         }
-        Debug.Log("모든 토글이 초기화되었습니다.");
+        else
+        {
+            Debug.LogError($"{stepId}에 해당하는 GameObject를 찾을 수 없습니다.");
+        }
     }
 }

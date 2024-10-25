@@ -12,7 +12,7 @@ public class HandWashing : MonoBehaviour
 
     private void Update()
     {
-        if (Vector3.Distance(ProcedureManager.Instance.player.position, transform.position) < 1.5f)
+        if (Vector3.Distance(ProcedureManager.Instance.Player.position, transform.position) < 1.5f)
         {
             timer -= Time.deltaTime;
             Debug.Log($"손 씻기 진행 중... 남은 시간: {timer:F1}초");
