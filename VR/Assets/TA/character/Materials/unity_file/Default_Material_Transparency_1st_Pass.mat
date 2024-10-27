@@ -51,7 +51,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: df3c48047c618cc49bb1fe355f018a42, type: 3}
+        m_Texture: {fileID: 2800000, guid: 869ecbdde27a07649a40a30f354224d6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BlendMap:
@@ -91,7 +91,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: df3c48047c618cc49bb1fe355f018a42, type: 3}
+        m_Texture: {fileID: 2800000, guid: 869ecbdde27a07649a40a30f354224d6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
@@ -191,7 +191,7 @@ Material:
     - _RimPower: 4
     - _RimTransmissionIntensity: 12.675
     - _RootColorStrength: 1
-    - _Smoothness: 0.5
+    - _Smoothness: 1
     - _SmoothnessMax: 0.897
     - _SmoothnessMin: 0.432354
     - _SmoothnessPower: 1
