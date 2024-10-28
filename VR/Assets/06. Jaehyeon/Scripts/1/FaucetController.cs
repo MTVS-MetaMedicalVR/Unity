@@ -1,5 +1,5 @@
-using Oculus.Interaction;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FaucetController : MonoBehaviour
@@ -7,41 +7,40 @@ public class FaucetController : MonoBehaviour
     public ParticleSystem waterParticle;  // 물 파티클
     private Animator animator;  // 애니메이터
     private bool isWaterRunning = false;  // 물 상태 확인
-    private bool isWaterTurnedOn = false;  // 물이 켜진 상태 유지
+    private bool isWaterTurnedOn = false;  // 물이 한 번 켜졌는지 여부
 
-    public OVRGrabbable faucetHandle;  // OVRGrabbable 핸들 참조
+    public Transform handTransform;  // 손의 Transform (손 위치 감지)
+    public float activationDistance = 0.1f;  // 수도꼭지를 작동시킬 거리
 
     private void Start()
     {
         animator = GetComponent<Animator>();
 
-        // 파티클 초기 비활성화
-        if (waterParticle != null)
-        {
-            waterParticle.gameObject.SetActive(false);
-        }
+        // 초기 파티클 비활성화
+        waterParticle.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        // 핸들이 잡혔고 물이 켜지지 않았다면 물을 틈
-        if (faucetHandle.isGrabbed && !isWaterTurnedOn)
+        // 손이 수도꼭지에 가까워졌을 때 물을 틂
+        if (IsHandNearFaucet() && !isWaterTurnedOn)
         {
             TurnOnWater();
         }
+    }
 
-        // 핸들에서 손을 떼면 물을 끔
-        if (!faucetHandle.isGrabbed && isWaterTurnedOn)
-        {
-            TurnOffWater();
-        }
+    private bool IsHandNearFaucet()
+    {
+        // 손과 수도꼭지 간의 거리를 계산
+        float distance = Vector3.Distance(handTransform.position, transform.position);
+        return distance < activationDistance;
     }
 
     public void TurnOnWater()
     {
-        if (!isWaterRunning && animator != null && waterParticle != null)
+        if (!isWaterRunning)
         {
-            animator.SetBool("SinkON", true);  // 애니메이션 시작
+            animator.SetBool("SinkON", true);  // 애니메이션 실행
             waterParticle.gameObject.SetActive(true);  // 파티클 활성화
             waterParticle.Play();  // 파티클 재생
             isWaterRunning = true;
@@ -53,22 +52,14 @@ public class FaucetController : MonoBehaviour
 
     public void TurnOffWater()
     {
-        if (isWaterRunning && animator != null && waterParticle != null)
+        if (isWaterRunning)
         {
             animator.SetBool("SinkON", false);  // 애니메이션 종료
             waterParticle.Stop();  // 파티클 정지
             waterParticle.gameObject.SetActive(false);  // 파티클 비활성화
             isWaterRunning = false;
-            isWaterTurnedOn = false;  // 상태 초기화
 
             Debug.Log("물을 껐습니다.");
         }
     }
-
-    public void RequestTurnOffWater()
-    {
-        TurnOffWater();
-        Debug.Log("외부에서 물 끄기 요청을 처리했습니다.");
-    }
-
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ProcedureM : MonoBehaviour
 {
-    public Text stepDescriptionText;  // UI에 표시할 단계 설명
+    //public Text stepDescriptionText;  // UI에 표시할 단계 설명
     public GameObject sink;  // 싱크대 오브젝트
     public GameObject faucet;  // 수도꼭지 오브젝트
     public GameObject soapPump;  // 비누 펌프 오브젝트
@@ -33,7 +33,7 @@ public class ProcedureM : MonoBehaviour
 
     public void DisplayMessage(string message)
     {
-        stepDescriptionText.text = message;
+        //stepDescriptionText.text = message;
         Debug.Log(message);
     }
 
