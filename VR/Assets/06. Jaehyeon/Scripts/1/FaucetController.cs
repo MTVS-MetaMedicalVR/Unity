@@ -1,6 +1,5 @@
 using Oculus.Interaction;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FaucetController : MonoBehaviour
@@ -8,70 +7,68 @@ public class FaucetController : MonoBehaviour
     public ParticleSystem waterParticle;  // 물 파티클
     private Animator animator;  // 애니메이터
     private bool isWaterRunning = false;  // 물 상태 확인
-    private bool isWaterTurnedOn = false;  // 물이 한 번 켜졌는지 여부
+    private bool isWaterTurnedOn = false;  // 물이 켜진 상태 유지
 
-    public Transform handTransform;  // 사용자의 손 Transform
-    public Collider faucetHandleCollider;  // 수도꼭지의 Collider
-    public ProcedureM procedureM;  // ProcedureManager 참조
-
+    public OVRGrabbable faucetHandle;  // OVRGrabbable 핸들 참조
 
     private void Start()
     {
         animator = GetComponent<Animator>();
 
-        // 초기 파티클 비활성화
-        waterParticle.gameObject.SetActive(false);
+        // 파티클 초기 비활성화
+        if (waterParticle != null)
+        {
+            waterParticle.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
     {
-        // 손이 핸들을 잡고 있고 물이 아직 트여 있지 않다면 물을 틈
-        if (IsHandGrabbingHandle() && !isWaterTurnedOn)
+        // 핸들이 잡혔고 물이 켜지지 않았다면 물을 틈
+        if (faucetHandle.isGrabbed && !isWaterTurnedOn)
         {
             TurnOnWater();
         }
-    }
 
-    private bool IsHandGrabbingHandle()
-    {
-        // 손과 수도꼭지 핸들의 충돌을 감지
-        return faucetHandleCollider.bounds.Contains(handTransform.position);
+        // 핸들에서 손을 떼면 물을 끔
+        if (!faucetHandle.isGrabbed && isWaterTurnedOn)
+        {
+            TurnOffWater();
+        }
     }
 
     public void TurnOnWater()
     {
-        if (!isWaterRunning)
+        if (!isWaterRunning && animator != null && waterParticle != null)
         {
-            animator.SetBool("SinkON", true);  // 애니메이션 실행
+            animator.SetBool("SinkON", true);  // 애니메이션 시작
             waterParticle.gameObject.SetActive(true);  // 파티클 활성화
             waterParticle.Play();  // 파티클 재생
             isWaterRunning = true;
-            isWaterTurnedOn = true;  // 물이 한 번 켜진 상태로 유지
-            Debug.Log("물을 트세요.");
+            isWaterTurnedOn = true;  // 물이 켜진 상태 유지
 
-            procedureM.CompleteStep();
+            Debug.Log("물을 틀었습니다.");
         }
     }
 
     public void TurnOffWater()
     {
-        if (isWaterRunning)
+        if (isWaterRunning && animator != null && waterParticle != null)
         {
-            animator.SetBool("SinkON", false);  // 애니메이션 실행
+            animator.SetBool("SinkON", false);  // 애니메이션 종료
             waterParticle.Stop();  // 파티클 정지
             waterParticle.gameObject.SetActive(false);  // 파티클 비활성화
             isWaterRunning = false;
+            isWaterTurnedOn = false;  // 상태 초기화
+
             Debug.Log("물을 껐습니다.");
         }
     }
 
-    // 외부에서 물 끄기 요청을 받을 수 있도록 메서드 추가
     public void RequestTurnOffWater()
     {
-        if (isWaterTurnedOn)
-        {
-            TurnOffWater();
-            isWaterTurnedOn = false;  // 물 상태 초기화
-        }
+        TurnOffWater();
+        Debug.Log("외부에서 물 끄기 요청을 처리했습니다.");
     }
+
 }

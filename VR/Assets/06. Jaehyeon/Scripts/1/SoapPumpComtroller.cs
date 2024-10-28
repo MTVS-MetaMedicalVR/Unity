@@ -10,21 +10,26 @@ public class SoapPumpController : MonoBehaviour
 
     private void Start()
     {
-        // 파티클 초기 비활성화
-        foamParticle.gameObject.SetActive(false);
+        if (foamParticle != null)
+        {
+            foamParticle.Stop();
+            foamParticle.gameObject.SetActive(false);
+        }
     }
 
     public void PumpSoap()
     {
         if (!isPumped)
         {
-            pumpAnimator.SetTrigger("Pump");  // 펌프 애니메이션 실행
-            foamParticle.gameObject.SetActive(true);  // 파티클 활성화
-            foamParticle.Play();  // 파티클 재생
+            pumpAnimator.SetTrigger("Pump");
+            if (foamParticle != null)
+            {
+                foamParticle.gameObject.SetActive(true);
+                foamParticle.Play();
+            }
             isPumped = true;
 
             Debug.Log("비누를 펌프했습니다.");
-            FindObjectOfType<ProcedureM>().CompleteStep();  // 다음 절차로 이동
         }
     }
 }
