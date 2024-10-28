@@ -20,6 +20,7 @@ public class ProcedureM : MonoBehaviour
     public HandGestureController handGestureController;  // HandGestureController 참조
     private int currentStep = 0;
     private bool stepInProgress = false;  // 현재 단계가 진행 중인지 확인
+    private bool stepCompleted = false;  // 단계 완료 여부 확인
 
 
     private void Start()
@@ -30,7 +31,7 @@ public class ProcedureM : MonoBehaviour
     public void StartProcedure()
     {
         currentStep = 0;
-        stepInProgress = false;
+        stepCompleted = false;
         ExecuteStep();
     }
 
@@ -81,17 +82,19 @@ public class ProcedureM : MonoBehaviour
 
     private IEnumerator WashHands()
     {
+        Debug.Log("손 씻기 시작");
         yield return new WaitForSeconds(30);  // 30초 대기
         CompleteStep();
     }
 
     public void CompleteStep()
     {
-        if (!stepInProgress) return;  // 이미 완료된 단계라면 중복 호출 방지
+        if (stepCompleted) return;  // 이미 완료된 단계라면 중복 호출 방지
 
         Debug.Log($"'{currentStep}' 단계가 완료되었습니다.");
-        stepInProgress = false;  // 단계 완료 상태 해제
-        currentStep++;
+        stepCompleted = true;  // 현재 단계 완료로 설정
+        stepInProgress = false;  // 단계 진행 중 상태 해제
+        currentStep++;  // 다음 단계로 이동
         Invoke("ExecuteStep", 1.0f);  // 1초 후 다음 단계 실행
     }
 
@@ -103,7 +106,7 @@ public class ProcedureM : MonoBehaviour
 
     private void Update()
     {
-        if (currentStep == 0 && Vector3.Distance(player.position, sink.transform.position) < 1f)
+        if (currentStep == 0 && Vector3.Distance(player.position, sink.transform.position) < 0.3f)
         {
             CompleteStep();  // 싱크대 근처에 도착하면 다음 단계로
         }
