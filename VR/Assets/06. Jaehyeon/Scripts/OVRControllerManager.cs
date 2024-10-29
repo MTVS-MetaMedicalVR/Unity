@@ -31,7 +31,7 @@ public class OVRControllerManager : MonoBehaviour
 
         if (cameraRig == null)
         {
-            Debug.LogError("cameraRig가 할당되지 않았습니다. Unity 에디터에서 설정하세요.");
+            //Debug.LogError("cameraRig가 할당되지 않았습니다. Unity 에디터에서 설정하세요.");
         }
     }
 
