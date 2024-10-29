@@ -11,6 +11,7 @@ public class FaucetController : MonoBehaviour
 
     public Transform handTransform;  // 손의 Transform (손 위치 감지)
     public float activationDistance = 0.1f;  // 수도꼭지를 작동시킬 거리
+    public float waterDuration = 30.0f;  // 물이 켜진 상태 지속 시간 (초)
 
     private void Start()
     {
@@ -47,7 +48,15 @@ public class FaucetController : MonoBehaviour
             isWaterTurnedOn = true;  // 물이 켜진 상태 유지
 
             Debug.Log("물을 틀었습니다.");
+            // 30초 후에 자동으로 물을 끔
+            StartCoroutine(WaterDurationRoutine());
         }
+    }
+
+    private IEnumerator WaterDurationRoutine()
+    {
+        yield return new WaitForSeconds(waterDuration);  // 30초 대기
+        RequestTurnOffWater();  // 물 끄기 요청
     }
 
     public void RequestTurnOffWater()
