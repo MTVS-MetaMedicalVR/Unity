@@ -36,7 +36,7 @@ public class HandGestureController : MonoBehaviour
             Vector3 leftHandPosition = leftHand.transform.position;
             Vector3 rightHandPosition = rightHand.transform.position;
             float distance = Vector3.Distance(leftHandPosition, rightHandPosition);
-            return distance < 0.1f;  // 손이 가까이 모인 경우
+            return distance < 0.05f;  // 손이 가까이 모인 경우
         }
         return false;
     }

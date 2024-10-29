@@ -50,7 +50,7 @@ public class FaucetController : MonoBehaviour
         }
     }
 
-    public void TurnOffWater()
+    public void RequestTurnOffWater()
     {
         if (isWaterRunning)
         {
