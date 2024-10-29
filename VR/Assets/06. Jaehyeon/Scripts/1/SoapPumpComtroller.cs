@@ -22,7 +22,7 @@ public class SoapPumpController : MonoBehaviour
 
     private void Update()
     {
-        // 손이 펌프 근처에 오면 비누 펌프 실행
+        // 손이 펌프 근처에 왔을 때 비누 펌프 동작 실행
         if (IsHandNearPump() && !isPumped)
         {
             PumpSoap();
