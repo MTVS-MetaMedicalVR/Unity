@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoapPumpController : MonoBehaviour
@@ -23,7 +22,7 @@ public class SoapPumpController : MonoBehaviour
 
     private void Update()
     {
-        // 손이 펌프 근처에 왔을 때 펌프 동작 실행
+        // 손이 펌프 근처에 오면 비누 펌프 실행
         if (IsHandNearPump() && !isPumped)
         {
             PumpSoap();
@@ -32,24 +31,34 @@ public class SoapPumpController : MonoBehaviour
 
     private bool IsHandNearPump()
     {
-        // 손과 비누 펌프 간의 거리를 계산
-        float distance = Vector3.Distance(handTransform.position, transform.position);
-        return distance < activationDistance;
+        // 손과 펌프 오브젝트 사이의 거리 계산
+        if (handTransform != null)
+        {
+            float distance = Vector3.Distance(handTransform.position, transform.position);
+            return distance < activationDistance;  // 특정 거리 이내일 때 true 반환
+        }
+        return false;
     }
 
     public void PumpSoap()
     {
         if (!isPumped)
         {
-            pumpAnimator.SetTrigger("Pump");  // 애니메이션 실행
+            isPumped = true;  // 펌프 완료 상태 설정
 
-            if (foamParticle != null)
+            // 애니메이션 실행
+            if (pumpAnimator != null)
             {
-                foamParticle.gameObject.SetActive(true);  // 파티클 활성화
-                foamParticle.Play();  // 파티클 재생
+                pumpAnimator.SetTrigger("Pump");
             }
 
-            isPumped = true;  // 펌프 완료 상태 설정
+            // 파티클 재생
+            if (foamParticle != null)
+            {
+                foamParticle.gameObject.SetActive(true);
+                foamParticle.Play();
+            }
+
             Debug.Log("비누를 펌프했습니다.");
         }
     }
