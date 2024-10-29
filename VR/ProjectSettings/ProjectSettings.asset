@@ -142,8 +142,6 @@ PlayerSettings:
   bundleVersion: 0.1.0
   preloadedAssets:
   - {fileID: 11400000, guid: 332a68526ed24cb46b9981dfe99d800a, type: 2}
-  - {fileID: 5204421490865995503, guid: ed05f01c8f60eff41b0b50432dddcae8, type: 2}
-  - {fileID: 11400000, guid: 47db7d373245cfd40be8fd2069a3d3a8, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -937,7 +935,7 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 4b8d8ae3-2c49-4c49-afa6-d1d20ea72ba4
+  cloudProjectId: 
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: MTVS4)MedicalVRPlatform
