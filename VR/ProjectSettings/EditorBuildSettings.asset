@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/01. Scenes/Lobby.unity
     guid: f5ec9a47e2cce9f4a8be16669950257d
   - enabled: 1
+    path: Assets/01. Scenes/DONGSU/PROTO_VR FINAL_DONGSU.unity
+    guid: 673bb09459141aa4193c6b8250ea2f59
+  - enabled: 0
+    path: Assets/01. Scenes/DONGSU/PROTO_VR TEST DONGSU.unity
+    guid: a3911f8edb7058a4288f9b558bb4bd1b
+  - enabled: 0
     path: Assets/01. Scenes/1st Training.unity
     guid: e8da52aa14a98bd43a2f7af356f19a10
   - enabled: 0

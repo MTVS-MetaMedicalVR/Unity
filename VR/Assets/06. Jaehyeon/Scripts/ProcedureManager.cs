@@ -1,10 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
-using Newtonsoft.Json;
+using UnityEngine.Networking;
 using UnityEngine;
-using UnityEngine.Networking;  // UnityWebRequest 사용을 위해 필요
+using Newtonsoft.Json;
 
 [System.Serializable]
 public class ProcedureManager : MonoBehaviour
@@ -61,11 +60,10 @@ public class ProcedureManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        uiManager ??= FindObjectOfType<UIManager>();
         if (uiManager == null)
         {
-            uiManager = FindObjectOfType<UIManager>();
-            if (uiManager == null)
-                Debug.LogError("UIManager 인스턴스를 찾을 수 없습니다.");
+            Debug.LogError("UIManager 인스턴스를 찾을 수 없습니다.");
         }
     }
 
@@ -77,13 +75,13 @@ public class ProcedureManager : MonoBehaviour
     private IEnumerator LoadProcedures()
     {
         string path = Path.Combine(Application.streamingAssetsPath, "procedure.json");
-        UnityWebRequest request = UnityWebRequest.Get(path);
-        yield return request.SendWebRequest();
+        UnityWebRequest request = UnityWebRequest.Get(path);  // using 구문 제거
+        yield return request.SendWebRequest();  // 요청을 보낸 후 응답 대기
 
         if (request.result == UnityWebRequest.Result.Success)
         {
             string json = request.downloadHandler.text;
-            ProcedureData data = JsonConvert.DeserializeObject<ProcedureData>(json);
+            var data = JsonConvert.DeserializeObject<ProcedureData>(json);
             allProcedures = data.procedures;
             StartProcedure(allProcedures[0].id);
         }
@@ -91,7 +89,10 @@ public class ProcedureManager : MonoBehaviour
         {
             Debug.LogError($"JSON 파일을 로드할 수 없습니다: {request.error}");
         }
+
+        request.Dispose();  // 요청 해제
     }
+
 
     public void StartProcedure(string procedureId)
     {
@@ -132,8 +133,17 @@ public class ProcedureManager : MonoBehaviour
     {
         if (currentProcedure.steps[currentStepIndex].id == stepId)
         {
-            currentStepIndex++;
-            ExecuteCurrentStep();
+            uiManager.SetStepObjectActive(stepId, false);
+            currentStepIndex++;  // 인덱스 증가를 먼저 수행
+
+            if (currentStepIndex < currentProcedure.steps.Count)
+            {
+                ExecuteCurrentStep();  // 다음 단계 실행
+            }
+            else
+            {
+                CompleteProcedure();  // 절차 완료 처리
+            }
         }
         else
         {
