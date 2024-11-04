@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6690897671424703097
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6690897671424703103}
+  - component: {fileID: 6690897671424703102}
+  m_Layer: 0
+  m_Name: Modern Elevator Builder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6690897671424703103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6690897671424703097}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6690897671424703102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6690897671424703097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cfb5f42436f35c45b1d9c7192638aa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  howManyElevators: 2
+  howManyFloors: 2
+  addDemoHalls: 1
+  addBackWallInHalls: 1
+  distanceBetweenFloors: 3
+  distanceBetweenLobbyAnd2ndFloor: 5
+  player: {fileID: 0}
+  placePlayerInside: 1
+  firstFloorNumber: 1
+  forceTwoDigitsInFloorNumbers: 1
+  addFloorNumbersInPitWalls: 1
+  lobbyAsFirstFloor: 1
+  frontTypeLobby: 1
+  frontTypeOtherFloors: 2
+  numbersTypeInHallWalls: 3
+  numbersTypeInFront: 4
+  callerSide: 2
+  addDustParticlesInLobby: 0
+  buttonsLayout: 3
+  verticalSpaceBetweenButtons: 0.5
+  addAlarmButton: 1
+  addLightsButton: 1
+  lobbyLightsType: 1
+  lobbyLightsAmount: 1
+  hallsLightsType: 2
+  elevatorLightsType: 2
+  elevatorLightsAmount: 1
+  pitLightsType: 0
+  pitLightsAmount: 1
+  addReflectionProbeInLobby: 1
+  addReflectionProbesInOthers: 0
+  addShadowCasters: 1
+  refs:
+    elevatorBrain: {fileID: 2487854683612049515, guid: aa12bbfca197b974eb810e3b6101c8f7, type: 3}
+    mainElevator: {fileID: 979023659148626769, guid: db490e087bb9f244e95817df2fdce042, type: 3}
+    hallA: {fileID: 8466057587882384177, guid: 7a70e0b196a21c04fa07f72fdb13801b, type: 3}
+    entranceCase: {fileID: 8715792352700756900, guid: c794a285adc523d4aab39ee6799555b9, type: 3}
+    innerCase: {fileID: 1364865416359937906, guid: 06fd238ea64017541bb1fdc562e93194, type: 3}
+    topCase: {fileID: 5047889867231698209, guid: a82c5d904ca130c4bbb72d52ddec24c8, type: 3}
+    bottomCase: {fileID: 1741429401599174009, guid: 77b71b1ab3311524788e048b971fd386, type: 3}
+    buttonAndNumber: {fileID: 2880478329539451843, guid: 3836ddfb69774524eafde0cc136ff335, type: 3}
+    numberInWallMirror: {fileID: 7564573719826928314, guid: e177a546505701141a8f68603824fb2b, type: 3}
+    numberInWallMarble: {fileID: 741806839642749956, guid: 8445c62e91771d04bb5fca403a318765, type: 3}
+    numberInWallMirrorHalf: {fileID: 642041388430094859, guid: 1d3fb9003b69d5f4cb912937e6d9687d, type: 3}
+    frontLightMarble: {fileID: 4101848821026770361, guid: 48e1c72c4444335439155ad6ef9a63b9, type: 3}
+    frontDarkMarble: {fileID: 7013018928021682466, guid: 92ffcbb7f17f25b4ea25aed73d772259, type: 3}
+    hallBackWall: {fileID: 6506457940088568106, guid: e6c35fcaa4efd9240a91a4dd6211efc4, type: 3}
+    fancyNumbersInWalls:
+    - {fileID: 21300000, guid: bad56c83db296874fbcaf1d98807c4a5, type: 3}
+    - {fileID: 21300000, guid: 215201d58ddc96549aad6ec4bb4fa7eb, type: 3}
+    - {fileID: 21300000, guid: 95dfb4ecbe0127447ab4c6d231c7c2b0, type: 3}
+    - {fileID: 21300000, guid: 4bba27cfd2a0b2f4eb806f9322c7c33a, type: 3}
+    - {fileID: 21300000, guid: d499d6996e2fb5542a4fbb8da8883a48, type: 3}
+    - {fileID: 21300000, guid: 8b0fa6e4c451ff74497f15d34b077e30, type: 3}
+    - {fileID: 21300000, guid: cda09ce4f90879a42b5f7c0e14551060, type: 3}
+    - {fileID: 21300000, guid: a8de6378c3cb60049b88575961c73512, type: 3}
+    - {fileID: 21300000, guid: 1d5e947196755e8448229f2a01bc197f, type: 3}
+    - {fileID: 21300000, guid: 9117e1e62197b8a4da11a8ab24a7b4a2, type: 3}
+    rustyNumbersInPit:
+    - {fileID: 21300000, guid: 9fa4aba8f29dc6449a5f665574ab4587, type: 3}
+    - {fileID: 21300000, guid: 7e1083ca097c0be40ae8a38717e59835, type: 3}
+    - {fileID: 21300000, guid: 90a66ce71c811f045af4182731fd2dbe, type: 3}
+    - {fileID: 21300000, guid: 8618cf36064d71046b0cad6e6cf46b88, type: 3}
+    - {fileID: 21300000, guid: eafedf8fff690c942b7281ffd4994bc2, type: 3}
+    - {fileID: 21300000, guid: a033ab8f288f6fc499abbb925d631166, type: 3}
+    - {fileID: 21300000, guid: b87c8769bc0670e4abc1558fb0997d31, type: 3}
+    - {fileID: 21300000, guid: 49964973abec22245a9d1c1222251a3b, type: 3}
+    - {fileID: 21300000, guid: 48444441ea7248b4e9adc305939843af, type: 3}
+    - {fileID: 21300000, guid: 076d2b7f5b835d749af33b95b022b3e0, type: 3}
+    brailleNumbersPrefabs:
+    - {fileID: 6026712106741634040, guid: af33ed79aa1851345909fa3d9a4213b9, type: 3}
+    - {fileID: 9163265121967468847, guid: 358206bd462995843bd3481842c16ac0, type: 3}
+    - {fileID: 8558872216444546391, guid: e1cb9a6cf66c6ac4a9348cc7222f373b, type: 3}
+    - {fileID: 2828400446082708640, guid: 4dc7612d89d3bb64ba01698c90486f55, type: 3}
+    - {fileID: 3402314869046001111, guid: 9f80a57597d432847905be70c05cf3a2, type: 3}
+    - {fileID: 2145913837325457563, guid: c3d77c57cfe4dd741816f79a633dcc32, type: 3}
+    - {fileID: 3361093844519295772, guid: ccc6b3a37efe8394482632b36d7ee941, type: 3}
+    - {fileID: 4460148126254179747, guid: d8096fd4890f3c44c9999d7ec15187b6, type: 3}
+    - {fileID: 9162727562427446507, guid: 1182166a02027834ba5f22f1c8b1ab64, type: 3}
+    - {fileID: 2233455763625002564, guid: ff68dc156eb7f844d859b27d0011ad6a, type: 3}
+    metallicNumbersPrefabs:
+    - {fileID: 2365987307664396973, guid: 38602444a3fd3db44b2467e3386871ff, type: 3}
+    - {fileID: 3025596076360963881, guid: 223f9853d9c23f847899a6f6ffd34466, type: 3}
+    - {fileID: 76409970077280043, guid: 5ea92e17cc66a2f4d8c198db4cb25b9e, type: 3}
+    - {fileID: 722484603355807162, guid: f41ab607232c4984a805c91154f26eaa, type: 3}
+    - {fileID: 9107176892088250191, guid: 4e474ba2fcc1c7a4abc6f000856c5bdd, type: 3}
+    - {fileID: 2918663681267971339, guid: 66d84b181157d5340a8ae5c161c4a213, type: 3}
+    - {fileID: 918571055287250971, guid: 55f14de6635c5334087e2078983db58b, type: 3}
+    - {fileID: 1796295778884640286, guid: 3d92232f14e957340995d0f37e10ef97, type: 3}
+    - {fileID: 5860332162179368897, guid: b1ca8b15d4b18d440a2cf99f34641e97, type: 3}
+    - {fileID: 4886983460478627480, guid: 6c31f560e77febe428c0310857419e6e, type: 3}
+    lobbyLeftEnd: {fileID: 3415734790585145797, guid: c8188fa4525c7b543a778f026e2beb4a, type: 3}
+    lobbyMiddle: {fileID: 4348985696510993184, guid: 30aac36647e91d9428725bcadb37981f, type: 3}
+    lobbyRightEnd: {fileID: 6280068409279518715, guid: de600e35727c4be408785243b89bf95a, type: 3}
+    darkMarbleForPlaques: {fileID: 2100000, guid: 348f83e11ac3e0c409f729d98ca1a5ef, type: 2}
+    dustParticles: {fileID: 8863239828534210353, guid: 93add5057bfb6a74c925684d15c50408, type: 3}
+    reflectionProbe: {fileID: 9144832383734803714, guid: d0a4eea1ed446644ea06e6eca0d15608, type: 3}
