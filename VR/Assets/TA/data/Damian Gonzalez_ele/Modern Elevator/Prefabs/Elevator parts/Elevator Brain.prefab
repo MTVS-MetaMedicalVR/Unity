@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2487854683612049515
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2487854683612049514}
+  - component: {fileID: 2487854683612049509}
+  m_Layer: 0
+  m_Name: Elevator Brain
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2487854683612049514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487854683612049515}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2487854683612049509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487854683612049515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a2895ffdc1e794abe5c3a3cec43e18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  switches: []
+  unitsPerSecond: 1.5
+  slowDownNearArriving: 1
+  slowingDownEffect: 0.04
+  initialStop: {fileID: 0}
+  outerDoors: []
+  innerDoors: []
+  avoidBouncing: 1
+  player: {fileID: 0}
+  playerInsideElevator: 0
+  lightFlickering: 0
+  elevatorShaking: 1
+  shakeWhenTravelBegins: 2
+  shakeWhenTravelEnds: 0.5
+  shakeLowThreshold: 0.01
+  delayStartMoving: 1.5
+  delayOpeningDoors: 1.5
+  waitTimeBetweenStops: 4
+  debugMode: 0
+  elevator: {fileID: 0}
+  elevatorLightsContainer: {fileID: 0}
+  elevatorLightSwitchScript: {fileID: 0}
+  wireEndBone:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  wiresEndPosition:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  buttonLightOn: {fileID: 2100000, guid: 4a91788a4510eae48a01a6b109994a65, type: 2}
+  buttonLightOff: {fileID: 2100000, guid: 8a696aa24fc67ea42be1a9d4085eaa94, type: 2}
+  travelSound: {fileID: 8085604389257402167, guid: 997c887594c794a4f879aea66c2d5952, type: 3}
+  stopSound: {fileID: 2727368367837499667, guid: 9306bcadfb96ab84988fe42f6e1e8b43, type: 3}
+  arrived_ding: {fileID: 1278933259798119522, guid: b1542982fbe137f4fa90e95c99355bac, type: 3}
+  arrived_Arp3NotesLow: {fileID: 4348649059636203957, guid: a06dde97f1471c74da8f2f422ab3c3b0, type: 3}
+  arrived_Arp3NotesHigh: {fileID: 4541692474659909125, guid: adea8dbc00f2fa449a427ffe01afcaff, type: 3}
+  arrived_Arp2NotesHigh: {fileID: 273310511158214367, guid: 1cfdb5a35d59f6047b3f48f8d9fdaa98, type: 3}
+  doorOpensSound: {fileID: 0}
+  doorClosesSound: {fileID: 0}
+  flickeringSounds:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  arrivedSound: 3
+  direction: 0
+  idle: 1
+  moving: 0
+  nearestFloor: 0
+  listOfNumberSprites:
+  - {fileID: 21300000, guid: b4641bdd0aab3ce48a8e0b1fb7a41885, type: 3}
+  - {fileID: 21300000, guid: d2b99b152196957409caec94b3b80ec7, type: 3}
+  - {fileID: 21300000, guid: 4f874381ffc6aab45b03390744f7bf16, type: 3}
+  - {fileID: 21300000, guid: e900cbbe2abeae5409497efe2231195e, type: 3}
+  - {fileID: 21300000, guid: 665b59a042dc0684db34dc76d9a343b7, type: 3}
+  - {fileID: 21300000, guid: 383e7961681e19b41aea57eff4f7ece8, type: 3}
+  - {fileID: 21300000, guid: ebd51e3e2d3bb4946910df7b6415badf, type: 3}
+  - {fileID: 21300000, guid: 0548d9fdfc2fe8448a9a57f33153e5b2, type: 3}
+  - {fileID: 21300000, guid: b5067973c72e52b42a0130c74b66f186, type: 3}
+  - {fileID: 21300000, guid: c46947665874ba64a991a412206fdadf, type: 3}
+  - {fileID: 21300000, guid: 176203f9d66600c438bd95bec8377f3c, type: 3}
+  - {fileID: 21300000, guid: c1f4476e046a9ba44accdf2a39062322, type: 3}
