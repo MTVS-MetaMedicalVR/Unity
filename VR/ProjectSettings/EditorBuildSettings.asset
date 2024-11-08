@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/01. Scenes/JAEHYEON/Login & Sign Up.unity
+    guid: 9d86c933447a91b41ae145236bda8cb8
+  - enabled: 0
     path: Assets/01. Scenes/JAEHYEON/Avata.unity
     guid: 5fba5a3916eb8ee409f9d515196abf7c
   - enabled: 0
@@ -26,7 +29,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/01. Scenes/Main.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/01. Scenes/Photon Test.unity
     guid: 2b8e1340cd1550446845d7b766ccaa04
   m_configObjects:
