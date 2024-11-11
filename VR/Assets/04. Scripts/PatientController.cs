@@ -26,6 +26,7 @@ public class PatientController : MonoBehaviour
         else
         {
             patient.transform.rotation = originalRotate;
+            //jawFollow.isOpen = false;
         }
     }
 }
