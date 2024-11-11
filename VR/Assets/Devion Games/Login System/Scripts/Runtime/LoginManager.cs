@@ -165,8 +165,8 @@ namespace DevionGames.LoginSystem
 
 			using (UnityWebRequest www = UnityWebRequest.Post(LoginManager.Server.serverAddress + "/" + LoginManager.Server.createAccount, newForm)) {
 				yield return www.SendWebRequest();
-				if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
-                {
+				if (www.isNetworkError || www.isHttpError)
+				{
 					Debug.Log(www.error);
 				}
 				else {
@@ -215,24 +215,22 @@ namespace DevionGames.LoginSystem
 			using (UnityWebRequest www = UnityWebRequest.Post(LoginManager.Server.serverAddress + "/" + LoginManager.Server.login, newForm))
 			{
 				yield return www.SendWebRequest();
-                if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
-                {
-                    Debug.LogError($"Network error: {www.error}");
-                }
-                else
+				if (www.isNetworkError || www.isHttpError)
+				{
+					Debug.Log(www.error);
+				}
+				else
 				{
 					if (www.downloadHandler.text.Contains("true"))
 					{
-                        Debug.Log("Account creation was successful!");
-                        PlayerPrefs.SetString(LoginManager.Server.accountKey, username);
+						PlayerPrefs.SetString(LoginManager.Server.accountKey, username);
 						if (LoginManager.DefaultSettings.debug)
 							Debug.Log("[LoginAccount] Login was successfull!");
 						EventHandler.Execute("OnLogin");
 					}
 					else
 					{
-                        Debug.LogWarning("Failed to create account.");
-                        if (LoginManager.DefaultSettings.debug)
+						if (LoginManager.DefaultSettings.debug)
 							Debug.Log("[LoginAccount] Failed to login.");
 						EventHandler.Execute("OnFailedToLogin");
 					}
@@ -268,8 +266,8 @@ namespace DevionGames.LoginSystem
 			using (UnityWebRequest www = UnityWebRequest.Post(LoginManager.Server.serverAddress + "/" + LoginManager.Server.recoverPassword, newForm))
 			{
 				yield return www.SendWebRequest();
-				if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
-                {
+				if (www.isNetworkError || www.isHttpError)
+				{
 					Debug.Log(www.error);
 				}
 				else
@@ -320,8 +318,8 @@ namespace DevionGames.LoginSystem
 			using (UnityWebRequest www = UnityWebRequest.Post(LoginManager.Server.serverAddress + "/" + LoginManager.Server.resetPassword, newForm))
 			{
 				yield return www.SendWebRequest();
-				if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
-                {
+				if (www.isNetworkError || www.isHttpError)
+				{
 					Debug.Log(www.error);
 				}
 				else
