@@ -8,10 +8,12 @@ public class JawFollow : MonoBehaviour
     public float nowRotation = 0;
     public bool isOpen = false;
 
+    UnitChairController unitChairController;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        unitChairController = GameObject.Find("Button_Back").GetComponent<UnitChairController>();
     }
 
     // Update is called once per frame
