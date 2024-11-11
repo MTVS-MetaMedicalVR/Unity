@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Fusion;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; // Scene 전환을 위한 네임스페이스 추가
 
 public class NetworkSetup : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class NetworkSetup : MonoBehaviour
     public InputField confirmPasswordInputField;
     public InputField emailInputField;
     public Button registerButton;
+
+    // 개발자 모드 버튼
+    public Button developerModeButton;
 
     private void Start()
     {
@@ -38,6 +42,12 @@ public class NetworkSetup : MonoBehaviour
         if (registerButton != null)
         {
             registerButton.onClick.AddListener(HandleRegistration);
+        }
+
+        // 개발자 모드 버튼 클릭 이벤트 리스너 추가
+        if (developerModeButton != null)
+        {
+            developerModeButton.onClick.AddListener(EnterDeveloperMode);
         }
     }
 
@@ -63,8 +73,8 @@ public class NetworkSetup : MonoBehaviour
         {
             await networkRunner.StartGame(startArgs);
             Debug.Log("Connected to session successfully!");
-            // 로그인 성공 시, 다른 씬으로 이동 (필요 시 추가)
-            UnityEngine.SceneManagement.SceneManager.LoadScene("PROTO_VR Jae");
+            // 로그인 성공 시, 다른 씬으로 이동
+            SceneManager.LoadScene("PROTO_VR Jae");
         }
         catch (System.Exception ex)
         {
@@ -101,6 +111,13 @@ public class NetworkSetup : MonoBehaviour
 
         // 회원가입 처리 로직 (예: 데이터베이스에 저장, REST API 연동)
         Debug.Log($"사용자 {userId}가 성공적으로 등록되었습니다!");
+    }
+
+    public void EnterDeveloperMode()
+    {
+        Debug.Log("개발자 모드로 진입합니다.");
+        // 개발자 모드로 Scene 전환
+        SceneManager.LoadScene("PROTO_VR Jae");
     }
 
     private bool IsValidEmail(string email)
