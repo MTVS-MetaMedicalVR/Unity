@@ -113,13 +113,18 @@ public class NetworkSetup : MonoBehaviour
         Debug.Log($"사용자 {userId}가 성공적으로 등록되었습니다!");
     }
 
-    public void EnterDeveloperMode()
+    private void EnterDeveloperMode()
     {
         Debug.Log("개발자 모드로 진입합니다.");
-        // 개발자 모드로 Scene 전환
-        SceneManager.LoadScene("PROTO_VR Jae");
+        try
+        {
+            SceneManager.LoadScene("PROTO_VR Jae");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"씬 전환 중 오류 발생: {ex.Message}");
+        }
     }
-
     private bool IsValidEmail(string email)
     {
         try
