@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FaucetController : MonoBehaviour
@@ -12,6 +11,9 @@ public class FaucetController : MonoBehaviour
     public Transform handTransform;  // 손의 Transform (손 위치 감지)
     public float activationDistance = 0.1f;  // 수도꼭지를 작동시킬 거리
     public float waterDuration = 30.0f;  // 물이 켜진 상태 지속 시간 (초)
+
+    // 손 씻기 컨트롤러 참조 추가
+    public HandWashController handWashController;
 
     private void Start()
     {
@@ -48,8 +50,26 @@ public class FaucetController : MonoBehaviour
             isWaterTurnedOn = true;  // 물이 켜진 상태 유지
 
             Debug.Log("물을 틀었습니다.");
+
+            // 10초 후에 손 씻기 애니메이션 시작
+            if (handWashController != null)
+            {
+                StartCoroutine(StartHandWashWithDelay());
+            }
+
             // 30초 후에 자동으로 물을 끔
             StartCoroutine(WaterDurationRoutine());
+        }
+    }
+
+    private IEnumerator StartHandWashWithDelay()
+    {
+        // 10초 후에 손 씻기 애니메이션 활성화
+        yield return new WaitForSeconds(10);
+
+        if (handWashController != null)
+        {
+            handWashController.EnableHandWash();  // 손 씻기 활성화
         }
     }
 
@@ -63,9 +83,17 @@ public class FaucetController : MonoBehaviour
     {
         if (isWaterRunning)
         {
-            animator.SetBool("SinkON", false);  // 애니메이션 종료
-            waterParticle.Stop();  // 파티클 정지
-            waterParticle.gameObject.SetActive(false);  // 파티클 비활성화
+            if (animator != null)
+            {
+                animator.SetBool("SinkON", false);  // 애니메이션 종료
+            }
+
+            if (waterParticle != null)
+            {
+                waterParticle.Stop();  // 파티클 정지
+                waterParticle.gameObject.SetActive(false);  // 파티클 비활성화
+            }
+
             isWaterRunning = false;
 
             Debug.Log("물을 껐습니다.");
