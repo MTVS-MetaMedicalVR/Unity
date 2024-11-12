@@ -15,6 +15,7 @@ TagManager:
   - QDSUIIcon
   - Grabbable
   - ReleaseZone
+  - Tray
   layers:
   - Default
   - TransparentFX

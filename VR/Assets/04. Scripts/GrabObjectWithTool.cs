@@ -19,6 +19,9 @@ public class GrabObjectWithTool : MonoBehaviour
     // Release 직후 Grab 방지 목적으로 bool값 반환
     private bool recentlyReleased = false;
 
+    // 코튼롤(솜)을 입에 가져오면 환자 입 닫게하기 위한 스크립트
+    JawFollow jawFollow;
+
     // 특정 도구를 통해 오브젝트를 잡고 놓는 기능 활성화
     // Start is called before the first frame update
     void Start()
@@ -29,6 +32,9 @@ public class GrabObjectWithTool : MonoBehaviour
         {
             Debug.LogError("GrabPoint를 찾을 수 없습니다.");
         }
+
+        // jawFollow 컴포넌트를 가져오자.
+        jawFollow = GameObject.Find("JawSource A").GetComponent<JawFollow>();
     }
 
     // Update is called once per frame
@@ -101,5 +107,7 @@ public class GrabObjectWithTool : MonoBehaviour
             // currentObject 초기화
             currentObject = null;
         }
+
+        jawFollow.isOpen = false;
     }
 }
