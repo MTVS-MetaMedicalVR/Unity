@@ -58,6 +58,7 @@ public class SoapPumpController : MonoBehaviour
             {
                 foamParticle.gameObject.SetActive(true);
                 foamParticle.Play();
+                StartCoroutine(StopFoamParticleAfterDelay(3f));  // 3초 후에 파티클 중지
             }
 
             // 손 씻기 애니메이션 시작
@@ -67,6 +68,15 @@ public class SoapPumpController : MonoBehaviour
             }
 
             Debug.Log("비누를 펌프했습니다.");
+        }
+    }
+    private IEnumerator StopFoamParticleAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (foamParticle != null)
+        {
+            foamParticle.Stop();
+            foamParticle.gameObject.SetActive(false);
         }
     }
 }
