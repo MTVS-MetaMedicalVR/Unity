@@ -57,7 +57,7 @@ public class QuickTestManager : MonoBehaviour
     void CreateCategoryButton(string categoryName, string categoryPath)
     {
         GameObject buttonObj = Instantiate(categoryButtonPrefab, categoryPanel);
-        Toggle toggle = buttonObj.GetComponent<Toggle>();
+        Toggle toggle = buttonObj.GetComponentInChildren<Toggle>();
         TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
 
         if (buttonText != null)
@@ -67,7 +67,7 @@ public class QuickTestManager : MonoBehaviour
 
         if (toggle != null)
         {
-            toggle.group = categoryPanel.GetComponent<ToggleGroup>();
+            toggle.group = categoryPanel.GetComponentInChildren<ToggleGroup>();
             toggle.onValueChanged.AddListener((bool isOn) => {
                 if (isOn)
                 {
@@ -105,7 +105,7 @@ public class QuickTestManager : MonoBehaviour
 
                     if (File.Exists(thumbnailPath))
                     {
-                        Image buttonImage = buttonObj.GetComponent<Image>();
+                        Image buttonImage = buttonObj.GetComponentInChildren<Image>();
                         if (buttonImage != null)
                         {
                             StartCoroutine(LoadThumbnail(thumbnailPath, buttonImage));
@@ -118,10 +118,10 @@ public class QuickTestManager : MonoBehaviour
                         buttonText.text = $"{procedure.name}\n{procedure.description}";
                     }
 
-                    Toggle toggle = buttonObj.GetComponent<Toggle>();
+                    Toggle toggle = buttonObj.GetComponentInChildren<Toggle>();
                     if (toggle != null)
                     {
-                        toggle.group = procedurePanel.GetComponent<ToggleGroup>();
+                        toggle.group = procedurePanel.GetComponentInChildren<ToggleGroup>();
                         toggle.onValueChanged.AddListener((bool isOn) => {
                             if (isOn)
                             {
@@ -145,16 +145,39 @@ public class QuickTestManager : MonoBehaviour
 
     IEnumerator LoadThumbnail(string path, Image targetImage)
     {
+        Debug.Log($"Trying to load thumbnail from: {path}");
+
+        if (!File.Exists(path))
+        {
+            Debug.LogError($"Thumbnail file not found at: {path}");
+            yield break;
+        }
+
         using (UnityWebRequest request = UnityWebRequestTexture.GetTexture("file://" + path))
         {
+            Debug.Log("Sending web request for thumbnail");
             yield return request.SendWebRequest();
 
-            if (request.result == UnityWebRequest.Result.Success)
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"Failed to load thumbnail: {request.error}");
+                yield break;
+            }
+
+            try
             {
                 Texture2D texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+                Debug.Log($"Loaded texture size: {texture.width}x{texture.height}");
+
                 targetImage.sprite = Sprite.Create(texture,
                     new Rect(0, 0, texture.width, texture.height),
                     Vector2.one * 0.5f);
+
+                Debug.Log("Thumbnail sprite created successfully");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Error creating sprite: {e.Message}");
             }
         }
     }
