@@ -9,6 +9,7 @@ public class FaucetController : MonoBehaviour
     private bool isWaterTurnedOn = false;  // 물이 한 번 켜졌는지 여부
 
     public Transform handTransform;  // 손의 Transform (손 위치 감지)
+    public Transform particleTransform;  // 물 파티클 Transform
     public float activationDistance = 0.1f;  // 수도꼭지를 작동시킬 거리
     public float waterDuration = 30.0f;  // 물이 켜진 상태 지속 시간 (초)
 
@@ -30,12 +31,35 @@ public class FaucetController : MonoBehaviour
         {
             TurnOnWater();
         }
+
+        // 물이 켜진 상태에서 손이 물 파티클에 닿으면 애니메이션 시작
+        if (isWaterRunning && IsHandNearWater())
+        {
+            if (handWashController != null && !handWashController.IsWashing)
+            {
+                handWashController.StartHandWash();
+            }
+        }
+    }
+
+    private bool IsHandNearWater()
+    {
+        // 물 파티클과 손의 거리를 계산
+        float distance = Vector3.Distance(handTransform.position, waterParticle.transform.position);
+        return distance < activationDistance;  // 적절한 거리를 설정하세요
     }
 
     private bool IsHandNearFaucet()
     {
         // 손과 수도꼭지 간의 거리를 계산
         float distance = Vector3.Distance(handTransform.position, transform.position);
+        return distance < activationDistance;
+    }
+
+    private bool IsHandNearParticle()
+    {
+        // 손과 물 파티클 간의 거리를 계산
+        float distance = Vector3.Distance(handTransform.position, particleTransform.position);
         return distance < activationDistance;
     }
 
@@ -51,25 +75,8 @@ public class FaucetController : MonoBehaviour
 
             Debug.Log("물을 틀었습니다.");
 
-            // 10초 후에 손 씻기 애니메이션 시작
-            if (handWashController != null)
-            {
-                StartCoroutine(StartHandWashWithDelay());
-            }
-
             // 30초 후에 자동으로 물을 끔
             StartCoroutine(WaterDurationRoutine());
-        }
-    }
-
-    private IEnumerator StartHandWashWithDelay()
-    {
-        // 10초 후에 손 씻기 애니메이션 활성화
-        yield return new WaitForSeconds(10);
-
-        if (handWashController != null)
-        {
-            handWashController.EnableHandWash();  // 손 씻기 활성화
         }
     }
 

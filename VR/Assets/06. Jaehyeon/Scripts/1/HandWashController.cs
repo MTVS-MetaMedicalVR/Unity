@@ -6,23 +6,6 @@ public class HandWashController : MonoBehaviour
     public Animator[] handAnimators;
     public bool IsWashing { get; private set; } = false;
 
-    private bool isReadyToWash = false;  // 손 씻기 준비 상태
-
-    public void EnableHandWash()
-    {
-        isReadyToWash = true;
-        Debug.Log("손 씻기 준비 완료.");
-    }
-
-    private void Update()
-    {
-        // 손 씻기 준비가 되어 있으면 손 씻기 시작
-        if (isReadyToWash && !IsWashing)
-        {
-            StartHandWash();
-        }
-    }
-
     public void StartHandWash()
     {
         if (!IsWashing)
@@ -30,7 +13,7 @@ public class HandWashController : MonoBehaviour
             IsWashing = true;
             foreach (var animator in handAnimators)
             {
-                animator.enabled = true; //애니메이터 활성화
+                animator.enabled = true;  // 애니메이터 활성화
                 Debug.Log("손씻기 애니메이션 재생");
                 animator.SetTrigger("Wash");
             }
@@ -53,6 +36,7 @@ public class HandWashController : MonoBehaviour
             foreach (var animator in handAnimators)
             {
                 animator.ResetTrigger("Wash");
+                animator.enabled = false;  // 애니메이터 비활성화
             }
 
             Debug.Log("손 씻기 중단.");
