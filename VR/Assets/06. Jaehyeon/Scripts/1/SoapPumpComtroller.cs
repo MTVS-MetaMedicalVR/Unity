@@ -8,6 +8,7 @@ public class SoapPumpController : MonoBehaviour
     public Transform handTransform;  // 손의 Transform (손 위치 감지)
     public float activationDistance = 0.1f;  // 비누 펌프 활성화 거리
 
+    public HandWashController handWashController;  // 손 씻기 컨트롤러
     private bool isPumped = false;  // 비누 펌프 상태 확인
 
     private void Start()
@@ -57,6 +58,12 @@ public class SoapPumpController : MonoBehaviour
             {
                 foamParticle.gameObject.SetActive(true);
                 foamParticle.Play();
+            }
+
+            // 손 씻기 애니메이션 시작
+            if (handWashController != null && !handWashController.IsWashing)
+            {
+                handWashController.StartHandWash();
             }
 
             Debug.Log("비누를 펌프했습니다.");

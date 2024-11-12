@@ -4,6 +4,7 @@ using UnityEngine;
 public class HandWashController : MonoBehaviour
 {
     public Animator[] handAnimators;
+    public GameObject[] handObjects;  // 손 씻기 오브젝트를 참조할 배열 추가
     public bool IsWashing { get; private set; } = false;
 
     public void EnableAnimators()
@@ -11,6 +12,12 @@ public class HandWashController : MonoBehaviour
         foreach (var animator in handAnimators)
         {
             animator.enabled = true;
+        }
+
+        // 손 오브젝트 활성화
+        foreach (var handObject in handObjects)
+        {
+            handObject.SetActive(true);
         }
     }
 
@@ -20,6 +27,12 @@ public class HandWashController : MonoBehaviour
         {
             animator.enabled = false;
         }
+
+        // 손 오브젝트 비활성화
+        foreach (var handObject in handObjects)
+        {
+            handObject.SetActive(false);
+        }
     }
 
     public void StartHandWash()
@@ -27,6 +40,13 @@ public class HandWashController : MonoBehaviour
         if (!IsWashing)
         {
             IsWashing = true;
+
+            // 손 오브젝트 활성화
+            foreach (var handObject in handObjects)
+            {
+                handObject.SetActive(true);
+            }
+
             foreach (var animator in handAnimators)
             {
                 animator.enabled = true;  // 애니메이터 활성화
@@ -41,7 +61,7 @@ public class HandWashController : MonoBehaviour
     private IEnumerator HandWashRoutine()
     {
         Debug.Log("손 씻기를 시작합니다.");
-        yield return new WaitForSeconds(15);  // 15초 동안 손 씻기
+        yield return new WaitForSeconds(10);  // 10초 동안 손 씻기
         CompleteHandWash();
     }
 
@@ -53,6 +73,12 @@ public class HandWashController : MonoBehaviour
             {
                 animator.ResetTrigger("Wash");
                 animator.enabled = false;  // 애니메이터 비활성화
+            }
+
+            // 손 오브젝트 비활성화
+            foreach (var handObject in handObjects)
+            {
+                handObject.SetActive(false);
             }
 
             Debug.Log("손 씻기 중단.");
@@ -68,6 +94,12 @@ public class HandWashController : MonoBehaviour
         foreach (var animator in handAnimators)
         {
             animator.enabled = false;  // 애니메이터 비활성화
+        }
+
+        // 손 오브젝트 비활성화
+        foreach (var handObject in handObjects)
+        {
+            handObject.SetActive(false);
         }
     }
 }

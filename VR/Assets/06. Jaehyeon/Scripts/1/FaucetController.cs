@@ -38,13 +38,13 @@ public class FaucetController : MonoBehaviour
         }
 
         // 물이 켜진 상태에서 손이 물 파티클에 가까워졌을 때 손 씻기 애니메이션 시작
-        if (isWaterRunning && IsHandNearWater())
+        /*if (isWaterRunning && IsHandNearWater())
         {
             if (handWashController != null && !handWashController.IsWashing)
             {
                 handWashController.StartHandWash();
             }
-        }
+        }*/
     }
 
     private bool IsHandNearWater()

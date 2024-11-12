@@ -61224,6 +61224,7 @@ MonoBehaviour:
   foamParticle: {fileID: 620721060}
   handTransform: {fileID: 8907808973703286331}
   activationDistance: 0.1
+  handWashController: {fileID: 7542974685744174630}
 --- !u!4 &4229677995508167911
 Transform:
   m_ObjectHideFlags: 0
