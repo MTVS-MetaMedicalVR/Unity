@@ -5,6 +5,8 @@ public class FaucetController : MonoBehaviour
 {
     public ParticleSystem waterParticle;  // 물 파티클
     private Animator animator;  // 수도꼭지 애니메이터
+    public AudioSource waterAudio; //물 소리 오디오 소스
+
     private bool isWaterRunning = false;  // 물 상태 확인
     private bool isWaterTurnedOn = false;  // 물이 한 번 켜졌는지 여부
 
@@ -57,6 +59,12 @@ public class FaucetController : MonoBehaviour
 
             Debug.Log("물을 틀었습니다.");
 
+            // 물 소리 재생
+            if (waterAudio != null && !waterAudio.isPlaying)
+            {
+                waterAudio.Play();
+            }
+
             // 손 씻기 애니메이터 활성화는 필요하지 않음 (제거)
             // if (handWashController != null)
             // {
@@ -88,6 +96,14 @@ public class FaucetController : MonoBehaviour
                 waterParticle.Stop();  // 파티클 정지
                 waterParticle.gameObject.SetActive(false);  // 파티클 비활성화
             }
+
+
+            // 물 소리 중지
+            if (waterAudio != null && waterAudio.isPlaying)
+            {
+                waterAudio.Stop();
+            }
+
 
             isWaterRunning = false;
 

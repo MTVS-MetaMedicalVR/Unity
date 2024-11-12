@@ -7,8 +7,10 @@ public class HandGestureController : MonoBehaviour
     public Transform handTransform;  // 손의 Transform (손 위치 감지)
     public float activationDistance = 0.1f;  // 손과 오브젝트 간의 활성화 거리
     public float dryingTime = 5.0f;  // 말리는 시간 설정
+    public AudioSource dryingAudio;
 
     private bool isDrying = false;  // 손 말리기 상태 확인
+
 
     private void Start()
     {
@@ -17,6 +19,12 @@ public class HandGestureController : MonoBehaviour
         {
             windParticle.gameObject.SetActive(false);
         }
+
+        if(dryingAudio != null)
+        {
+            dryingAudio.Stop();
+        }
+
     }
 
     private void Update()
@@ -52,6 +60,12 @@ public class HandGestureController : MonoBehaviour
                 windParticle.Play();
             }
 
+            // 오디오 재생
+            if (dryingAudio != null && !dryingAudio.isPlaying)
+            {
+                dryingAudio.Play();
+            }
+
             // 말리기 타이머 시작
             StartCoroutine(DryingRoutine());
         }
@@ -71,6 +85,13 @@ public class HandGestureController : MonoBehaviour
             windParticle.Stop();
             windParticle.gameObject.SetActive(false);
         }
+
+        // 오디오 중지
+        if (dryingAudio != null && dryingAudio.isPlaying)
+        {
+            dryingAudio.Stop();
+        }
+
         isDrying = false;  // 상태 초기화
     }
 }
