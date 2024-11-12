@@ -7,6 +7,12 @@ public class HandWashController : MonoBehaviour
     public GameObject[] handObjects;  // 손 씻기 오브젝트를 참조할 배열 추가
     public bool IsWashing { get; private set; } = false;
 
+    private void Start()
+    {
+        DisableAnimators();  // 시작할 때 모든 애니메이터와 손 오브젝트를 비활성화
+        ResetAnimators();    // 트리거 초기화
+    }
+
     public void EnableAnimators()
     {
         foreach (var animator in handAnimators)
@@ -32,6 +38,16 @@ public class HandWashController : MonoBehaviour
         foreach (var handObject in handObjects)
         {
             handObject.SetActive(false);
+        }
+    }
+
+    private void ResetAnimators()
+    {
+        // 모든 애니메이터의 트리거를 초기화
+        foreach (var animator in handAnimators)
+        {
+            animator.ResetTrigger("Wash");
+            animator.enabled = false;  // 시작 시 비활성화
         }
     }
 
@@ -93,6 +109,7 @@ public class HandWashController : MonoBehaviour
 
         foreach (var animator in handAnimators)
         {
+            animator.ResetTrigger("Wash");
             animator.enabled = false;  // 애니메이터 비활성화
         }
 
