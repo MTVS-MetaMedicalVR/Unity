@@ -1,32 +1,32 @@
 {
     "id": "hand_wash",
-    "name": "¼Õ¾Ä±â ÀıÂ÷",
-    "description": "¼Õ¾Ä±â",
+    "name": "ì†ì”»ê¸° ì ˆì°¨",
+    "description": "ì†ì”»ê¸°",
     "preRequisite": null,
     "steps": [
        {
-        "name": "°³¼ö´ë·Î ÀÌµ¿",
+        "name": "ê°œìˆ˜ëŒ€ë¡œ ì´ë™",
         "type": "trigger",
-        "targetName": "°³¼ö´ë"
+        "targetName": "ê°œìˆ˜ëŒ€"
         },
         {
-            "name": "¹° Æ®±â",
+            "name": "ë¬¼ íŠ¸ê¸°",
             "type": "tool",
-            "targetName": "¼öµµ²ÀÁö"
+            "targetName": "ìˆ˜ë„ê¼­ì§€"
         },
         {
-            "name": "¼Õ ¾Ä´Â Áß",
+            "name": "ì† ì”»ëŠ” ì¤‘",
             "type": "animation",
             "duration": 3.0
         },
         {
-            "name": "30ÃÊ µ¿¾È ¼ÕÀ» ¾ÄÀ¸¼¼¿ä",
+            "name": "30ì´ˆ ë™ì•ˆ ì†ì„ ì”»ìœ¼ì„¸ìš”",
             "type": "notice"
         },
         {
-            "name": "¹° ²ô±â",
+            "name": "ë¬¼ ë„ê¸°",
             "type": "tool",
-            "targetName": "¼öµµ²ÀÁö"
+            "targetName": "ìˆ˜ë„ê¼­ì§€"
         }
     ]
 }

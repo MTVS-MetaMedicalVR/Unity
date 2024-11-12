@@ -5,17 +5,21 @@ using System.IO;
 using System.Linq;
 using System.Collections;
 using UnityEngine.Networking;
+using TMPro;  // TMPro 네임스페이스 추가
 
 public class QuickTestManager : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private Transform categoryPanel;  // 목차 패널
-    [SerializeField] private Transform procedurePanel; // 절차 리스트 패널
+    [SerializeField] private Transform categoryPanel;
+    [SerializeField] private Transform procedurePanel;
     [SerializeField] private GameObject categoryButtonPrefab;
     [SerializeField] private GameObject procedureButtonPrefab;
 
     [Header("Scene Settings")]
     [SerializeField] private string inGameSceneName = "InGameScene";
+
+    private Toggle lastSelectedCategoryToggle;    // 마지막 선택된 카테고리 토글
+    private Toggle lastSelectedProcedureToggle;   // 마지막 선택된 절차 토글
 
     private static class Paths
     {
@@ -40,7 +44,6 @@ public class QuickTestManager : MonoBehaviour
             return;
         }
 
-        // Common 폴더를 제외한 모든 카테고리 폴더 스캔
         var directories = Directory.GetDirectories(basePath)
                                  .Where(d => !Path.GetFileName(d).Equals(Paths.COMMON_FOLDER));
 
@@ -54,31 +57,38 @@ public class QuickTestManager : MonoBehaviour
     void CreateCategoryButton(string categoryName, string categoryPath)
     {
         GameObject buttonObj = Instantiate(categoryButtonPrefab, categoryPanel);
-        Button button = buttonObj.GetComponent<Button>();
-        Text buttonText = buttonObj.GetComponentInChildren<Text>();
+        Toggle toggle = buttonObj.GetComponent<Toggle>();
+        TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
 
-        // 버튼 텍스트 설정
         if (buttonText != null)
         {
             buttonText.text = categoryName;
         }
 
-        // 클릭 이벤트 설정
-        if (button != null)
+        if (toggle != null)
         {
-            button.onClick.AddListener(() => ShowProcedures(categoryPath, categoryName));
+            toggle.group = categoryPanel.GetComponent<ToggleGroup>();
+            toggle.onValueChanged.AddListener((bool isOn) => {
+                if (isOn)
+                {
+                    if (lastSelectedCategoryToggle != null && lastSelectedCategoryToggle != toggle)
+                    {
+                        lastSelectedCategoryToggle.isOn = false;
+                    }
+                    lastSelectedCategoryToggle = toggle;
+                    ShowProcedures(categoryPath, categoryName);
+                }
+            });
         }
     }
 
     void ShowProcedures(string categoryPath, string categoryName)
     {
-        // 기존 절차 버튼들 제거
         foreach (Transform child in procedurePanel)
         {
             Destroy(child.gameObject);
         }
 
-        // 해당 카테고리의 모든 절차 폴더 스캔
         foreach (string procedureFolder in Directory.GetDirectories(categoryPath))
         {
             string jsonPath = Path.Combine(procedureFolder, Paths.PROCEDURE_INFO);
@@ -88,14 +98,11 @@ public class QuickTestManager : MonoBehaviour
             {
                 try
                 {
-                    // 절차 정보 로드
                     string jsonContent = File.ReadAllText(jsonPath);
                     Procedure procedure = JsonUtility.FromJson<Procedure>(jsonContent);
 
-                    // 절차 버튼 생성
                     GameObject buttonObj = Instantiate(procedureButtonPrefab, procedurePanel);
 
-                    // 썸네일 이미지 설정
                     if (File.Exists(thumbnailPath))
                     {
                         Image buttonImage = buttonObj.GetComponent<Image>();
@@ -105,18 +112,27 @@ public class QuickTestManager : MonoBehaviour
                         }
                     }
 
-                    // 버튼 텍스트 설정
-                    Text buttonText = buttonObj.GetComponentInChildren<Text>();
+                    TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
                     if (buttonText != null)
                     {
                         buttonText.text = $"{procedure.name}\n{procedure.description}";
                     }
 
-                    // 클릭 이벤트 설정
-                    Button button = buttonObj.GetComponent<Button>();
-                    if (button != null)
+                    Toggle toggle = buttonObj.GetComponent<Toggle>();
+                    if (toggle != null)
                     {
-                        button.onClick.AddListener(() => StartProcedure(categoryName, procedure));
+                        toggle.group = procedurePanel.GetComponent<ToggleGroup>();
+                        toggle.onValueChanged.AddListener((bool isOn) => {
+                            if (isOn)
+                            {
+                                if (lastSelectedProcedureToggle != null && lastSelectedProcedureToggle != toggle)
+                                {
+                                    lastSelectedProcedureToggle.isOn = false;
+                                }
+                                lastSelectedProcedureToggle = toggle;
+                                StartProcedure(categoryName, procedure);
+                            }
+                        });
                     }
                 }
                 catch (System.Exception e)
@@ -145,10 +161,7 @@ public class QuickTestManager : MonoBehaviour
 
     void StartProcedure(string category, Procedure procedure)
     {
-        // 선택한 절차 정보 저장
         ProcedureSceneManager.Instance.SetProcedure(category, procedure.id);
-
-        // 인게임 씬으로 전환
         SceneManager.LoadScene(inGameSceneName);
     }
 }

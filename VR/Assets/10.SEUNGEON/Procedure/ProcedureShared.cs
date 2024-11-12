@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
+// ProcedureShared.cs
 public class ProcedureShared : ProcedureObjectBase
 {
     [SerializeField]
@@ -11,17 +12,20 @@ public class ProcedureShared : ProcedureObjectBase
     {
         if (!other.CompareTag("PlayerHand") || isDone) return;
 
-        string currentProcedureId = InGameProcedureManager.Instance.GetCurrentProcedureId();
-        if (System.Array.Exists(validProcedureIds, id => id == currentProcedureId))
+        if (InGameProcedureManager.Instance != null)
         {
-            if (animator && !string.IsNullOrEmpty(interactionConfig.animationTriggerName))
+            string currentProcedureId = InGameProcedureManager.Instance.GetCurrentProcedureId();
+            if (System.Array.Exists(validProcedureIds, id => id == currentProcedureId))
             {
-                animator.SetTrigger(interactionConfig.animationTriggerName);
-                StartCoroutine(WaitForAnimationComplete());
-            }
-            else
-            {
-                CompleteInteraction();
+                if (animator && !string.IsNullOrEmpty(interactionConfig.animationTriggerName))
+                {
+                    animator.SetTrigger(interactionConfig.animationTriggerName);
+                    StartCoroutine(WaitForAnimationComplete());
+                }
+                else
+                {
+                    CompleteInteraction();
+                }
             }
         }
     }

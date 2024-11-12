@@ -6,6 +6,7 @@ using UnityEngine;
 public class Step
 {
     public string name;
+    public string description;
     public string type;
     public float duration = -1f;
     public string targetName;
@@ -30,12 +31,11 @@ public class InteractionConfig
 }
 
 // 3. ProcedureObjectBase.cs - 기본 상호작용 클래스
-
+// ProcedureObjectBase.cs
 public abstract class ProcedureObjectBase : MonoBehaviour
 {
     [SerializeField] protected Animator animator;
     [SerializeField] protected InteractionConfig interactionConfig;
-
     protected bool isDone;
 
     public virtual void Initialize()
@@ -47,6 +47,9 @@ public abstract class ProcedureObjectBase : MonoBehaviour
     protected virtual void CompleteInteraction()
     {
         isDone = true;
-        InGameProcedureManager.Instance.CompleteCurrentStep();
+        if (InGameProcedureManager.Instance != null)
+        {
+            InGameProcedureManager.Instance.CompleteCurrentStep();
+        }
     }
 }

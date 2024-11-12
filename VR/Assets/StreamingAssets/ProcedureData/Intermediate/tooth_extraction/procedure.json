@@ -1,19 +1,19 @@
 {
     "id": "tooth_extraction",
-    "name": "¹ßÄ¡ ÀıÂ÷",
-    "description": "Ä¡¾Æ¸¦ ¹ßÄ¡ÇÏ´Â ±âº»ÀûÀÎ ÀıÂ÷ÀÔ´Ï´Ù.",
+    "name": "ë°œì¹˜ ì ˆì°¨",
+    "description": "ì¹˜ì•„ë¥¼ ë°œì¹˜í•˜ëŠ” ê¸°ë³¸ì ì¸ ì ˆì°¨ì…ë‹ˆë‹¤.",
     "preRequisite": "hand_wash",
     "steps": [
         {
-            "name": "È¯ÀÚ ´¯È÷±â",
+            "name": "í™˜ì ëˆ•íˆê¸°",
             "type": "animation",
             "duration": 2.0,
             "targetName": null
         },
         {
-            "name": "±â±¸ ÁØºñ",
+            "name": "ê¸°êµ¬ ì¤€ë¹„",
             "type": "tool",
-            "targetName": "¹ßÄ¡¿ë °âÀÚ"
+            "targetName": "ë°œì¹˜ìš© ê²¸ì"
         }
     ]
 }

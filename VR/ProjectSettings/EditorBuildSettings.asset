@@ -6,29 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/01. Scenes/JAEHYEON/Avata.unity
-    guid: 5fba5a3916eb8ee409f9d515196abf7c
-  - enabled: 0
-    path: Assets/01. Scenes/Lobby.unity
-    guid: f5ec9a47e2cce9f4a8be16669950257d
+    path: Assets/01. Scenes/SEUNGEON/Refactor/Lobby Jae 1.unity
+    guid: a98c9cc089088fe419fba634cbbf38d1
   - enabled: 1
-    path: Assets/01. Scenes/JAEHYEON/Lobby Jae.unity
-    guid: 7805d00cbddf20747aacb68c37ebe984
-  - enabled: 0
-    path: Assets/01. Scenes/DONGSU/PROTO_VR FINAL_DONGSU.unity
-    guid: 673bb09459141aa4193c6b8250ea2f59
-  - enabled: 0
-    path: Assets/01. Scenes/DONGSU/PROTO_VR TEST DONGSU.unity
-    guid: a3911f8edb7058a4288f9b558bb4bd1b
-  - enabled: 0
-    path: Assets/01. Scenes/1st Training.unity
-    guid: e8da52aa14a98bd43a2f7af356f19a10
-  - enabled: 0
-    path: Assets/01. Scenes/Main.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/01. Scenes/Photon Test.unity
-    guid: 2b8e1340cd1550446845d7b766ccaa04
+    path: Assets/01. Scenes/SEUNGEON/Refactor/ALPHA_VR_SEUGNEON2.unity
+    guid: 5324441bb9c87af45b55d20aed4a8af7
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 47db7d373245cfd40be8fd2069a3d3a8,
       type: 2}
