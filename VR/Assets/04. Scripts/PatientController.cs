@@ -8,6 +8,9 @@ public class PatientController : MonoBehaviour
     public Transform patient;
     Quaternion originalRotate;
 
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +29,6 @@ public class PatientController : MonoBehaviour
         else
         {
             patient.transform.rotation = originalRotate;
-            //jawFollow.isOpen = false;
         }
     }
 }

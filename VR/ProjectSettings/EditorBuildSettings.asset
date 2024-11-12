@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/01. Scenes/JAEHYEON/Avata.unity
     guid: 5fba5a3916eb8ee409f9d515196abf7c
   - enabled: 0
@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01. Scenes/JAEHYEON/Lobby Jae.unity
     guid: 7805d00cbddf20747aacb68c37ebe984
-  - enabled: 0
+  - enabled: 1
     path: Assets/01. Scenes/DONGSU/PROTO_VR FINAL_DONGSU.unity
     guid: 673bb09459141aa4193c6b8250ea2f59
   - enabled: 0
