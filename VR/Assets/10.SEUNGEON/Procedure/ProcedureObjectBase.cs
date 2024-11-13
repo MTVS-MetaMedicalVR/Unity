@@ -30,18 +30,18 @@ public class InteractionConfig
     public float timerDuration;
 }
 
-// 3. ProcedureObjectBase.cs - 기본 상호작용 클래스
-// ProcedureObjectBase.cs
 public abstract class ProcedureObjectBase : MonoBehaviour
 {
     [SerializeField] protected Animator animator;
     [SerializeField] protected InteractionConfig interactionConfig;
+    [SerializeField] private string procedureId;  // Inspector에서 설정할 ID
     protected bool isDone;
+
+    public string ProcedureId => procedureId;  // ID를 외부에서 읽을 수 있도록 프로퍼티 추가
 
     public virtual void Initialize()
     {
         isDone = false;
-        gameObject.SetActive(true);
     }
 
     protected virtual void CompleteInteraction()

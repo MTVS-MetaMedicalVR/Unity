@@ -1,24 +1,57 @@
 // ProcedureParticleTimer.cs
 using System.Collections;
 using UnityEngine;
-
 public class ProcedureParticleTimer : ProcedureObjectBase
 {
-    private void OnTriggerEnter(Collider other)
+    protected bool isParticleRunning = false;
+
+    public override void Initialize()
     {
-        if (!other.CompareTag("PlayerHand") || isDone) return;
-        if (interactionConfig.particleEffect)
+        base.Initialize();
+        if (interactionConfig.particleEffect != null)
         {
+            interactionConfig.particleEffect.gameObject.SetActive(false);
+        }
+        isParticleRunning = false;
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("PlayerHand") || isDone || isParticleRunning) return;
+
+        if (interactionConfig.particleEffect != null)
+        {
+            isParticleRunning = true;
+            interactionConfig.particleEffect.gameObject.SetActive(true);
             interactionConfig.particleEffect.Play();
-            StartCoroutine(WaitForTimer());
+            StartCoroutine(ParticleTimerRoutine());
         }
     }
 
-    private IEnumerator WaitForTimer()
+    protected IEnumerator ParticleTimerRoutine()
     {
         yield return new WaitForSeconds(interactionConfig.timerDuration);
-        if (interactionConfig.particleEffect)
+        OnParticleComplete();
+    }
+
+    protected virtual void OnParticleComplete()
+    {
+        if (interactionConfig.particleEffect != null)
+        {
             interactionConfig.particleEffect.Stop();
+            interactionConfig.particleEffect.gameObject.SetActive(false);
+        }
+        isParticleRunning = false;
         CompleteInteraction();
+    }
+
+    protected virtual void OnDisable()
+    {
+        if (interactionConfig.particleEffect != null)
+        {
+            interactionConfig.particleEffect.Stop();
+            interactionConfig.particleEffect.gameObject.SetActive(false);
+        }
+        isParticleRunning = false;
     }
 }
