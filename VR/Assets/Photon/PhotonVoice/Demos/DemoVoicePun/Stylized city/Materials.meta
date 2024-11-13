@@ -1,8 +1,16 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: ea4f7332eaf97d149a41e5c1ac8f28c7
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
+=======
+guid: 323b746b03d3b1646be31564e9890a58
+folderAsset: yes
+timeCreated: 1505306496
+licenseType: Store
+DefaultImporter:
+>>>>>>> origin/JaveVR(Alpa)
   userData: 
   assetBundleName: 
   assetBundleVariant: 

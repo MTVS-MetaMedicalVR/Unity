@@ -8,6 +8,14 @@ TagManager:
   - Locomotion
   - LocoButton
   - PlayerHand
+  - QDSUISharedThemeColor
+  - QDSUISecondaryButton
+  - QDSUIAccentColor
+  - QDSUIPrimaryButton
+  - QDSUIIcon
+  - Grabbable
+  - ReleaseZone
+  - Tray
   layers:
   - Default
   - TransparentFX
