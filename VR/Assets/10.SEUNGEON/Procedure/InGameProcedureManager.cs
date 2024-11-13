@@ -160,25 +160,6 @@ public class InGameProcedureManager : MonoBehaviour
 
         // 해당 ID를 가진 오브젝트가 있는지 확인하고 경고 메시지 표시
         var targetObject = procedureObjects.Find(obj => obj.ProcedureId == currentStep.targetName);
-        if (targetObject == null)
-        {
-            if (warningText != null)
-            {
-                warningText.text = $"주의: ID '{currentStep.targetName}'에 해당하는 오브젝트가 아직 구현되지 않았습니다.\n확인을 눌러 다음 단계로 진행하세요.";
-                warningText.gameObject.SetActive(true);
-            }
-            else
-            {
-                Debug.LogWarning($"Warning text UI is not assigned! Missing object with ID: {currentStep.targetName}");
-            }
-        }
-        else
-        {
-            if (warningText != null)
-            {
-                warningText.gameObject.SetActive(false);
-            }
-        }
 
         // 알림 패널 표시
         stepNotificationPanel.SetActive(true);
@@ -219,7 +200,8 @@ public class InGameProcedureManager : MonoBehaviour
         confirmToggle.onValueChanged.AddListener((bool isOn) => {
             if (isOn)
             {
-                SceneManager.LoadScene("MenuScene");
+                stepNotificationPanel.SetActive(false);
+                //SceneManager.LoadScene("MenuScene");
             }
         });
         stepNotificationPanel.SetActive(true);
