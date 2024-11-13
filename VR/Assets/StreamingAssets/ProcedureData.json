@@ -1,0 +1,68 @@
+{
+    "categories": [
+        {
+            "name": "Common",
+            "procedures": [
+                {
+                    "id": "hand_wash",
+                    "name": "손씻기 절차",
+                    "steps": [
+                        {
+                            "name": "개수대로 이동",
+                            "type": "trigger",
+                            "targetName": "개수대"
+                        },
+                        {
+                            "name": "물 트기",
+                            "type": "tool",
+                            "targetName": "수도꼭지"
+                        },
+                        {
+                            "name": "손 씻는 중",
+                            "type": "animation",
+                            "duration": 3.0
+                        },
+                        {
+                            "name": "30초 동안 손을 씻으세요",
+                            "type": "notice"
+                        },
+                        {
+                            "name": "물 끄기",
+                            "type": "tool",
+                            "targetName": "수도꼭지"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Intermediate",
+            "procedures": [
+                {
+                    "id": "tooth_extraction",
+                    "name": "발치 절차",
+                    "steps": [
+                        {
+                            "name": "환자 눕히기",
+                            "type": "animation",
+                            "duration": 2.0
+                        },
+                        {
+                            "name": "수술 부위 확인",
+                            "type": "notice"
+                        },
+                        {
+                            "name": "마취 주사 준비",
+                            "type": "tool",
+                            "targetName": "주사기"
+                        },
+                        {
+                            "name": "마취 주사 놓기",
+                            "type": "gesture"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

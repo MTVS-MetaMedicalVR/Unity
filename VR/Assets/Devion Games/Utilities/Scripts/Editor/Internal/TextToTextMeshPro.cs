@@ -4,7 +4,6 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
 namespace DevionGames
 {
 	public class TextToTextMeshPro : EditorWindow
@@ -113,7 +112,7 @@ namespace DevionGames
 			float maxFontSize = component.resizeTextMaxSize;
 			bool raycastTarget = component.raycastTarget;
 			bool maskable = component.maskable;
-			Outline outline = component.GetComponent<Outline>();
+			UnityEngine.UI.Outline outline = component.GetComponent<UnityEngine.UI.Outline>();
 			bool hasOutline = outline != null;
 			float outlineThickness = 0f;
 			Color outlineColor= Color.black;
