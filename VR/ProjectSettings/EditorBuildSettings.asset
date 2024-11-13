@@ -31,11 +31,17 @@ EditorBuildSettings:
     guid: 2b8e1340cd1550446845d7b766ccaa04
   - enabled: 0
     path: Assets/01. Scenes/JAEHYEON/PROTO_VR Alpa(Jae).unity
-    guid: 2d3985ed0a352fa489611efe45277998
-  - enabled: 1
+    guid: 5783f33518ee72449a4ec9ed5e1de1a2
+  - enabled: 0
     path: Assets/TA/alpha_lobby_haran.unity
     guid: 6193f12d83946d64ca95ce5786937aa8
   - enabled: 0
+    path: Assets/01. Scenes/SEUNGEON/Refactor/alpha_lobby_haran 2.unity
+    guid: 9311b2f63de9c6946a1543ba3e989343
+  - enabled: 1
+    path: Assets/01. Scenes/JAEHYEON/Alpa Robby.unity
+    guid: b5d54df37df34df4a9e8ed9ced5b7165
+  - enabled: 1
     path: Assets/01. Scenes/DONGSU/Alpha_DONGSU.unity
     guid: 340519b770f00d941a6b7c7883d9b315
   m_configObjects:
