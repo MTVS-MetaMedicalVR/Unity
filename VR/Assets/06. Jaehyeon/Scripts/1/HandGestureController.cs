@@ -10,7 +10,7 @@ public class HandGestureController : MonoBehaviour
     public AudioSource dryingAudio;
 
     private bool isDrying = false;  // 손 말리기 상태 확인
-
+    private bool canStartDrying = true;  // 말리기 가능 상태 확인
 
     private void Start()
     {
@@ -20,17 +20,16 @@ public class HandGestureController : MonoBehaviour
             windParticle.gameObject.SetActive(false);
         }
 
-        if(dryingAudio != null)
+        if (dryingAudio != null)
         {
             dryingAudio.Stop();
         }
-
     }
 
     private void Update()
     {
         // 손이 이 오브젝트에 가까워졌을 때 말리기 시작
-        if (IsHandNearDryer() && !isDrying)
+        if (IsHandNearDryer() && !isDrying && canStartDrying)
         {
             StartDrying();
         }
@@ -53,6 +52,8 @@ public class HandGestureController : MonoBehaviour
         {
             Debug.Log("손을 말리기 시작합니다.");
             isDrying = true;
+            canStartDrying = false;  // 말리기 중에 다시 시작하지 않도록 설정
+
             // 파티클 활성화 및 재생
             if (windParticle != null)
             {
@@ -75,6 +76,9 @@ public class HandGestureController : MonoBehaviour
     {
         yield return new WaitForSeconds(dryingTime);  // 설정된 시간 동안 대기
         CompleteDrying();
+        // 일정 시간 후에 다시 말리기를 허용
+        yield return new WaitForSeconds(2.0f);  // 예시로 2초 대기 후 다시 말리기 가능
+        canStartDrying = true;
     }
 
     private void CompleteDrying()
