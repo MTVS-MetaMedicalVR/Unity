@@ -21,14 +21,26 @@ public class FaucetController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
-        // 초기 파티클 비활성화
-        waterParticle.gameObject.SetActive(false);
+        if(waterParticle != null)
+        {
+            // 초기 파티클 비활성화
+            waterParticle.gameObject.SetActive(false);
+            //파티클 초기화 
+            waterParticle.Stop(); 
+        }
+        
 
         // 초기 손 씻기 애니메이션 비활성화 (필요시 유지)
         // if (handWashController != null)
         // {
         //     handWashController.DisableAnimators();
         // }
+
+        if(waterAudio != null)
+        {
+            waterAudio.Stop();
+        }
+
     }
 
     private void Update()
@@ -59,19 +71,21 @@ public class FaucetController : MonoBehaviour
 
             Debug.Log("물을 틀었습니다.");
 
-            // 물 소리 재생
-            if (waterAudio != null && !waterAudio.isPlaying)
+            // 물 파티클 재생
+            if (waterParticle != null)
             {
-                waterAudio.Play();
+                waterParticle.gameObject.SetActive(true);
+                waterParticle.Play();
+
+                // 물 파티클이 재생될 때 소리 시작
+                if (waterAudio != null && !waterAudio.isPlaying)
+                {
+                    waterAudio.Play();
+                }
             }
 
-            // 손 씻기 애니메이터 활성화는 필요하지 않음 (제거)
-            // if (handWashController != null)
-            // {
-            //     handWashController.EnableAnimators();
-            // }
-
             // 30초 후에 자동으로 물을 끔
+
             StartCoroutine(WaterDurationRoutine());
         }
     }
