@@ -8,7 +8,7 @@ public class AudioProcessor : MonoBehaviour
 {
     public MicrophoneInput microphoneInput;
     private AudioClip recordedClip;
-    private string apiUrl = "http://192.168.204.27:8000/hoonjang_stt"; // API 서버 URL을 설정하세요.
+    private string apiUrl = "http://192.168.0.61:8000/hoonjang_stt"; // API 서버 URL을 설정하세요.
 
     void Start()
     {
