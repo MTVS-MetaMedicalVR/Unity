@@ -16,6 +16,15 @@ TagManager:
   - Grabbable
   - ReleaseZone
   - Tray
+  - QDSUIToggleButton
+  - QDSUITooltip
+  - QDSUITextSecondaryColor
+  - QDSUITextInputField
+  - QDSUIToggleBorderlessButton
+  - QDSUIBorderlessButton
+  - QDSUIToggleSwitch
+  - QDSUIToggleCheckboxRadio
+  - QDSUISection
   layers:
   - Default
   - TransparentFX
@@ -24,7 +33,7 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - PlayerHand
   - 
   - 
   - 
