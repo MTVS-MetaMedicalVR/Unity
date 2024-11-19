@@ -5,9 +5,9 @@ public class STTActionController : MonoBehaviour
     [Header("References")]
     [SerializeField] private STTManager sttManager;    // STT 매니저
     [SerializeField] private JawFollow jawController;  // 턱 컨트롤러
+    [SerializeField] private HeadFollow headController; // 목 컨트롤러
 
     // 다른 컨트롤러들도 필요하다면 여기에 추가
-    // [SerializeField] private HeadController headController;
     // [SerializeField] private EyeController eyeController;
 
     private void OnEnable()
@@ -30,6 +30,9 @@ public class STTActionController : MonoBehaviour
 
         if (jawController == null)
             jawController = FindObjectOfType<JawFollow>();
+        
+        if (headController == null)
+            headController = FindObjectOfType<HeadFollow>();
     }
 
     // STT 응답 처리
@@ -48,6 +51,22 @@ public class STTActionController : MonoBehaviour
                 {
                     jawController.isOpen = true;
                     Debug.Log("입 벌리기 동작 실행");
+                }
+                break;
+
+            case "TurnRightHead":
+                if (headController != null)
+                {
+                    headController.isRight = true;
+                    Debug.Log("오른쪽으로 고개 돌리기 실행");
+                }
+                break;
+
+            case "TurnLeftHead":
+                if (headController != null)
+                {
+                    headController.isLeft = true;
+                    Debug.Log("왼쪽으로 고개 돌리기 실행");
                 }
                 break;
 
