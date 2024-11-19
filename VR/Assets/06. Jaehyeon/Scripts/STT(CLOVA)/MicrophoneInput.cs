@@ -10,7 +10,6 @@ public class MicrophoneInput : MonoBehaviour
 
     void Start()
     {
-        // 마이크로부터 오디오 녹음 시작
         StartMicrophone();
     }
 
@@ -21,7 +20,14 @@ public class MicrophoneInput : MonoBehaviour
             audioClip = Microphone.Start(null, false, 5, sampleRate);
             isRecording = true;
             Debug.Log("Recording started...");
+            StartCoroutine(StopRecordingAfterDelay(5)); // Automatically stop recording after 5 seconds
         }
+    }
+
+    IEnumerator StopRecordingAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        StopMicrophone();
     }
 
     public AudioClip StopMicrophone()
@@ -40,4 +46,3 @@ public class MicrophoneInput : MonoBehaviour
         return audioClip;
     }
 }
-

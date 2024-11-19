@@ -6,7 +6,8 @@ using System.Text;
 
 public class STTClient : MonoBehaviour
 {
-    private string apiUrl = "http://localhost:8000/hoonjang_stt"; // Python 서버의 URL
+    private string apiUrl = "http://192.168.0.61:8000/hoonjang_stt"; // Python 서버의 URL
+    public Animator patientAnimator; // 환자 애니메이터
 
     public void SendAudioData(byte[] wavData)
     {
@@ -45,11 +46,23 @@ public class STTClient : MonoBehaviour
     private void HandleSTTResponse(string response)
     {
         // Clova STT 응답을 처리하는 로직을 작성합니다.
-        // 예시: "아, 해보세요"가 감지되었을 경우 환자 오브젝트의 애니메이션 실행
+        // 예시: "아 해보세요"가 감지되었을 경우 환자 오브젝트의 애니메이션 실행
         if (response.Contains("아 해보세요"))
         {
             // 환자 애니메이션 실행 코드 추가
-            Debug.Log("환자 입 벌리는 애니메이션 실행");
+            if (patientAnimator != null)
+            {
+                patientAnimator.SetTrigger("OpenMouth");
+                Debug.Log("환자 입 벌리는 애니메이션 실행");
+            }
+            else
+            {
+                Debug.LogWarning("환자 애니메이터가 설정되지 않았습니다.");
+            }
+        }
+        else
+        {
+            Debug.Log("인식된 텍스트: " + response);
         }
     }
 }
