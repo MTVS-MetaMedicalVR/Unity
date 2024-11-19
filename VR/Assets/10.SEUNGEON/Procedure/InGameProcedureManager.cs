@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System.Linq;
+using UnityEngine.Networking;
 
 public class InGameProcedureManager : MonoBehaviour
 {
@@ -42,6 +43,7 @@ public class InGameProcedureManager : MonoBehaviour
 
     private void Start()
     {
+        CopyStreamingAssetsToPersistent();
         LoadProcedures();
         SetupToggleListener();
         ShowNextStep();
@@ -63,11 +65,79 @@ public class InGameProcedureManager : MonoBehaviour
             confirmToggle.isOn = false;
         }
     }
+    private void CopyStreamingAssetsToPersistent()
+    {
+        // Common 폴더 복사
+        CopyFolderToPersistent("ProcedureData/Common");
+
+        // 현재 카테고리 폴더 복사
+        string category = ProcedureSceneManager.Instance.CurrentCategory;
+        string procedureId = ProcedureSceneManager.Instance.CurrentProcedureId;
+        CopyFolderToPersistent($"ProcedureData/{category}/{procedureId}");
+    }
+
+    private async void CopyFolderToPersistent(string relativePath)
+    {
+        string srcPath = Path.Combine(Application.streamingAssetsPath, relativePath);
+        string destPath = Path.Combine(Application.persistentDataPath, relativePath);
+
+        // 안드로이드에서는 StreamingAssets이 jar 내부에 있어서 UnityWebRequest를 사용
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            string wwwPath = "jar:file://" + srcPath;
+            using (UnityWebRequest www = UnityWebRequest.Get(wwwPath))
+            {
+                var operation = www.SendWebRequest();
+                while (!operation.isDone)
+                {
+                    await System.Threading.Tasks.Task.Yield();
+                }
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    if (!Directory.Exists(destPath))
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(destPath));
+                    }
+                    File.WriteAllBytes(destPath, www.downloadHandler.data);
+                }
+                else
+                {
+                    Debug.LogError($"Failed to copy file: {www.error}");
+                }
+            }
+        }
+        else
+        {
+            // PC에서는 직접 파일 복사 가능
+            if (!Directory.Exists(destPath))
+            {
+                Directory.CreateDirectory(destPath);
+            }
+
+            foreach (string dirPath in Directory.GetDirectories(srcPath, "*", SearchOption.AllDirectories))
+            {
+                Directory.CreateDirectory(dirPath.Replace(srcPath, destPath));
+            }
+
+            foreach (string filePath in Directory.GetFiles(srcPath, "*.*", SearchOption.AllDirectories))
+            {
+                File.Copy(filePath, filePath.Replace(srcPath, destPath), true);
+            }
+        }
+    }
+    private string GetProperPath(string relativePath)
+    {
+        // 안드로이드에서는 persistentDataPath 사용, 그 외에서는 streamingAssetsPath 사용
+        string basePath = Application.platform == RuntimePlatform.Android ?
+            Application.persistentDataPath : Application.streamingAssetsPath;
+        return Path.Combine(basePath, relativePath);
+    }
 
     private void LoadProcedures()
     {
-        // 1. Common 폴더의 기본 절차들 로드
-        string commonPath = Path.Combine(Application.streamingAssetsPath, "ProcedureData", "Common");
+        // Common 폴더의 기본 절차들 로드
+        string commonPath = GetProperPath("ProcedureData/Common");
         if (Directory.Exists(commonPath))
         {
             var commonProcedureFolders = Directory.GetDirectories(commonPath);
@@ -83,11 +153,10 @@ public class InGameProcedureManager : MonoBehaviour
             }
         }
 
-        // 2. 실제 절차 로드
+        // 실제 절차 로드
         string category = ProcedureSceneManager.Instance.CurrentCategory;
         string procedureId = ProcedureSceneManager.Instance.CurrentProcedureId;
-        string path = Path.Combine(Application.streamingAssetsPath, "ProcedureData",
-            category, procedureId, "procedure.json");
+        string path = GetProperPath($"ProcedureData/{category}/{procedureId}/procedure.json");
 
         if (File.Exists(path))
         {
@@ -95,7 +164,7 @@ public class InGameProcedureManager : MonoBehaviour
             currentProcedure = JsonUtility.FromJson<Procedure>(jsonContent);
         }
 
-        // 초기 steps를 Common 절차의 첫 번째 절차로 설정
+        // 초기 steps 설정
         if (commonProcedures.Count > 0)
         {
             currentCommonProcedureIndex = 0;
