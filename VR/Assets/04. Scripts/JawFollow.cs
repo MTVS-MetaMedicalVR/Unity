@@ -25,15 +25,15 @@ public class JawFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // UnitChairController의 isBack 상태에 따라 isOpen 설정
-        if (unitChairController.isBack == true)
-        {
-            isOpen = true;
-        }
-        else
-        {
-            isOpen = false;
-        }
+        //// UnitChairController의 isBack 상태에 따라 isOpen 설정
+        //if (unitChairController.isBack == true)
+        //{
+        //    isOpen = true;
+        //}
+        //else
+        //{
+        //    isOpen = false;
+        //}
 
         //JawRoot 위치 따라 이동하자. 
         transform.position = jawRoot.transform.position;
