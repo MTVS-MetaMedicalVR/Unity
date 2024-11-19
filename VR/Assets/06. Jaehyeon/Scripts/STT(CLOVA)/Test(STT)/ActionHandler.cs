@@ -31,11 +31,11 @@ public class ActionHandler : MonoBehaviour
         {
             HandleAction("CloseMouth");
         }
-        else if (response.Contains("좌측으로 돌려보세요"))
+        else if (response.Contains("좌측으로 돌려 보세요"))
         {
             HandleAction("TurnLeftHead");
         }
-        else if (response.Contains("우측으로 돌려보세요"))
+        else if (response.Contains("우측으로 돌려 보세요"))
         {
             HandleAction("TurnRightHead");
         }
@@ -77,6 +77,7 @@ public class ActionHandler : MonoBehaviour
                 if (headController != null)
                 {
                     headController.isLeft = true;
+                    headController.isRight = false;
                     Debug.Log("환자 왼쪽으로 고개 돌리기 동작 실행");
                 }
                 else
@@ -89,6 +90,7 @@ public class ActionHandler : MonoBehaviour
                 if (headController != null)
                 {
                     headController.isRight = true;
+                    headController.isLeft = false;
                     Debug.Log("환자 오른쪽으로 고개 돌리기 동작 실행");
                 }
                 else
