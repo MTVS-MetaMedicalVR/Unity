@@ -6,7 +6,7 @@ using System.Text;
 
 public class STTClient : MonoBehaviour
 {
-    private string apiUrl = "http://192.168.0.61:8000/hoonjang_stt"; // Python 서버의 URL
+    private string apiUrl = "http://192.168.204.27:8000/hoonjang_stt"; // Python 서버 URL
     public List<JawFollow> jawControllers = new List<JawFollow>(); // JawFollow 스크립트 리스트
     public List<HeadFollow> headControllers = new List<HeadFollow>(); // HeadFollow 스크립트 리스트
 
@@ -15,16 +15,15 @@ public class STTClient : MonoBehaviour
         // Base64 인코딩
         string base64Audio = System.Convert.ToBase64String(wavData);
 
-        // JSON 데이터 생성 (Base64 인코딩된 문자열을 포함)
+        // JSON 데이터 생성
         string jsonData = "{\"audio\":\"" + base64Audio + "\"}";
 
-        // 요청 시작
+        // 요청 전송
         StartCoroutine(SendRequest(jsonData));
     }
 
     private IEnumerator SendRequest(string jsonData)
     {
-        // UnityWebRequest 설정
         using (UnityWebRequest request = new UnityWebRequest(apiUrl, "POST"))
         {
             byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
@@ -32,17 +31,16 @@ public class STTClient : MonoBehaviour
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
 
-            // 요청 전송
             yield return request.SendWebRequest();
 
             // 응답 처리
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
             {
-                Debug.LogError("Error sending audio data: " + request.error);
+                Debug.LogError("오디오 데이터를 전송하는 중 오류 발생: " + request.error);
             }
             else
             {
-                Debug.Log("Server response: " + request.downloadHandler.text);
+                Debug.Log("서버 응답: " + request.downloadHandler.text);
                 HandleSTTResponse(request.downloadHandler.text);
             }
         }
@@ -50,19 +48,19 @@ public class STTClient : MonoBehaviour
 
     private void HandleSTTResponse(string response)
     {
-        // Jaw and Head control logic based on STT response
+        // 특정 명령어에 따라 Jaw와 Head 동작 제어
         foreach (var jawController in jawControllers)
         {
             if (jawController != null)
             {
                 if (response.Contains("아 해보세요"))
                 {
-                    jawController.isOpen = true; // Open jaw
+                    jawController.isOpen = true; // 입 벌리기
                     Debug.Log("환자 입 벌리기 동작 실행");
                 }
                 else if (response.Contains("입을 닫아보세요"))
                 {
-                    jawController.isOpen = false; // Close jaw
+                    jawController.isOpen = false; // 입 닫기
                     Debug.Log("환자 입 닫기 동작 실행");
                 }
                 else
@@ -95,7 +93,7 @@ public class STTClient : MonoBehaviour
                 else
                 {
                     headController.isLeft = false;
-                    headController.isRight = false; // Reset head position if no specific command
+                    headController.isRight = false; // 기본 상태로 복원
                     Debug.Log("인식된 텍스트 (Head 관련): " + response + " (해당하는 동작 없음)");
                 }
             }

@@ -9,33 +9,41 @@ public class MicrophoneInput : MonoBehaviour
 
     void Start()
     {
-        StartMicrophone();
+        StartCoroutine(ContinuousMicrophoneRecording());
     }
 
-    public void StartMicrophone()
+    private IEnumerator ContinuousMicrophoneRecording()
     {
-        if (!isRecording)
+        while (true)
         {
-            audioClip = Microphone.Start(Microphone.devices[0], false, 5, sampleRate); // 5초간 녹음
-            isRecording = true;
-            Debug.Log("녹음 시작...");
-            StartCoroutine(StopRecordingAfterDelay(5));
+            if (!isRecording)
+            {
+                StartMicrophoneRecording();
+            }
+            yield return new WaitForSeconds(3); // 3초 간격으로 녹음 데이터를 처리
         }
     }
 
-    private IEnumerator StopRecordingAfterDelay(float delay)
+    private void StartMicrophoneRecording()
     {
-        yield return new WaitForSeconds(delay);
-        StopMicrophone();
+        if (!isRecording)
+        {
+            // 기본 마이크 장치로 5초간 녹음
+            audioClip = Microphone.Start(Microphone.devices[0], false, 5, sampleRate);
+            isRecording = true;
+            Debug.Log("마이크 녹음 시작...");
+            StartCoroutine(StopMicrophoneRecording());
+        }
     }
 
-    public void StopMicrophone()
+    private IEnumerator StopMicrophoneRecording()
     {
+        yield return new WaitForSeconds(3);
         if (isRecording)
         {
             Microphone.End(null);
             isRecording = false;
-            Debug.Log("녹음 중지.");
+            Debug.Log("마이크 녹음 종료.");
             ProcessAudio();
         }
     }
@@ -44,7 +52,7 @@ public class MicrophoneInput : MonoBehaviour
     {
         if (audioClip != null)
         {
-            // WAV 데이터로 변환
+            // 오디오 데이터를 WAV 형식으로 변환
             byte[] wavData = WavUtility.FromAudioClip(audioClip);
             if (wavData != null)
             {
