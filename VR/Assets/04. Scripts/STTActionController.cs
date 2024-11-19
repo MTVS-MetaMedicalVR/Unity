@@ -54,10 +54,19 @@ public class STTActionController : MonoBehaviour
                 }
                 break;
 
+            case "CloseMouth":
+                if (jawController != null)
+                {
+                    jawController.isOpen = false;
+                    Debug.Log("입 닫는 동작 실행");
+                }
+                break;
+
             case "TurnRightHead":
                 if (headController != null)
                 {
                     headController.isRight = true;
+                    headController.isLeft = false;
                     Debug.Log("오른쪽으로 고개 돌리기 실행");
                 }
                 break;
@@ -66,6 +75,7 @@ public class STTActionController : MonoBehaviour
                 if (headController != null)
                 {
                     headController.isLeft = true;
+                    headController.isRight = false;
                     Debug.Log("왼쪽으로 고개 돌리기 실행");
                 }
                 break;
