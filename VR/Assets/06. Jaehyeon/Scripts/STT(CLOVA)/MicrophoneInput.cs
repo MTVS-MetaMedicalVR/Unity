@@ -26,6 +26,11 @@ public class MicrophoneInput : MonoBehaviour
 
     private void StartMicrophoneRecording()
     {
+        foreach(string a in Microphone.devices)
+        {
+            print(a);
+        }
+
         if (!isRecording)
         {
             // 기본 마이크 장치로 5초간 녹음
