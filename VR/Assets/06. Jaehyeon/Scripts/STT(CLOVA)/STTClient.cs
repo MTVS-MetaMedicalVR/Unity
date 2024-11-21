@@ -6,7 +6,7 @@ using System.Text;
 
 public class STTClient : MonoBehaviour
 {
-    private string apiUrl = "http://192.168.0.61:8000/hoonjang_stt"; // Python 서버 URL
+    private string apiUrl = "http://192.168.137.1:9027/hoonjang_stt"; // Python 서버 URL
     public static event System.Action<string> OnSTTResponseReceived; // STT 응답 이벤트
 
     public void SendAudioData(byte[] wavData)
@@ -21,6 +21,13 @@ public class STTClient : MonoBehaviour
         StartCoroutine(SendRequest(jsonData));
     }
 
+    private void LogToFile(string message)
+    {
+        string path = Application.persistentDataPath + "/log.txt";
+        System.IO.File.AppendAllText(path, message + "\n");
+    }
+
+
     private IEnumerator SendRequest(string jsonData)
     {
         using (UnityWebRequest request = new UnityWebRequest(apiUrl, "POST"))
@@ -29,6 +36,8 @@ public class STTClient : MonoBehaviour
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
+
+            Debug.Log("JSON 데이터 전송: " + jsonData);
 
             yield return request.SendWebRequest();
 
