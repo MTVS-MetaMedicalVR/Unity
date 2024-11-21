@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.Networking;  // 웹 통신을 위한 네임스페이스
 using System.Collections;      // 코루틴 사용을 위한 네임스페이스
+using UnityEngine.Android;
 
 public class STTManager : MonoBehaviour
 {
-    // 서버 URL 설정 (인스펙터에서 수정 가능)
-    [SerializeField] private string serverUrl = "http://192.168.0.2:8000";
+    [SerializeField] private string serverUrl = "http://192.168.0.2:8000";//
 
     private bool isListening = false;  // 음성 인식 상태
     private Coroutine sttCoroutine;    // STT 실행 코루틴
@@ -13,10 +13,38 @@ public class STTManager : MonoBehaviour
     // STT 응답 이벤트 추가
     public static event System.Action<STTResponse> OnSTTResponse;
 
+    private void Awake()
+    {
+        // 안드로이드 마이크 권한 요청
+#if PLATFORM_ANDROID
+        if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
+        {
+            Permission.RequestUserPermission(Permission.Microphone);
+        }
+#endif
+    }
     // 시작시 자동으로 음성 인식 시작
     void Start()
     {
+        SetupMicrophone(); // 마이크 설정 추가
         StartListening();
+        Debug.Log("STT Manager가 실행되었습니다.");
+    }
+
+    private void SetupMicrophone()
+    {
+#if PLATFORM_ANDROID
+        // Oculus 마이크 디바이스 찾기
+        string[] devices = Microphone.devices;
+        foreach (string device in devices)
+        {
+            if (device.ToLower().Contains("oculus"))
+            {
+                Debug.Log($"Oculus 마이크 발견: {device}");
+                break;
+            }
+        }
+#endif
     }
 
     // 음성 인식 시작 함수
