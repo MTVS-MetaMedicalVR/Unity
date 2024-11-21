@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/01. Scenes/SEUNGEON/Refactor/ALPHA_VR FINAL_DONGSU 3.unity
     guid: 2105474b43d1d654ca5b6070da5e2e39
   - enabled: 1
-    path: Assets/01. Scenes/SEUNGEON/Refactor/Lobby Jae 1.unity
+    path: Assets/01. Scenes/SEUNGEON/Refactor/DebugLobby.unity
     guid: a98c9cc089088fe419fba634cbbf38d1
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 47db7d373245cfd40be8fd2069a3d3a8,

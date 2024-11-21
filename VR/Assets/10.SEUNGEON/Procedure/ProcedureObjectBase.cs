@@ -1,6 +1,11 @@
 // 2. DataStructures.cs - 데이터 구조 정의
+using Oculus.Interaction.HandGrab;
+using Oculus.Interaction;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
+using System.Collections;
 
 [System.Serializable]
 public class Step
@@ -34,10 +39,36 @@ public abstract class ProcedureObjectBase : MonoBehaviour
 {
     [SerializeField] protected Animator animator;
     [SerializeField] protected InteractionConfig interactionConfig;
-    [SerializeField] private string procedureId;  // Inspector에서 설정할 ID
-    protected bool isDone;
+    [SerializeField] private string procedureId;
 
-    public string ProcedureId => procedureId;  // ID를 외부에서 읽을 수 있도록 프로퍼티 추가
+    [SerializeField, Interface(typeof(HandGrabInteractable))]
+    private UnityEngine.Object _handGrabInteractable;
+    protected HandGrabInteractable HandGrabInteractable { get; private set; }
+
+    protected bool isDone;
+    public string ProcedureId => procedureId;
+
+    protected virtual void Awake()
+    {
+        HandGrabInteractable = _handGrabInteractable as HandGrabInteractable;
+        if (HandGrabInteractable != null)
+        {
+            HandGrabInteractable.WhenStateChanged += OnHandGrabStateChanged;
+        }
+    }
+
+    protected virtual void OnHandGrabStateChanged(InteractableStateChangeArgs args)
+    {
+        if (args.NewState == InteractableState.Hover && !isDone)
+        {
+            HandleInteraction();
+        }
+    }
+
+    protected virtual void HandleInteraction()
+    {
+        // 각 오브젝트에서 구현
+    }
 
     public virtual void Initialize()
     {
@@ -50,6 +81,14 @@ public abstract class ProcedureObjectBase : MonoBehaviour
         if (InGameProcedureManager.Instance != null)
         {
             InGameProcedureManager.Instance.CompleteCurrentStep();
+        }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if (HandGrabInteractable != null)
+        {
+            HandGrabInteractable.WhenStateChanged -= OnHandGrabStateChanged;
         }
     }
 }

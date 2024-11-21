@@ -1,8 +1,10 @@
 
 // HandWashObject.cs
+using System.Collections;
 using UnityEngine;
 
-public class HandWashObject : ProcedureParticleTimer
+
+public class HandWashObject : ProcedureObjectBase
 {
     [SerializeField] private Animator[] handAnimators;
     [SerializeField] private GameObject[] handObjects;
@@ -21,10 +23,11 @@ public class HandWashObject : ProcedureParticleTimer
         }
     }
 
-    protected override void OnTriggerEnter(Collider other)
+    protected override void HandleInteraction()
     {
-        if (!other.CompareTag("PlayerHand") || isDone || isParticleRunning) return;
+        if (isDone) return;
 
+        // 손 닿으면 애니메이션 실행
         foreach (var handObject in handObjects)
         {
             handObject.SetActive(true);
@@ -35,10 +38,31 @@ public class HandWashObject : ProcedureParticleTimer
             animator.SetTrigger("Wash");
         }
 
-        base.OnTriggerEnter(other);
+        // 애니메이션 종료 후 작업 완료 호출
+        StartCoroutine(WaitForAnimationComplete());
     }
 
-    protected override void OnParticleComplete()
+    private IEnumerator WaitForAnimationComplete()
+    {
+        float maxDuration = 0f;
+
+        // 각 애니메이션의 길이를 확인하여 가장 긴 애니메이션 시간 추출
+        foreach (var animator in handAnimators)
+        {
+            var clipInfo = animator.GetCurrentAnimatorClipInfo(0);
+            if (clipInfo.Length > 0)
+            {
+                maxDuration = Mathf.Max(maxDuration, clipInfo[0].clip.length);
+            }
+        }
+
+        // 애니메이션 시간만큼 대기
+        yield return new WaitForSeconds(maxDuration);
+
+        CompleteInteraction();
+    }
+
+    protected override void CompleteInteraction()
     {
         foreach (var animator in handAnimators)
         {
@@ -49,6 +73,7 @@ public class HandWashObject : ProcedureParticleTimer
         {
             handObject.SetActive(false);
         }
-        base.OnParticleComplete();
+
+        base.CompleteInteraction();
     }
 }

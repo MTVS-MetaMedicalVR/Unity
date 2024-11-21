@@ -224,3 +224,21 @@ MonoBehaviour:
     - ProcedureM
     sceneGUID: 673bb09459141aa4193c6b8250ea2f59
     localIdentifier: 0
+  - type: 1
+    actualReference: {fileID: 7665534328767522528, guid: 08bd653119f9db54fb91155eb09c459a,
+      type: 3}
+    cachedDrawData:
+      Name: IconBox
+      Icon: {fileID: 7853449062886713960, guid: 0000000000000000d000000000000000,
+        type: 0}
+      SceneData:
+        IsScene: 0
+        Scene: {fileID: 0}
+    cachedTypes:
+    - GameObject
+    - Transform
+    - Rigidbody
+    - Grabbable
+    - PointableUnityEventWrapper
+    sceneGUID: 
+    localIdentifier: 0

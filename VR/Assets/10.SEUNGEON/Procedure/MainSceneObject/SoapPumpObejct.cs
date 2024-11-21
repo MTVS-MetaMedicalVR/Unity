@@ -1,12 +1,13 @@
 
 // SoapPumpObject.cs
+using Oculus.Interaction.Grab;
+using Oculus.Interaction;
 using UnityEngine;
 
+// SoapPumpObject.cs
 public class SoapPumpObject : ProcedureObjectBase
 {
     [SerializeField] private ParticleSystem soapParticle;
-    [SerializeField] private Transform handTransform;
-    [SerializeField] private float activationDistance = 0.1f;
 
     public override void Initialize()
     {
@@ -17,9 +18,9 @@ public class SoapPumpObject : ProcedureObjectBase
         }
     }
 
-    private void Update()
+    protected override void OnHandGrabStateChanged(InteractableStateChangeArgs args)
     {
-        if (!isDone && Vector3.Distance(handTransform.position, transform.position) < activationDistance)
+        if (args.NewState == InteractableState.Hover && !isDone)
         {
             PumpSoap();
         }

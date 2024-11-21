@@ -1,11 +1,13 @@
+using Oculus.Interaction.Grab;
+using Oculus.Interaction;
 using UnityEngine;
+
+// HandDryerObject.cs
 
 public class HandDryerObject : ProcedureParticleTimer
 {
     [SerializeField] private ParticleSystem windParticle;
     [SerializeField] private AudioSource dryingAudio;
-    [SerializeField] private Transform handTransform;
-    [SerializeField] private float activationDistance = 0.1f;
     [SerializeField] private float dryingTime = 5.0f;
     private bool isDrying = false;
 
@@ -22,7 +24,6 @@ public class HandDryerObject : ProcedureParticleTimer
             dryingAudio.Stop();
         }
 
-        // ParticleTimer 설정
         if (interactionConfig != null)
         {
             interactionConfig.particleEffect = windParticle;
@@ -30,22 +31,12 @@ public class HandDryerObject : ProcedureParticleTimer
         }
     }
 
-    private void Update()
+    protected override void HandleInteraction()
     {
-        if (!isDone && !isParticleRunning && IsHandNearDryer())
+        if (!isDone && !isParticleRunning)
         {
             StartDrying();
         }
-    }
-
-    private bool IsHandNearDryer()
-    {
-        if (handTransform != null)
-        {
-            float distance = Vector3.Distance(handTransform.position, transform.position);
-            return distance < activationDistance;
-        }
-        return false;
     }
 
     private void StartDrying()
@@ -54,18 +45,15 @@ public class HandDryerObject : ProcedureParticleTimer
         {
             Debug.Log("손을 말리기 시작합니다.");
             isDrying = true;
-
             if (windParticle != null)
             {
                 windParticle.gameObject.SetActive(true);
                 windParticle.Play();
             }
-
             if (dryingAudio != null && !dryingAudio.isPlaying)
             {
                 dryingAudio.Play();
             }
-
             StartCoroutine(ParticleTimerRoutine());
         }
     }
@@ -73,37 +61,16 @@ public class HandDryerObject : ProcedureParticleTimer
     protected override void OnParticleComplete()
     {
         Debug.Log("손 말리기 완료.");
-
         if (windParticle != null)
         {
             windParticle.Stop();
             windParticle.gameObject.SetActive(false);
         }
-
         if (dryingAudio != null && dryingAudio.isPlaying)
         {
             dryingAudio.Stop();
         }
-
         isDrying = false;
         base.OnParticleComplete();
-    }
-
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-
-        if (windParticle != null)
-        {
-            windParticle.Stop();
-            windParticle.gameObject.SetActive(false);
-        }
-
-        if (dryingAudio != null && dryingAudio.isPlaying)
-        {
-            dryingAudio.Stop();
-        }
-
-        isDrying = false;
     }
 }

@@ -16,7 +16,7 @@ public class InGameProcedureManager : MonoBehaviour
     [SerializeField] private TMP_Text stepNameText;
     [SerializeField] private TMP_Text stepDescriptionText;
     [SerializeField] private Toggle confirmToggle;
-    [SerializeField] private TMP_Text warningText;  // 경고 텍스트 (오브젝트가 없을 때 표시)
+    [SerializeField] private TMP_Text warningText;
 
     [Header("Progress")]
     [SerializeField] private TMP_Text progressText;
@@ -65,12 +65,10 @@ public class InGameProcedureManager : MonoBehaviour
             confirmToggle.isOn = false;
         }
     }
+
     private void CopyStreamingAssetsToPersistent()
     {
-        // Common 폴더 복사
         CopyFolderToPersistent("ProcedureData/Common");
-
-        // 현재 카테고리 폴더 복사
         string category = ProcedureSceneManager.Instance.CurrentCategory;
         string procedureId = ProcedureSceneManager.Instance.CurrentProcedureId;
         CopyFolderToPersistent($"ProcedureData/{category}/{procedureId}");
@@ -81,7 +79,6 @@ public class InGameProcedureManager : MonoBehaviour
         string srcPath = Path.Combine(Application.streamingAssetsPath, relativePath);
         string destPath = Path.Combine(Application.persistentDataPath, relativePath);
 
-        // 안드로이드에서는 StreamingAssets이 jar 내부에 있어서 UnityWebRequest를 사용
         if (Application.platform == RuntimePlatform.Android)
         {
             string wwwPath = "jar:file://" + srcPath;
@@ -109,7 +106,6 @@ public class InGameProcedureManager : MonoBehaviour
         }
         else
         {
-            // PC에서는 직접 파일 복사 가능
             if (!Directory.Exists(destPath))
             {
                 Directory.CreateDirectory(destPath);
@@ -126,9 +122,9 @@ public class InGameProcedureManager : MonoBehaviour
             }
         }
     }
+
     private string GetProperPath(string relativePath)
     {
-        // 안드로이드에서는 persistentDataPath 사용, 그 외에서는 streamingAssetsPath 사용
         string basePath = Application.platform == RuntimePlatform.Android ?
             Application.persistentDataPath : Application.streamingAssetsPath;
         return Path.Combine(basePath, relativePath);
@@ -136,7 +132,6 @@ public class InGameProcedureManager : MonoBehaviour
 
     private void LoadProcedures()
     {
-        // Common 폴더의 기본 절차들 로드
         string commonPath = GetProperPath("ProcedureData/Common");
         if (Directory.Exists(commonPath))
         {
@@ -153,7 +148,6 @@ public class InGameProcedureManager : MonoBehaviour
             }
         }
 
-        // 실제 절차 로드
         string category = ProcedureSceneManager.Instance.CurrentCategory;
         string procedureId = ProcedureSceneManager.Instance.CurrentProcedureId;
         string path = GetProperPath($"ProcedureData/{category}/{procedureId}/procedure.json");
@@ -164,7 +158,6 @@ public class InGameProcedureManager : MonoBehaviour
             currentProcedure = JsonUtility.FromJson<Procedure>(jsonContent);
         }
 
-        // 초기 steps 설정
         if (commonProcedures.Count > 0)
         {
             currentCommonProcedureIndex = 0;
@@ -185,11 +178,9 @@ public class InGameProcedureManager : MonoBehaviour
         {
             if (isExecutingCommonProcedures)
             {
-                // 다음 Common 절차로 이동
                 currentCommonProcedureIndex++;
                 if (currentCommonProcedureIndex < commonProcedures.Count)
                 {
-                    // 다음 Common 절차 시작
                     currentStepIndex = -1;
                     steps = commonProcedures[currentCommonProcedureIndex].steps;
                     ShowNextStep();
@@ -197,7 +188,6 @@ public class InGameProcedureManager : MonoBehaviour
                 }
                 else
                 {
-                    // Common 절차들이 모두 끝나면 실제 절차로 전환
                     isExecutingCommonProcedures = false;
                     currentStepIndex = -1;
                     steps = currentProcedure.steps;
@@ -214,7 +204,6 @@ public class InGameProcedureManager : MonoBehaviour
 
         Step currentStep = steps[currentStepIndex];
 
-        // UI 업데이트
         stepNameText.text = currentStep.name;
         if (isExecutingCommonProcedures)
         {
@@ -227,10 +216,7 @@ public class InGameProcedureManager : MonoBehaviour
             progressText.text = $"진행도: {currentStepIndex + 1}/{steps.Count}";
         }
 
-        // 해당 ID를 가진 오브젝트가 있는지 확인하고 경고 메시지 표시
         var targetObject = procedureObjects.Find(obj => obj.ProcedureId == currentStep.targetName);
-
-        // 알림 패널 표시
         stepNotificationPanel.SetActive(true);
     }
 
@@ -247,7 +233,6 @@ public class InGameProcedureManager : MonoBehaviour
         }
         else
         {
-            // 오브젝트가 없더라도 바로 다음 단계로 진행
             CompleteCurrentStep();
         }
     }
@@ -270,7 +255,6 @@ public class InGameProcedureManager : MonoBehaviour
             if (isOn)
             {
                 stepNotificationPanel.SetActive(false);
-                //SceneManager.LoadScene("MenuScene");
             }
         });
         stepNotificationPanel.SetActive(true);
