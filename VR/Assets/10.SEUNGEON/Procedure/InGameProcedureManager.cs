@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System.Linq;
+using UnityEngine.Networking;
 
 public class InGameProcedureManager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class InGameProcedureManager : MonoBehaviour
     [SerializeField] private TMP_Text stepNameText;
     [SerializeField] private TMP_Text stepDescriptionText;
     [SerializeField] private Toggle confirmToggle;
-    [SerializeField] private TMP_Text warningText;  // 경고 텍스트 (오브젝트가 없을 때 표시)
+    [SerializeField] private TMP_Text warningText;
 
     [Header("Progress")]
     [SerializeField] private TMP_Text progressText;
@@ -42,6 +43,7 @@ public class InGameProcedureManager : MonoBehaviour
 
     private void Start()
     {
+        CopyStreamingAssetsToPersistent();
         LoadProcedures();
         SetupToggleListener();
         ShowNextStep();
@@ -64,10 +66,73 @@ public class InGameProcedureManager : MonoBehaviour
         }
     }
 
+    private void CopyStreamingAssetsToPersistent()
+    {
+        CopyFolderToPersistent("ProcedureData/Common");
+        string category = ProcedureSceneManager.Instance.CurrentCategory;
+        string procedureId = ProcedureSceneManager.Instance.CurrentProcedureId;
+        CopyFolderToPersistent($"ProcedureData/{category}/{procedureId}");
+    }
+
+    private async void CopyFolderToPersistent(string relativePath)
+    {
+        string srcPath = Path.Combine(Application.streamingAssetsPath, relativePath);
+        string destPath = Path.Combine(Application.persistentDataPath, relativePath);
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            string wwwPath = "jar:file://" + srcPath;
+            using (UnityWebRequest www = UnityWebRequest.Get(wwwPath))
+            {
+                var operation = www.SendWebRequest();
+                while (!operation.isDone)
+                {
+                    await System.Threading.Tasks.Task.Yield();
+                }
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    if (!Directory.Exists(destPath))
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(destPath));
+                    }
+                    File.WriteAllBytes(destPath, www.downloadHandler.data);
+                }
+                else
+                {
+                    Debug.LogError($"Failed to copy file: {www.error}");
+                }
+            }
+        }
+        else
+        {
+            if (!Directory.Exists(destPath))
+            {
+                Directory.CreateDirectory(destPath);
+            }
+
+            foreach (string dirPath in Directory.GetDirectories(srcPath, "*", SearchOption.AllDirectories))
+            {
+                Directory.CreateDirectory(dirPath.Replace(srcPath, destPath));
+            }
+
+            foreach (string filePath in Directory.GetFiles(srcPath, "*.*", SearchOption.AllDirectories))
+            {
+                File.Copy(filePath, filePath.Replace(srcPath, destPath), true);
+            }
+        }
+    }
+
+    private string GetProperPath(string relativePath)
+    {
+        string basePath = Application.platform == RuntimePlatform.Android ?
+            Application.persistentDataPath : Application.streamingAssetsPath;
+        return Path.Combine(basePath, relativePath);
+    }
+
     private void LoadProcedures()
     {
-        // 1. Common 폴더의 기본 절차들 로드
-        string commonPath = Path.Combine(Application.streamingAssetsPath, "ProcedureData", "Common");
+        string commonPath = GetProperPath("ProcedureData/Common");
         if (Directory.Exists(commonPath))
         {
             var commonProcedureFolders = Directory.GetDirectories(commonPath);
@@ -83,11 +148,9 @@ public class InGameProcedureManager : MonoBehaviour
             }
         }
 
-        // 2. 실제 절차 로드
         string category = ProcedureSceneManager.Instance.CurrentCategory;
         string procedureId = ProcedureSceneManager.Instance.CurrentProcedureId;
-        string path = Path.Combine(Application.streamingAssetsPath, "ProcedureData",
-            category, procedureId, "procedure.json");
+        string path = GetProperPath($"ProcedureData/{category}/{procedureId}/procedure.json");
 
         if (File.Exists(path))
         {
@@ -95,7 +158,6 @@ public class InGameProcedureManager : MonoBehaviour
             currentProcedure = JsonUtility.FromJson<Procedure>(jsonContent);
         }
 
-        // 초기 steps를 Common 절차의 첫 번째 절차로 설정
         if (commonProcedures.Count > 0)
         {
             currentCommonProcedureIndex = 0;
@@ -116,11 +178,9 @@ public class InGameProcedureManager : MonoBehaviour
         {
             if (isExecutingCommonProcedures)
             {
-                // 다음 Common 절차로 이동
                 currentCommonProcedureIndex++;
                 if (currentCommonProcedureIndex < commonProcedures.Count)
                 {
-                    // 다음 Common 절차 시작
                     currentStepIndex = -1;
                     steps = commonProcedures[currentCommonProcedureIndex].steps;
                     ShowNextStep();
@@ -128,7 +188,6 @@ public class InGameProcedureManager : MonoBehaviour
                 }
                 else
                 {
-                    // Common 절차들이 모두 끝나면 실제 절차로 전환
                     isExecutingCommonProcedures = false;
                     currentStepIndex = -1;
                     steps = currentProcedure.steps;
@@ -145,7 +204,6 @@ public class InGameProcedureManager : MonoBehaviour
 
         Step currentStep = steps[currentStepIndex];
 
-        // UI 업데이트
         stepNameText.text = currentStep.name;
         if (isExecutingCommonProcedures)
         {
@@ -158,10 +216,7 @@ public class InGameProcedureManager : MonoBehaviour
             progressText.text = $"진행도: {currentStepIndex + 1}/{steps.Count}";
         }
 
-        // 해당 ID를 가진 오브젝트가 있는지 확인하고 경고 메시지 표시
         var targetObject = procedureObjects.Find(obj => obj.ProcedureId == currentStep.targetName);
-
-        // 알림 패널 표시
         stepNotificationPanel.SetActive(true);
     }
 
@@ -178,7 +233,6 @@ public class InGameProcedureManager : MonoBehaviour
         }
         else
         {
-            // 오브젝트가 없더라도 바로 다음 단계로 진행
             CompleteCurrentStep();
         }
     }
@@ -201,7 +255,6 @@ public class InGameProcedureManager : MonoBehaviour
             if (isOn)
             {
                 stepNotificationPanel.SetActive(false);
-                //SceneManager.LoadScene("MenuScene");
             }
         });
         stepNotificationPanel.SetActive(true);

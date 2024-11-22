@@ -1,7 +1,11 @@
-// ProcedureParticleTimer.cs
-using System.Collections;
+using Oculus.Interaction;
 using UnityEngine;
-public class ProcedureParticleTimer : ProcedureObjectBase
+
+using Oculus.Interaction;
+using UnityEngine;
+using System.Collections;
+
+public abstract class ProcedureParticleTimer : ProcedureObjectBase
 {
     protected bool isParticleRunning = false;
 
@@ -15,10 +19,16 @@ public class ProcedureParticleTimer : ProcedureObjectBase
         isParticleRunning = false;
     }
 
-    protected virtual void OnTriggerEnter(Collider other)
+    protected override void OnHandGrabStateChanged(InteractableStateChangeArgs args)
     {
-        if (!other.CompareTag("PlayerHand") || isDone || isParticleRunning) return;
+        if (args.NewState == InteractableState.Hover && !isDone && !isParticleRunning)
+        {
+            StartParticleEffect();
+        }
+    }
 
+    protected virtual void StartParticleEffect()
+    {
         if (interactionConfig.particleEffect != null)
         {
             isParticleRunning = true;
@@ -45,7 +55,7 @@ public class ProcedureParticleTimer : ProcedureObjectBase
         CompleteInteraction();
     }
 
-    protected virtual void OnDisable()
+    protected void OnDisable()
     {
         if (interactionConfig.particleEffect != null)
         {

@@ -32,7 +32,6 @@ public class ProcedureSceneManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         instance = this;
         DontDestroyOnLoad(gameObject);
     }
