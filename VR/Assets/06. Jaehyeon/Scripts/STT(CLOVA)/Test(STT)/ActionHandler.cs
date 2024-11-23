@@ -7,6 +7,7 @@ public class ActionHandler : MonoBehaviour
     public JawFollow jawController;  // 단일 JawFollow
     public HeadFollow headController;  // 단일 HeadFollow
 
+    //private const float AccuracyThreshold = 0.8f; // 최소 인식률 (80%)
     // 명령어 리스트
     private readonly List<string> openMouthCommands = new List<string> { "아 해보세요", "아 해 보세요", "입 벌려 보세요", "아해 보세요", "해보세요" };
     private readonly List<string> closeMouthCommands = new List<string> { "다 물어보세요", "입 다물어 보세요", "다물어 보세요", "다물어보세요", "물어보세요" };
@@ -25,27 +26,29 @@ public class ActionHandler : MonoBehaviour
         STTClient.OnSTTResponseReceived -= HandleSTTResponse;
     }
 
-    private void HandleSTTResponse(string response)
+    private void HandleSTTResponse(string recognizedText, string recognitionAccuracy)
     {
-        if (IsCommandMatched(response, openMouthCommands))
+        Debug.Log($"인식된 텍스트: {recognizedText} (정확도: {recognitionAccuracy})");
+
+        if (IsCommandMatched(recognizedText, openMouthCommands))
         {
             HandleAction("OpenMouth");
         }
-        else if (IsCommandMatched(response, closeMouthCommands))
+        else if (IsCommandMatched(recognizedText, closeMouthCommands))
         {
             HandleAction("CloseMouth");
         }
-        else if (IsCommandMatched(response, turnLeftCommands))
+        else if (IsCommandMatched(recognizedText, turnLeftCommands))
         {
             HandleAction("TurnLeftHead");
         }
-        else if (IsCommandMatched(response, turnRightCommands))
+        else if (IsCommandMatched(recognizedText, turnRightCommands))
         {
             HandleAction("TurnRightHead");
         }
         else
         {
-            Debug.Log("인식된 텍스트: " + response + " (해당하는 동작 없음)");
+            Debug.Log("인식된 텍스트에 해당하는 동작이 없습니다.");
         }
     }
 

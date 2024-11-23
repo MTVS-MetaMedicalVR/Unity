@@ -1,14 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
-using System.Collections;
-using System.Text;
-using System;
 
 public class AudioProcessor : MonoBehaviour
 {
     public MicrophoneInput microphoneInput;
     public STTClient sttClient;
     private AudioClip recordedClip;
+
+    // 예상 텍스트를 리스트로 관리
+    [SerializeField]
+    private List<string> expectedTexts = new List<string> { "안녕하세요, 저는 테스트 중입니다.", "아 해보세요", "입 벌려 보세요" };
 
     void Start()
     {
@@ -41,10 +42,13 @@ public class AudioProcessor : MonoBehaviour
 
             if (wavData != null)
             {
-                // Send WAV data to STTClient
+                // Send WAV data and expected texts to STTClient
                 if (sttClient != null)
                 {
-                    sttClient.SendAudioData(wavData);
+                    foreach (string expectedText in expectedTexts)
+                    {
+                        sttClient.SendAudioData(wavData, expectedText);
+                    }
                 }
                 else
                 {
