@@ -1,11 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.IO;
 using System.Linq;
-using System.Collections;
-using UnityEngine.Networking;
-using TMPro;  // TMPro 네임스페이스 추가
+using TMPro;
 
 public class QuickTestManager : MonoBehaviour
 {
@@ -18,43 +15,38 @@ public class QuickTestManager : MonoBehaviour
     [Header("Scene Settings")]
     [SerializeField] private string inGameSceneName = "InGameScene";
 
-    private Toggle lastSelectedCategoryToggle;    // 마지막 선택된 카테고리 토글
-    private Toggle lastSelectedProcedureToggle;   // 마지막 선택된 절차 토글
+    private Toggle lastSelectedCategoryToggle;
+    private Toggle lastSelectedProcedureToggle;
 
     private static class Paths
     {
         public static readonly string PROCEDURES_FOLDER = "ProcedureData";
         public static readonly string COMMON_FOLDER = "Common";
-        public static readonly string PROCEDURE_INFO = "procedure.json";
-        public static readonly string THUMBNAIL = "thumbnail.png";
+        public static readonly string PROCEDURE_INFO = "procedure";
+        public static readonly string THUMBNAIL = "thumbnail";
     }
 
     void Start()
     {
-        ScanCategoryFolders();
+        ScanCategories();
     }
 
-    void ScanCategoryFolders()
+    void ScanCategories()
     {
-        string basePath = Path.Combine(Application.streamingAssetsPath, Paths.PROCEDURES_FOLDER);
+        // Resources.LoadAll을 사용하여 모든 카테고리 폴더 로드
+        Object[] categories = Resources.LoadAll(Paths.PROCEDURES_FOLDER, typeof(Object));
+        var categoryFolders = categories
+            .Select(c => c.name)
+            .Distinct()
+            .Where(name => !name.Equals(Paths.COMMON_FOLDER));
 
-        if (!Directory.Exists(basePath))
+        foreach (string categoryName in categoryFolders)
         {
-            Debug.LogError($"Base procedures folder not found at: {basePath}");
-            return;
-        }
-
-        var directories = Directory.GetDirectories(basePath)
-                                 .Where(d => !Path.GetFileName(d).Equals(Paths.COMMON_FOLDER));
-
-        foreach (string categoryPath in directories)
-        {
-            string categoryName = Path.GetFileName(categoryPath);
-            CreateCategoryButton(categoryName, categoryPath);
+            CreateCategoryButton(categoryName);
         }
     }
 
-    void CreateCategoryButton(string categoryName, string categoryPath)
+    void CreateCategoryButton(string categoryName)
     {
         GameObject buttonObj = Instantiate(categoryButtonPrefab, categoryPanel);
         Toggle toggle = buttonObj.GetComponentInChildren<Toggle>();
@@ -76,40 +68,39 @@ public class QuickTestManager : MonoBehaviour
                         lastSelectedCategoryToggle.isOn = false;
                     }
                     lastSelectedCategoryToggle = toggle;
-                    ShowProcedures(categoryPath, categoryName);
+                    ShowProcedures(categoryName);
                 }
             });
         }
     }
 
-    void ShowProcedures(string categoryPath, string categoryName)
+    void ShowProcedures(string categoryName)
     {
         foreach (Transform child in procedurePanel)
         {
             Destroy(child.gameObject);
         }
 
-        foreach (string procedureFolder in Directory.GetDirectories(categoryPath))
-        {
-            string jsonPath = Path.Combine(procedureFolder, Paths.PROCEDURE_INFO);
-            string thumbnailPath = Path.Combine(procedureFolder, Paths.THUMBNAIL);
+        string categoryPath = $"{Paths.PROCEDURES_FOLDER}/{categoryName}";
+        TextAsset[] procedureInfos = Resources.LoadAll<TextAsset>(categoryPath);
 
-            if (File.Exists(jsonPath))
+        foreach (TextAsset procedureInfo in procedureInfos)
+        {
+            if (procedureInfo.name.EndsWith(Paths.PROCEDURE_INFO))
             {
                 try
                 {
-                    string jsonContent = File.ReadAllText(jsonPath);
-                    Procedure procedure = JsonUtility.FromJson<Procedure>(jsonContent);
-
+                    Procedure procedure = JsonUtility.FromJson<Procedure>(procedureInfo.text);
                     GameObject buttonObj = Instantiate(procedureButtonPrefab, procedurePanel);
 
-                    if (File.Exists(thumbnailPath))
+                    // 썸네일 로드
+                    string thumbnailPath = $"{categoryPath}/{procedure.id}/{Paths.THUMBNAIL}";
+                    Sprite thumbnailSprite = Resources.Load<Sprite>(thumbnailPath);
+
+                    Image buttonImage = buttonObj.GetComponentInChildren<Image>();
+                    if (buttonImage != null && thumbnailSprite != null)
                     {
-                        Image buttonImage = buttonObj.GetComponentInChildren<Image>();
-                        if (buttonImage != null)
-                        {
-                            StartCoroutine(LoadThumbnail(thumbnailPath, buttonImage));
-                        }
+                        buttonImage.sprite = thumbnailSprite;
                     }
 
                     TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
@@ -137,47 +128,8 @@ public class QuickTestManager : MonoBehaviour
                 }
                 catch (System.Exception e)
                 {
-                    Debug.LogError($"Error loading procedure from {jsonPath}: {e.Message}");
+                    Debug.LogError($"Error loading procedure from {procedureInfo.name}: {e.Message}");
                 }
-            }
-        }
-    }
-
-    IEnumerator LoadThumbnail(string path, Image targetImage)
-    {
-        Debug.Log($"Trying to load thumbnail from: {path}");
-
-        if (!File.Exists(path))
-        {
-            Debug.LogError($"Thumbnail file not found at: {path}");
-            yield break;
-        }
-
-        using (UnityWebRequest request = UnityWebRequestTexture.GetTexture("file://" + path))
-        {
-            Debug.Log("Sending web request for thumbnail");
-            yield return request.SendWebRequest();
-
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError($"Failed to load thumbnail: {request.error}");
-                yield break;
-            }
-
-            try
-            {
-                Texture2D texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
-                Debug.Log($"Loaded texture size: {texture.width}x{texture.height}");
-
-                targetImage.sprite = Sprite.Create(texture,
-                    new Rect(0, 0, texture.width, texture.height),
-                    Vector2.one * 0.5f);
-
-                Debug.Log("Thumbnail sprite created successfully");
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"Error creating sprite: {e.Message}");
             }
         }
     }

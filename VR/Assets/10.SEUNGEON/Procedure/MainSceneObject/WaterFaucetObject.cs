@@ -2,6 +2,7 @@ using Oculus.Interaction.Grab;
 using Oculus.Interaction;
 using UnityEngine;
 
+
 // WaterFaucetObject.cs
 public class WaterFaucetObject : ProcedureObjectBase
 {
@@ -18,7 +19,7 @@ public class WaterFaucetObject : ProcedureObjectBase
         }
         if (waterParticle != null)
         {
-            waterParticle.gameObject.SetActive(false);
+            waterParticle.Stop();
         }
         if (waterAudio != null)
         {
@@ -29,7 +30,7 @@ public class WaterFaucetObject : ProcedureObjectBase
 
     protected override void OnHandGrabStateChanged(InteractableStateChangeArgs args)
     {
-        if (args.NewState == InteractableState.Hover && !isDone && !isWaterRunning)
+        if (args.NewState == InteractableState.Hover && !isDone && !isWaterRunning && isInteractionEnabled)
         {
             TurnOnWater();
         }
@@ -43,7 +44,6 @@ public class WaterFaucetObject : ProcedureObjectBase
         }
         if (waterParticle != null)
         {
-            waterParticle.gameObject.SetActive(true);
             waterParticle.Play();
         }
         if (waterAudio != null && !waterAudio.isPlaying)
@@ -63,17 +63,11 @@ public class WaterFaucetObject : ProcedureObjectBase
         if (waterParticle != null)
         {
             waterParticle.Stop();
-            waterParticle.gameObject.SetActive(false);
         }
         if (waterAudio != null)
         {
             waterAudio.Stop();
         }
         isWaterRunning = false;
-    }
-
-    protected virtual void OnDisable()
-    {
-        TurnOffWater();
     }
 }

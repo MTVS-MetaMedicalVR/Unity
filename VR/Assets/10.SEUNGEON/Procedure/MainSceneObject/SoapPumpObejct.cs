@@ -3,8 +3,6 @@
 using Oculus.Interaction.Grab;
 using Oculus.Interaction;
 using UnityEngine;
-
-// SoapPumpObject.cs
 public class SoapPumpObject : ProcedureObjectBase
 {
     [SerializeField] private ParticleSystem soapParticle;
@@ -14,13 +12,13 @@ public class SoapPumpObject : ProcedureObjectBase
         base.Initialize();
         if (soapParticle != null)
         {
-            soapParticle.gameObject.SetActive(false);
+            soapParticle.Stop();
         }
     }
 
     protected override void OnHandGrabStateChanged(InteractableStateChangeArgs args)
     {
-        if (args.NewState == InteractableState.Hover && !isDone)
+        if (args.NewState == InteractableState.Hover && !isDone && isInteractionEnabled)
         {
             PumpSoap();
         }
@@ -34,7 +32,6 @@ public class SoapPumpObject : ProcedureObjectBase
         }
         if (soapParticle != null)
         {
-            soapParticle.gameObject.SetActive(true);
             soapParticle.Play();
         }
         CompleteInteraction();

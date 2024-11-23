@@ -3,6 +3,7 @@ using Oculus.Interaction;
 using UnityEngine;
 
 // HandDryerObject.cs
+using UnityEngine;
 
 public class HandDryerObject : ProcedureParticleTimer
 {
@@ -17,13 +18,12 @@ public class HandDryerObject : ProcedureParticleTimer
         isDrying = false;
         if (windParticle != null)
         {
-            windParticle.gameObject.SetActive(false);
+            windParticle.Stop();
         }
         if (dryingAudio != null)
         {
             dryingAudio.Stop();
         }
-
         if (interactionConfig != null)
         {
             interactionConfig.particleEffect = windParticle;
@@ -47,7 +47,6 @@ public class HandDryerObject : ProcedureParticleTimer
             isDrying = true;
             if (windParticle != null)
             {
-                windParticle.gameObject.SetActive(true);
                 windParticle.Play();
             }
             if (dryingAudio != null && !dryingAudio.isPlaying)
@@ -64,7 +63,6 @@ public class HandDryerObject : ProcedureParticleTimer
         if (windParticle != null)
         {
             windParticle.Stop();
-            windParticle.gameObject.SetActive(false);
         }
         if (dryingAudio != null && dryingAudio.isPlaying)
         {

@@ -40,26 +40,22 @@ public abstract class ProcedureObjectBase : MonoBehaviour
     [SerializeField] protected Animator animator;
     [SerializeField] protected InteractionConfig interactionConfig;
     [SerializeField] private string procedureId;
-
     [SerializeField, Interface(typeof(HandGrabInteractable))]
     private UnityEngine.Object _handGrabInteractable;
     protected HandGrabInteractable HandGrabInteractable { get; private set; }
-
     protected bool isDone;
+    protected bool isInteractionEnabled;
     public string ProcedureId => procedureId;
 
     protected virtual void Awake()
     {
         HandGrabInteractable = _handGrabInteractable as HandGrabInteractable;
-        if (HandGrabInteractable != null)
-        {
-            HandGrabInteractable.WhenStateChanged += OnHandGrabStateChanged;
-        }
+        isInteractionEnabled = false;
     }
 
     protected virtual void OnHandGrabStateChanged(InteractableStateChangeArgs args)
     {
-        if (args.NewState == InteractableState.Hover && !isDone)
+        if (args.NewState == InteractableState.Hover && !isDone && isInteractionEnabled)
         {
             HandleInteraction();
         }
@@ -73,22 +69,34 @@ public abstract class ProcedureObjectBase : MonoBehaviour
     public virtual void Initialize()
     {
         isDone = false;
+        DisableInteraction();
+    }
+
+    public virtual void EnableInteraction()
+    {
+        isInteractionEnabled = true;
+        if (HandGrabInteractable != null)
+        {
+            HandGrabInteractable.WhenStateChanged += OnHandGrabStateChanged;
+        }
+    }
+
+    public virtual void DisableInteraction()
+    {
+        isInteractionEnabled = false;
+        if (HandGrabInteractable != null)
+        {
+            HandGrabInteractable.WhenStateChanged -= OnHandGrabStateChanged;
+        }
     }
 
     protected virtual void CompleteInteraction()
     {
         isDone = true;
+        DisableInteraction();
         if (InGameProcedureManager.Instance != null)
         {
             InGameProcedureManager.Instance.CompleteCurrentStep();
-        }
-    }
-
-    protected virtual void OnDestroy()
-    {
-        if (HandGrabInteractable != null)
-        {
-            HandGrabInteractable.WhenStateChanged -= OnHandGrabStateChanged;
         }
     }
 }

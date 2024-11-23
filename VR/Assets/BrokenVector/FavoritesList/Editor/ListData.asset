@@ -242,3 +242,23 @@ MonoBehaviour:
     - PointableUnityEventWrapper
     sceneGUID: 
     localIdentifier: 0
+  - type: 1
+    actualReference: {fileID: 6345901854146117942, guid: 71d814cc718e6ea45b6a1a719d081f29,
+      type: 3}
+    cachedDrawData:
+      Name: ContentUIExample2
+      Icon: {fileID: 7853449062886713960, guid: 0000000000000000d000000000000000,
+        type: 0}
+      SceneData:
+        IsScene: 0
+        Scene: {fileID: 0}
+    cachedTypes:
+    - GameObject
+    - Transform
+    - PokeInteractable
+    - PointableCanvas
+    - RayInteractable
+    - AudioSource
+    - PointableCanvasUnityEventWrapper
+    sceneGUID: 
+    localIdentifier: 0

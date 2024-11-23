@@ -2,10 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
-using System.IO;
 using System.Linq;
-using UnityEngine.Networking;
 
 public class InGameProcedureManager : MonoBehaviour
 {
@@ -21,6 +18,13 @@ public class InGameProcedureManager : MonoBehaviour
     [Header("Progress")]
     [SerializeField] private TMP_Text progressText;
     [SerializeField] private List<ProcedureObjectBase> procedureObjects;
+
+    private static class Paths
+    {
+        public const string PROCEDURES_BASE = "ProcedureData";
+        public const string COMMON_FOLDER = "Common";
+        public const string PROCEDURE_FILE = "procedure";
+    }
 
     private Procedure currentProcedure;
     private List<Step> steps;
@@ -43,7 +47,6 @@ public class InGameProcedureManager : MonoBehaviour
 
     private void Start()
     {
-        CopyStreamingAssetsToPersistent();
         LoadProcedures();
         SetupToggleListener();
         ShowNextStep();
@@ -66,98 +69,46 @@ public class InGameProcedureManager : MonoBehaviour
         }
     }
 
-    private void CopyStreamingAssetsToPersistent()
+    private void LoadProcedures()
     {
-        CopyFolderToPersistent("ProcedureData/Common");
-        string category = ProcedureSceneManager.Instance.CurrentCategory;
-        string procedureId = ProcedureSceneManager.Instance.CurrentProcedureId;
-        CopyFolderToPersistent($"ProcedureData/{category}/{procedureId}");
-    }
+        // 공통 절차 로드
+        TextAsset[] commonProcedureAssets = Resources.LoadAll<TextAsset>($"{Paths.PROCEDURES_BASE}/{Paths.COMMON_FOLDER}");
 
-    private async void CopyFolderToPersistent(string relativePath)
-    {
-        string srcPath = Path.Combine(Application.streamingAssetsPath, relativePath);
-        string destPath = Path.Combine(Application.persistentDataPath, relativePath);
-
-        if (Application.platform == RuntimePlatform.Android)
+        foreach (var asset in commonProcedureAssets)
         {
-            string wwwPath = "jar:file://" + srcPath;
-            using (UnityWebRequest www = UnityWebRequest.Get(wwwPath))
+            if (asset.name.EndsWith(Paths.PROCEDURE_FILE))
             {
-                var operation = www.SendWebRequest();
-                while (!operation.isDone)
+                try
                 {
-                    await System.Threading.Tasks.Task.Yield();
+                    Procedure commonProcedure = JsonUtility.FromJson<Procedure>(asset.text);
+                    commonProcedures.Add(commonProcedure);
                 }
-
-                if (www.result == UnityWebRequest.Result.Success)
+                catch (System.Exception e)
                 {
-                    if (!Directory.Exists(destPath))
-                    {
-                        Directory.CreateDirectory(Path.GetDirectoryName(destPath));
-                    }
-                    File.WriteAllBytes(destPath, www.downloadHandler.data);
-                }
-                else
-                {
-                    Debug.LogError($"Failed to copy file: {www.error}");
+                    Debug.LogError($"Error parsing common procedure {asset.name}: {e.Message}");
                 }
             }
+        }
+
+        // ID 기준으로 공통 절차 정렬
+        commonProcedures = commonProcedures.OrderBy(p => p.id).ToList();
+
+        // 현재 절차 로드
+        string category = ProcedureSceneManager.Instance.CurrentCategory;
+        string procedureId = ProcedureSceneManager.Instance.CurrentProcedureId;
+        string procedurePath = $"{Paths.PROCEDURES_BASE}/{category}/{procedureId}/{Paths.PROCEDURE_FILE}";
+
+        TextAsset procedureAsset = Resources.Load<TextAsset>(procedurePath);
+        if (procedureAsset != null)
+        {
+            currentProcedure = JsonUtility.FromJson<Procedure>(procedureAsset.text);
         }
         else
         {
-            if (!Directory.Exists(destPath))
-            {
-                Directory.CreateDirectory(destPath);
-            }
-
-            foreach (string dirPath in Directory.GetDirectories(srcPath, "*", SearchOption.AllDirectories))
-            {
-                Directory.CreateDirectory(dirPath.Replace(srcPath, destPath));
-            }
-
-            foreach (string filePath in Directory.GetFiles(srcPath, "*.*", SearchOption.AllDirectories))
-            {
-                File.Copy(filePath, filePath.Replace(srcPath, destPath), true);
-            }
-        }
-    }
-
-    private string GetProperPath(string relativePath)
-    {
-        string basePath = Application.platform == RuntimePlatform.Android ?
-            Application.persistentDataPath : Application.streamingAssetsPath;
-        return Path.Combine(basePath, relativePath);
-    }
-
-    private void LoadProcedures()
-    {
-        string commonPath = GetProperPath("ProcedureData/Common");
-        if (Directory.Exists(commonPath))
-        {
-            var commonProcedureFolders = Directory.GetDirectories(commonPath);
-            foreach (var folder in commonProcedureFolders.OrderBy(f => Path.GetFileName(f)))
-            {
-                string jsonPath = Path.Combine(folder, "procedure.json");
-                if (File.Exists(jsonPath))
-                {
-                    string jsonContent = File.ReadAllText(jsonPath);
-                    Procedure commonProcedure = JsonUtility.FromJson<Procedure>(jsonContent);
-                    commonProcedures.Add(commonProcedure);
-                }
-            }
+            Debug.LogError($"Failed to load procedure at path: {procedurePath}");
         }
 
-        string category = ProcedureSceneManager.Instance.CurrentCategory;
-        string procedureId = ProcedureSceneManager.Instance.CurrentProcedureId;
-        string path = GetProperPath($"ProcedureData/{category}/{procedureId}/procedure.json");
-
-        if (File.Exists(path))
-        {
-            string jsonContent = File.ReadAllText(path);
-            currentProcedure = JsonUtility.FromJson<Procedure>(jsonContent);
-        }
-
+        // 초기 단계 설정
         if (commonProcedures.Count > 0)
         {
             currentCommonProcedureIndex = 0;
@@ -172,6 +123,17 @@ public class InGameProcedureManager : MonoBehaviour
 
     private void ShowNextStep()
     {
+        // 현재 상호작용 오브젝트 비활성화
+        if (currentStepIndex >= 0 && currentStepIndex < steps.Count)
+        {
+            Step currentStep = steps[currentStepIndex];
+            var currentObject = procedureObjects.Find(obj => obj.ProcedureId == currentStep.targetName);
+            if (currentObject != null)
+            {
+                currentObject.DisableInteraction();
+            }
+        }
+
         currentStepIndex++;
 
         if (currentStepIndex >= steps.Count)
@@ -202,21 +164,27 @@ public class InGameProcedureManager : MonoBehaviour
             }
         }
 
-        Step currentStep = steps[currentStepIndex];
+        Step nextStep = steps[currentStepIndex];
 
-        stepNameText.text = currentStep.name;
+        stepNameText.text = nextStep.name;
         if (isExecutingCommonProcedures)
         {
-            stepDescriptionText.text = $"기본 절차 {currentCommonProcedureIndex + 1}/{commonProcedures.Count}\n단계 {currentStepIndex + 1}/{steps.Count}\n설명: {currentStep.description}";
+            stepDescriptionText.text = $"기본 절차 {currentCommonProcedureIndex + 1}/{commonProcedures.Count}\n단계 {currentStepIndex + 1}/{steps.Count}\n설명: {nextStep.description}";
             progressText.text = $"기본 절차 진행도: {currentCommonProcedureIndex + 1}/{commonProcedures.Count} - 단계: {currentStepIndex + 1}/{steps.Count}";
         }
         else
         {
-            stepDescriptionText.text = $"단계 {currentStepIndex + 1}/{steps.Count}\n설명: {currentStep.description}";
+            stepDescriptionText.text = $"단계 {currentStepIndex + 1}/{steps.Count}\n설명: {nextStep.description}";
             progressText.text = $"진행도: {currentStepIndex + 1}/{steps.Count}";
         }
 
-        var targetObject = procedureObjects.Find(obj => obj.ProcedureId == currentStep.targetName);
+        var targetObject = procedureObjects.Find(obj => obj.ProcedureId == nextStep.targetName);
+        if (targetObject != null)
+        {
+            targetObject.Initialize();
+            targetObject.EnableInteraction();
+        }
+
         stepNotificationPanel.SetActive(true);
     }
 

@@ -8,11 +8,10 @@ public class SinkAreaObject : ProcedureObjectBase
 
     private void Update()
     {
-        if (!isDone && Vector3.Distance(playerTransform.position, transform.position) < activationDistance)
+        if (!isDone && isInteractionEnabled &&
+            Vector3.Distance(playerTransform.position, transform.position) < activationDistance)
         {
             CompleteInteraction();
         }
     }
 }
-
-// WaterFaucetObje
