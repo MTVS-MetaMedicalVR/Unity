@@ -1,8 +1,16 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 7195333a5da140f408735e37b2f578a3
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
+=======
+guid: eb72458ab36ab5e4eac830d7e1a17b7e
+folderAsset: yes
+timeCreated: 1561030417
+licenseType: Store
+DefaultImporter:
+>>>>>>> DONGSU
   userData: 
   assetBundleName: 
   assetBundleVariant: 

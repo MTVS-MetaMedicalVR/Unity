@@ -15,6 +15,7 @@ public class VectorTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Debug.Log("chairBack : " + chairBack.forward);
         transform.rotation = Quaternion.LookRotation(chairBack.up, -chairBack.forward);
     }
 }
