@@ -5,7 +5,7 @@ using System.Text;
 
 public class LoginManager : MonoBehaviour
 {
-    private string loginUrl = "https://api.example.com/api/auth/commands/login"; // 실제 URL로 변경
+    private string loginUrl = "http://192.168.0.3:8081/api/auth/commands/login"; // 실제 URL로 변경
     public string accessToken;
     public string refreshToken;
 
