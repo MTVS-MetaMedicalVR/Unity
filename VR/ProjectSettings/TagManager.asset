@@ -32,12 +32,12 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - HiddenMesh
   - PlayerHand
   - 
   - 
-  - 
-  - 
+  - Character
+  - MirroredCharacter
   - 
   - 
   - 
