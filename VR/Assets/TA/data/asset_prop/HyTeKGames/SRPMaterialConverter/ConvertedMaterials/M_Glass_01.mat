@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _METALLICSPECGLOSSMAP
+  - _NORMALMAP
   - _OCCLUSIONMAP
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -116,7 +117,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.40880498, g: 0.40880498, b: 0.40880498, a: 0}
-    - _Color: {r: 0.40880498, g: 0.40880498, b: 0.40880498, a: 0}
+    - _Color: {r: 0.40880492, g: 0.40880492, b: 0.40880492, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.23096885, g: 0.33779976, b: 0.35294116, a: 1}
   m_BuildTextureStacks: []
