@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/01. Scenes/JAEHYEON/Beta_Jae(Conference Room).unity
+    guid: 802e51163538ff14185bab6300e21287
   - enabled: 0
     path: Assets/01. Scenes/JAEHYEON/Avata.unity
     guid: 5fba5a3916eb8ee409f9d515196abf7c
