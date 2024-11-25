@@ -1,19 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
 
 public class OculusMirrorToScreen : MonoBehaviour
 {
-    public VideoPlayer videoPlayer; // Video Player 컴포넌트
     public RenderTexture renderTexture; // Render Texture
 
     void Start()
     {
-        // Oculus 미러링 URL
-        videoPlayer.url = "rtsp://192.168.137.1:554/live"; // RTSP 스트림 미러링 주소
-        videoPlayer.targetTexture = renderTexture; // Render Texture로 출력
-        videoPlayer.Play(); // 비디오 플레이 시작
+        // Oculus 카메라의 출력 설정
+        Camera oculusCamera = Camera.main; // Oculus의 메인 카메라 가져오기
+        if (oculusCamera != null)
+        {
+            oculusCamera.targetTexture = renderTexture; // Render Texture에 출력
+        }
+        else
+        {
+            Debug.LogError("Oculus 메인 카메라를 찾을 수 없습니다. Oculus 기기가 연결되어 있는지 확인하세요.");
+        }
+    }
+
+    void OnDisable()
+    {
+        // Render Texture 연결 해제
+        Camera oculusCamera = Camera.main;
+        if (oculusCamera != null)
+        {
+            oculusCamera.targetTexture = null;
+        }
     }
 }
-

@@ -47,7 +47,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/01. Scenes/DONGSU/Alpha_DONGSU.unity
     guid: 340519b770f00d941a6b7c7883d9b315
-  - enabled: 1
+  - enabled: 0
     path: Assets/01. Scenes/JAEHYEON/Beta-Jae(STT).unity
     guid: 16fa121704298bf4c8d4ce6dac92e257
   m_configObjects:

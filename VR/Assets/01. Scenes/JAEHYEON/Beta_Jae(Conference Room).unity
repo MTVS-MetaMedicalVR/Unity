@@ -389,7 +389,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc918d54764d0d049b125dc894e4c634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 62779044}
   renderTexture: {fileID: 8400000, guid: 14c9074e9192c41429aa577aa0c8df80, type: 2}
 --- !u!328 &62779044
 VideoPlayer:
@@ -417,7 +416,7 @@ VideoPlayer:
   - {fileID: 0}
   m_DirectAudioVolumes:
   - 1
-  m_Url: rtsp://192.168.137.1:554/live
+  m_Url: rtsp://192.168.204.27:554/live
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
