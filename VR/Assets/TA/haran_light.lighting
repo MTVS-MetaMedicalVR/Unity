@@ -8,7 +8,7 @@ LightingSettings:
   m_PrefabAsset: {fileID: 0}
   m_Name: haran_light
   serializedVersion: 6
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_EnableBakedLightmaps: 1
   m_EnableRealtimeLightmaps: 0
   m_RealtimeEnvironmentLighting: 1
@@ -42,7 +42,7 @@ LightingSettings:
   m_PVRSampling: 1
   m_PVRDirectSampleCount: 16
   m_PVRSampleCount: 256
-  m_PVREnvironmentSampleCount: 256
+  m_PVREnvironmentSampleCount: 128
   m_PVREnvironmentReferencePointCount: 2048
   m_LightProbeSampleCountMultiplier: 4
   m_PVRBounces: 2
