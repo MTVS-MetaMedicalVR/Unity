@@ -5,7 +5,7 @@ using System.Text;
 
 public class TokenManager : MonoBehaviour
 {
-    private string refreshTokenUrl = "https://api.example.com/api/auth/commands/token/refresh"; // 실제 URL로 변경
+    private string refreshTokenUrl = "http://localhost:8081/api/auth/commands/token/refresh"; // 실제 URL로 변경
 
     public void RefreshAccessToken(string refreshToken, string userId)
     {

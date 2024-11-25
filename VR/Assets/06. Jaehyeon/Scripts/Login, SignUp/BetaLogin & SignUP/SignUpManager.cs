@@ -3,10 +3,11 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections;
 using System.Text;
+using System.Net;
 
 public class SignUpManager : MonoBehaviour
 {
-    private string signUpUrl = "http://192.168.0.3:8081/api/auth/commands/signup/doctor";
+    private string signUpUrl = "http://192.168.0.54:8081/api/auth/commands/signup/doctor";
 
     // UI 요소 연결
     [Header("Step 1 Fields")]
@@ -105,6 +106,9 @@ public class SignUpManager : MonoBehaviour
 
     private IEnumerator PostRequest(string url, string jsonData)
     {
+        // SSL 인증서 검증 무시 (개발용)
+        //ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+
         byte[] bodyData = Encoding.UTF8.GetBytes(jsonData);
 
         UnityWebRequest request = new UnityWebRequest(url, "POST");

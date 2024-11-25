@@ -2,12 +2,13 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 using System.Text;
+using System.Net;
 
 public class LoginManager : MonoBehaviour
 {
-    private string loginUrl = "http://192.168.0.3:8081/api/auth/commands/login"; // 실제 URL로 변경
-    public string accessToken;
-    public string refreshToken;
+    private string loginUrl = "http://192.168.0.54:8081/api/auth/commands/login"; // 실제 URL로 변경
+    public string accessToken; //jwt(json web token) 
+    public string refreshToken;//jwt(json web token)
 
     public void LoginDoctor(string email, string password)
     {
@@ -23,6 +24,10 @@ public class LoginManager : MonoBehaviour
 
     private IEnumerator PostRequest(string url, string jsonData)
     {
+
+        // SSL 인증서 검증 무시 (개발 환경에서만 사용)
+        //ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+
         byte[] bodyData = Encoding.UTF8.GetBytes(jsonData);
 
         UnityWebRequest request = new UnityWebRequest(url, "POST");
