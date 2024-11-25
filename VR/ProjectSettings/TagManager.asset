@@ -3,40 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - LocoText
-  - Locomotion
-  - LocoButton
-  - PlayerHand
-  - QDSUISharedThemeColor
-  - QDSUISecondaryButton
-  - QDSUIAccentColor
-  - QDSUIPrimaryButton
-  - QDSUIIcon
-  - Grabbable
-  - ReleaseZone
-  - Tray
-<<<<<<< HEAD
-=======
-  - QDSUIToggleButton
-  - QDSUITooltip
-  - QDSUITextSecondaryColor
-  - QDSUITextInputField
-  - QDSUIToggleBorderlessButton
-  - QDSUIBorderlessButton
-  - QDSUIToggleSwitch
-  - QDSUIToggleCheckboxRadio
-  - QDSUISection
->>>>>>> origin/JaeVR(Beta+Procedure)
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
   - 
-  - PlayerHand
+  - 
   - 
   - 
   - 
