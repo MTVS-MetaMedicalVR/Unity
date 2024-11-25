@@ -1,0 +1,39 @@
+{
+    "datas": [
+        {
+            "id": "intro",
+            "title": "소독 시뮬레이션",
+            "description": "시뮬레이션을 시작하겠습니다. 안내를 따라주세요."
+        },
+        {
+            "id": "move_to_sink",
+            "title": "손씻기 절차",
+            "description": "개수대로 이동하세요."
+        },
+        {
+            "id": "turn_water_on",
+            "title": "손씻기 절차",
+            "description": "물을 트세요."
+        },
+        {
+            "id": "use_soap",
+            "title": "손씻기 절차",
+            "description": "비누를 펌프하세요."
+        },
+        {
+            "id": "wash_hands",
+            "title": "손씻기 절차",
+            "description": "손을 30초간 씻으세요."
+        },
+        {
+            "id": "dry_hands",
+            "title": "손씻기 절차",
+            "description": "손을 드라이기에 말리세요."
+        },
+        {
+            "id": "turn_water_off",
+            "title": "손씻기 절차",
+            "description": "물을 끄세요."
+        }
+    ]
+}

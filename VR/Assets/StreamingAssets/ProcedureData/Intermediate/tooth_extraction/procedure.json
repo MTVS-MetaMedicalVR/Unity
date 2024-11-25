@@ -1,0 +1,19 @@
+{
+    "id": "tooth_extraction",
+    "name": "발치 절차",
+    "description": "치아를 발치하는 기본적인 절차입니다.",
+    "preRequisite": "hand_wash",
+    "steps": [
+        {
+            "name": "환자 눕히기",
+            "type": "animation",
+            "duration": 2.0,
+            "targetName": null
+        },
+        {
+            "name": "기구 준비",
+            "type": "tool",
+            "targetName": "발치용 겸자"
+        }
+    ]
+}
