@@ -8,25 +8,38 @@ public class OculusMirrorToScreen : MonoBehaviour
 
     void Start()
     {
-        // Oculus 카메라의 출력 설정
-        Camera oculusCamera = Camera.main; // Oculus의 메인 카메라 가져오기
-        if (oculusCamera != null)
+        // Oculus의 CenterEyeAnchor에서 Render Texture로 미러링
+        Transform centerEyeAnchor = transform.Find("OVRCameraRig/TrackingSpace/CenterEyeAnchor");
+        if (centerEyeAnchor != null)
         {
-            oculusCamera.targetTexture = renderTexture; // Render Texture에 출력
+            Camera oculusCamera = centerEyeAnchor.GetComponent<Camera>();
+            if (oculusCamera != null)
+            {
+                oculusCamera.targetTexture = renderTexture; // Render Texture에 출력
+            }
+            else
+            {
+                Debug.LogError("Oculus CenterEyeAnchor에 Camera가 없습니다.");
+            }
         }
         else
         {
-            Debug.LogError("Oculus 메인 카메라를 찾을 수 없습니다. Oculus 기기가 연결되어 있는지 확인하세요.");
+            Debug.LogError("CenterEyeAnchor를 찾을 수 없습니다. OVRCameraRig 설정을 확인하세요.");
         }
     }
 
     void OnDisable()
     {
         // Render Texture 연결 해제
-        Camera oculusCamera = Camera.main;
-        if (oculusCamera != null)
+        Transform centerEyeAnchor = transform.Find("OVRCameraRig/TrackingSpace/CenterEyeAnchor");
+        if (centerEyeAnchor != null)
         {
-            oculusCamera.targetTexture = null;
+            Camera oculusCamera = centerEyeAnchor.GetComponent<Camera>();
+            if (oculusCamera != null)
+            {
+                oculusCamera.targetTexture = null;
+            }
         }
     }
 }
+
