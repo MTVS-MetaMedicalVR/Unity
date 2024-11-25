@@ -4,7 +4,10 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/JaeVR(Beta+Procedure)
 namespace DevionGames
 {
 	public class TextToTextMeshPro : EditorWindow
@@ -113,7 +116,11 @@ namespace DevionGames
 			float maxFontSize = component.resizeTextMaxSize;
 			bool raycastTarget = component.raycastTarget;
 			bool maskable = component.maskable;
+<<<<<<< HEAD
 			Outline outline = component.GetComponent<Outline>();
+=======
+			UnityEngine.UI.Outline outline = component.GetComponent<UnityEngine.UI.Outline>();
+>>>>>>> origin/JaeVR(Beta+Procedure)
 			bool hasOutline = outline != null;
 			float outlineThickness = 0f;
 			Color outlineColor= Color.black;

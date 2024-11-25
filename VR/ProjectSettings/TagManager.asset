@@ -16,6 +16,18 @@ TagManager:
   - Grabbable
   - ReleaseZone
   - Tray
+<<<<<<< HEAD
+=======
+  - QDSUIToggleButton
+  - QDSUITooltip
+  - QDSUITextSecondaryColor
+  - QDSUITextInputField
+  - QDSUIToggleBorderlessButton
+  - QDSUIBorderlessButton
+  - QDSUIToggleSwitch
+  - QDSUIToggleCheckboxRadio
+  - QDSUISection
+>>>>>>> origin/JaeVR(Beta+Procedure)
   layers:
   - Default
   - TransparentFX
@@ -24,7 +36,7 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - PlayerHand
   - 
   - 
   - 

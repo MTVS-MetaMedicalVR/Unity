@@ -32,7 +32,11 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
+<<<<<<< HEAD
     isReadable: 0
+=======
+    isReadable: 1
+>>>>>>> origin/JaeVR(Beta+Procedure)
   meshes:
     lODScreenPercentages: []
     globalScale: 10
@@ -90,7 +94,11 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+<<<<<<< HEAD
     globalScale: 0.099999994
+=======
+    globalScale: 10
+>>>>>>> origin/JaeVR(Beta+Procedure)
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

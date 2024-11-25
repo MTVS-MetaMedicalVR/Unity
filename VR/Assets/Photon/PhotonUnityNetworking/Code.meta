@@ -1,5 +1,6 @@
 fileFormatVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
 guid: 6421c0d75911cd1469e7af9467588bc1
 folderAsset: yes
 DefaultImporter:
@@ -9,6 +10,11 @@ guid: 9a312e4dbb5268d4e859200f68478e0c
 folderAsset: yes
 DefaultImporter:
 >>>>>>> DONGSU
+=======
+guid: 9a312e4dbb5268d4e859200f68478e0c
+folderAsset: yes
+DefaultImporter:
+>>>>>>> origin/JaeVR(Beta+Procedure)
   userData: 
   assetBundleName: 
   assetBundleVariant: 

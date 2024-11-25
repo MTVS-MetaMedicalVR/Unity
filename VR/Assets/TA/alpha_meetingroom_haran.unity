@@ -460,7 +460,15 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 100990566383625799, guid: 95c7076cfed474b45a89cb2db707f40c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 62779044}
+    - targetCorrespondingSourceObject: {fileID: 100990566383625799, guid: 95c7076cfed474b45a89cb2db707f40c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 62779043}
   m_SourcePrefab: {fileID: 100100000, guid: 95c7076cfed474b45a89cb2db707f40c, type: 3}
 --- !u!4 &62779041 stripped
 Transform:
@@ -468,6 +476,65 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 62779040}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
+=======
+--- !u!1 &62779042 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100990566383625799, guid: 95c7076cfed474b45a89cb2db707f40c,
+    type: 3}
+  m_PrefabInstance: {fileID: 62779040}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &62779043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62779042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc918d54764d0d049b125dc894e4c634, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 62779044}
+  renderTexture: {fileID: 8400000, guid: 14c9074e9192c41429aa577aa0c8df80, type: 2}
+--- !u!328 &62779044
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62779042}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 0}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 14c9074e9192c41429aa577aa0c8df80, type: 2}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 2
+  m_AspectRatio: 2
+  m_DataSource: 1
+  m_TimeUpdateMode: 2
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
+  m_Url: https://www.oculus.com/casting
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 1
+  m_Looping: 0
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
+>>>>>>> origin/JaeVR(Beta+Procedure)
 --- !u!64 &134613727
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -920,10 +987,14 @@ MeshCollider:
   m_CookingOptions: 30
   m_Mesh: {fileID: 7740108642527964278, guid: a8758f7bda4fa894b8092147468aaf82, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &266560718
 =======
 --- !u!1 &337961888
 >>>>>>> DONGSU
+=======
+--- !u!1 &337961888
+>>>>>>> origin/JaeVR(Beta+Procedure)
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -932,6 +1003,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
 <<<<<<< HEAD
+<<<<<<< HEAD
   - component: {fileID: 266560722}
   - component: {fileID: 266560721}
   - component: {fileID: 266560720}
@@ -939,6 +1011,8 @@ GameObject:
   m_Layer: 0
   m_Name: Cube (2)
 =======
+=======
+>>>>>>> origin/JaeVR(Beta+Procedure)
   - component: {fileID: 337961894}
   - component: {fileID: 337961893}
   - component: {fileID: 337961889}
@@ -948,12 +1022,16 @@ GameObject:
   - component: {fileID: 337961895}
   m_Layer: 0
   m_Name: '[BuildingBlock] Network Manager'
+<<<<<<< HEAD
 >>>>>>> DONGSU
+=======
+>>>>>>> origin/JaeVR(Beta+Procedure)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
 <<<<<<< HEAD
 --- !u!65 &266560719
 BoxCollider:
@@ -961,10 +1039,15 @@ BoxCollider:
 --- !u!114 &337961889
 MonoBehaviour:
 >>>>>>> DONGSU
+=======
+--- !u!114 &337961889
+MonoBehaviour:
+>>>>>>> origin/JaeVR(Beta+Procedure)
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
   m_GameObject: {fileID: 266560718}
   m_Material: {fileID: 0}
@@ -984,6 +1067,8 @@ MonoBehaviour:
 --- !u!23 &266560720
 MeshRenderer:
 =======
+=======
+>>>>>>> origin/JaeVR(Beta+Procedure)
   m_GameObject: {fileID: 337961888}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -992,11 +1077,15 @@ MeshRenderer:
   m_EditorClassIdentifier: 
 --- !u!114 &337961890
 MonoBehaviour:
+<<<<<<< HEAD
 >>>>>>> DONGSU
+=======
+>>>>>>> origin/JaeVR(Beta+Procedure)
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
   m_GameObject: {fileID: 266560718}
   m_Enabled: 1
@@ -1037,6 +1126,8 @@ MonoBehaviour:
 --- !u!33 &266560721
 MeshFilter:
 =======
+=======
+>>>>>>> origin/JaeVR(Beta+Procedure)
   m_GameObject: {fileID: 337961888}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -1046,16 +1137,22 @@ MeshFilter:
   DelayIfSceneManagerIsBusy: 1
 --- !u!114 &337961891
 MonoBehaviour:
+<<<<<<< HEAD
 >>>>>>> DONGSU
+=======
+>>>>>>> origin/JaeVR(Beta+Procedure)
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_GameObject: {fileID: 266560718}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &266560722
 =======
+=======
+>>>>>>> origin/JaeVR(Beta+Procedure)
   m_GameObject: {fileID: 337961888}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -1164,12 +1261,16 @@ MonoBehaviour:
     - _memberName: installAutoMatchmaking
       _value: '{}'
 --- !u!4 &337961894
+<<<<<<< HEAD
 >>>>>>> DONGSU
+=======
+>>>>>>> origin/JaeVR(Beta+Procedure)
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
   m_GameObject: {fileID: 266560718}
   serializedVersion: 2
@@ -1181,6 +1282,8 @@ Transform:
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 =======
+=======
+>>>>>>> origin/JaeVR(Beta+Procedure)
   m_GameObject: {fileID: 337961888}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1202,7 +1305,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8edbe7108d8a43ab838cf8b8d9453df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
 >>>>>>> DONGSU
+=======
+>>>>>>> origin/JaeVR(Beta+Procedure)
 --- !u!64 &411344368
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1696,6 +1802,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5661419842125321680, guid: a8758f7bda4fa894b8092147468aaf82, type: 3}
+--- !u!1 &563330112
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 563330115}
+  - component: {fileID: 563330114}
+  - component: {fileID: 563330113}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &563330113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563330112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &563330114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563330112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &563330115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563330112}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &595639758
 GameObject:
   m_ObjectHideFlags: 0
@@ -2361,6 +2535,7 @@ MeshCollider:
   m_CookingOptions: 30
   m_Mesh: {fileID: 7089654396919873354, guid: a8758f7bda4fa894b8092147468aaf82, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &912571788
 GameObject:
   m_ObjectHideFlags: 0
@@ -2468,6 +2643,8 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 =======
 >>>>>>> DONGSU
+=======
+>>>>>>> origin/JaeVR(Beta+Procedure)
 --- !u!64 &962378291
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3602,17 +3779,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a8758f7bda4fa894b8092147468aaf82,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a8758f7bda4fa894b8092147468aaf82,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a8758f7bda4fa894b8092147468aaf82,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a8758f7bda4fa894b8092147468aaf82,
         type: 3}
@@ -71428,6 +71605,7 @@ SceneRoots:
   - {fileID: 492476719}
   - {fileID: 624911599}
 <<<<<<< HEAD
+<<<<<<< HEAD
   - {fileID: 912571792}
   - {fileID: 1174237077}
   - {fileID: 266560722}
@@ -71437,3 +71615,9 @@ SceneRoots:
   - {fileID: 337961894}
   - {fileID: 1228686918}
 >>>>>>> DONGSU
+=======
+  - {fileID: 2514675399644790983}
+  - {fileID: 337961894}
+  - {fileID: 1228686918}
+  - {fileID: 563330115}
+>>>>>>> origin/JaeVR(Beta+Procedure)

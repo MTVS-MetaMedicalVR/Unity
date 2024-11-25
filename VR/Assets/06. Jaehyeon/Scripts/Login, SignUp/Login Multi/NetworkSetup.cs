@@ -74,7 +74,11 @@ public class NetworkSetup : MonoBehaviour
             await networkRunner.StartGame(startArgs);
             Debug.Log("Connected to session successfully!");
             // 로그인 성공 시, 다른 씬으로 이동
+<<<<<<< HEAD
             SceneManager.LoadScene("PROTO_VR Jae");
+=======
+            SceneManager.LoadScene("Beta-Jae(STT)");
+>>>>>>> origin/JaeVR(Beta+Procedure)
         }
         catch (System.Exception ex)
         {
@@ -118,7 +122,11 @@ public class NetworkSetup : MonoBehaviour
         Debug.Log("개발자 모드로 진입합니다.");
         try
         {
+<<<<<<< HEAD
             SceneManager.LoadScene("PROTO_VR Jae");
+=======
+            SceneManager.LoadScene("Beta-Jae(STT)");
+>>>>>>> origin/JaeVR(Beta+Procedure)
         }
         catch (System.Exception ex)
         {
