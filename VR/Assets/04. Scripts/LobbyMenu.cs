@@ -41,6 +41,22 @@ public class LobbyMenu : MonoBehaviour
         //contentSelectionUI.SetActive(true);
         
     }
+
+
+    // Play Button 눌렀을 때 호출할 함수
+    public void OnPlayButtonClick1()
+    {
+        // 로비 메뉴 UI 비활성화
+        lobbyMenuUI.SetActive(false);
+
+        // 씬 전환 (나중에 콘텐츠 UI 완성되면 교체 예정)
+        SceneManager.LoadScene(2);
+
+        //// 콘텐츠 선택 UI 활성화
+        //contentSelectionUI.SetActive(true);
+
+    }
+
     // Settings Button 눌렀을 때 호출할 함수
     public void OnSettingsButtonClick()
     {
