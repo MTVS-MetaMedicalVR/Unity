@@ -10,8 +10,8 @@ public class VectorTest : MonoBehaviour
     public UnitChairController unitChairController; // 의자의 상태를 제어하는 컨트롤러
     public Animator riggedAnimator;
 
-    public Vector3 rootPositionOffsetWhenBack = new Vector3(0, 0.1f, -0.1f); // 등받이가 뒤로 갔을 때 위치 보정 값
-    public Vector3 rootPositionOffsetWhenUpright = new Vector3(0, 0.1f, 0.1f); // 등받이가 기본 위치에 있을 때 위치 보정 값
+    public Vector3 rootPositionOffsetWhenBack = new Vector3(0, -0.25f, 0.125f); // 등받이가 뒤로 갔을 때 위치 보정 값
+    public Vector3 rootPositionOffsetWhenUpright = new Vector3(0, 0.1f, 0.35f); // 등받이가 기본 위치에 있을 때 위치 보정 값
 
     public Vector3 waistRotationOffsetWhenBack = new Vector3(0, 0, 0); // 등받이가 뒤로 갔을 때 회전 보정 값
     public Vector3 waistRotationOffsetWhenUpright = new Vector3(0, 0, 10f); // 등받이가 기본 위치에 있을 때 회전 보정 값
@@ -22,13 +22,13 @@ public class VectorTest : MonoBehaviour
         {
             // 등받이가 뒤로 기울어진 상태일 때
             UpdatePositionAndRotation(rootPositionOffsetWhenBack, waistRotationOffsetWhenBack);
-            riggedAnimator.SetBool("RiggedBack", true);
+            //riggedAnimator.SetBool("RiggedBack", true);
         }
         else
         {
             // 등받이가 기본 상태일 때
             UpdatePositionAndRotation(rootPositionOffsetWhenUpright, waistRotationOffsetWhenUpright);
-            riggedAnimator.SetBool("RiggedBack", false);
+            //riggedAnimator.SetBool("RiggedBack", false);
         }
     }
 
