@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/01. Scenes/JAEHYEON/Alpa Robby.unity
     guid: b5d54df37df34df4a9e8ed9ced5b7165
   - enabled: 1
     path: Assets/01. Scenes/JAEHYEON/Beta-Jae(STT).unity
     guid: 16fa121704298bf4c8d4ce6dac92e257
-  - enabled: 1
+  - enabled: 0
     path: Assets/01. Scenes/JAEHYEON/Beta_Jae(Conference Room).unity
     guid: 802e51163538ff14185bab6300e21287
   - enabled: 0
