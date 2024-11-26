@@ -10,11 +10,11 @@ public class VectorTest : MonoBehaviour
     public UnitChairController unitChairController; // 의자의 상태를 제어하는 컨트롤러
     public Animator riggedAnimator;
 
-    public Vector3 rootPositionOffsetWhenBack = new Vector3(0, 0.1f, -0.1f); // 등받이가 뒤로 갔을 때 위치 보정 값
-    public Vector3 rootPositionOffsetWhenUpright = new Vector3(0, 0.1f, 0.1f); // 등받이가 기본 위치에 있을 때 위치 보정 값
+    public Vector3 rootPositionOffsetWhenBack = new Vector3(0, -0.3f, 0.1f); // 등받이가 뒤로 갔을 때 위치 보정 값
+    public Vector3 rootPositionOffsetWhenUpright = new Vector3(0, -0.315f, 0.275f); // 등받이가 기본 위치에 있을 때 위치 보정 값
 
-    public Vector3 waistRotationOffsetWhenBack = new Vector3(0, 0, 0); // 등받이가 뒤로 갔을 때 회전 보정 값
-    public Vector3 waistRotationOffsetWhenUpright = new Vector3(0, 0, 10f); // 등받이가 기본 위치에 있을 때 회전 보정 값
+    public Vector3 waistRotationOffsetWhenBack = new Vector3(-95.95f, 0, 0); // 등받이가 뒤로 갔을 때 회전 보정 값
+    public Vector3 waistRotationOffsetWhenUpright = new Vector3(-88.25f, 0, 10f); // 등받이가 기본 위치에 있을 때 회전 보정 값
 
     void Update()
     {
@@ -35,10 +35,7 @@ public class VectorTest : MonoBehaviour
     private void UpdatePositionAndRotation(Vector3 positionOffset, Vector3 rotationOffset)
     {
         // 1. 캐릭터 최상위 Transform 위치를 조정
-        Vector3 targetRootPosition = chairBack.position
-                                    + chairBack.up * positionOffset.y
-                                    + chairBack.right * positionOffset.x
-                                    + chairBack.forward * positionOffset.z;
+        Vector3 targetRootPosition = chairBack.position + positionOffset;
         characterRoot.position = targetRootPosition;
 
         // 2. Waist 본 회전을 조정

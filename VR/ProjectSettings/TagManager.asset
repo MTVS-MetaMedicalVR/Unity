@@ -25,6 +25,7 @@ TagManager:
   - QDSUIToggleSwitch
   - QDSUIToggleCheckboxRadio
   - QDSUISection
+  - Tooth
   layers:
   - Default
   - TransparentFX
