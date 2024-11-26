@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ConnectionManager : MonoBehaviour
+public class CommConnectionManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField inputField;
 
     public void CreateRoom()
     {
-        NetworkManager.Instance.CreateSession(inputField.text);
+        CommNetworkManager.Instance.CreateSession(inputField.text);
     }
 
     public void JoinRoom()
     {
-        NetworkManager.Instance.JoinSession(inputField.text);
+        CommNetworkManager.Instance.JoinSession(inputField.text);
 
     }
 }

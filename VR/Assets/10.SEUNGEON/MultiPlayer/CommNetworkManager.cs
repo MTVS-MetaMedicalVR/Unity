@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
+public class CommNetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 {
     //creating a singleton
-    public static NetworkManager Instance { get; private set; }
+    public static CommNetworkManager Instance { get; private set; }
 
     [SerializeField]
     private GameObject _runnerPrefab;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-public class NetworkRig : NetworkBehaviour
+public class CommNetworkRig : NetworkBehaviour
 {
     public bool IsLocalNetworkRig => Object.HasStateAuthority;
 
@@ -20,7 +20,7 @@ public class NetworkRig : NetworkBehaviour
     [SerializeField]
     private NetworkTransform rightHandTransform;
 
-    HardwareRig hardwareRig;
+    CommHardwareRig hardwareRig;
 
     public override void Spawned()
     {
@@ -28,7 +28,7 @@ public class NetworkRig : NetworkBehaviour
 
         if (IsLocalNetworkRig)
         {
-            hardwareRig = FindObjectOfType<HardwareRig>();
+            hardwareRig = FindObjectOfType<CommHardwareRig>();
             if (hardwareRig == null)
                 Debug.LogError("Missing HardwareRig in the scene");
         }

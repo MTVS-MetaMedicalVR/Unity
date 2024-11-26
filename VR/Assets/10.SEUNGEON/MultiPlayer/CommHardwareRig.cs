@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HardwareRig : MonoBehaviour, INetworkRunnerCallbacks
+public class CommHardwareRig : MonoBehaviour, INetworkRunnerCallbacks
 {
     public Transform playerTransform;
 
@@ -17,7 +17,7 @@ public class HardwareRig : MonoBehaviour, INetworkRunnerCallbacks
 
     void Start()
     {
-        NetworkManager.Instance.Runner.AddCallbacks(this);
+        CommNetworkManager.Instance.Runner.AddCallbacks(this);
     }
 
 

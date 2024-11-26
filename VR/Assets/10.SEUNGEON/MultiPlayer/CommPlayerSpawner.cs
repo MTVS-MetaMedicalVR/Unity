@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
+public class CommPlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField]
     private NetworkPrefabRef playerPrefab;
@@ -15,7 +15,7 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     void Start()
     {
-        NetworkManager.Instance.Runner.AddCallbacks(this);
+        CommNetworkManager.Instance.Runner.AddCallbacks(this);
     }
 
     #region INetworkRunnerCallbacks
