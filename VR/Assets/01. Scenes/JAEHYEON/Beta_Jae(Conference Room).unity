@@ -4313,7 +4313,17 @@ PrefabInstance:
     - target: {fileID: 5786158296676510900, guid: 9ae4f82b92c7c6e4bacc5b5651a9afd1,
         type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5786158296676510900, guid: 9ae4f82b92c7c6e4bacc5b5651a9afd1,
+        type: 3}
+      propertyPath: _autoAOIOverride
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5786158296676510900, guid: 9ae4f82b92c7c6e4bacc5b5651a9afd1,
+        type: 3}
+      propertyPath: DisableSharedModeInterpolation
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8309980821603331038, guid: 9ae4f82b92c7c6e4bacc5b5651a9afd1,
         type: 3}
