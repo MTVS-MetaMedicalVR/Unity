@@ -4310,6 +4310,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5786158296676510900, guid: 9ae4f82b92c7c6e4bacc5b5651a9afd1,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8309980821603331038, guid: 9ae4f82b92c7c6e4bacc5b5651a9afd1,
         type: 3}
       propertyPath: SortKey
