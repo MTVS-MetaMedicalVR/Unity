@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Material Sample Standard - Metal Silver
-  m_Shader: {fileID: 4800000, guid: d991ffef415f4b9298fd9995cf41b23f, type: 3}
-  m_Parent: {fileID: 2100000, guid: b13cf4d876924edfb12498752e27d9d2, type: 2}
+  m_Shader: {fileID: 4800000, guid: d6fb7e76528e442bb1d1cdac132c644d, type: 3}
+  m_Parent: {fileID: 2100000, guid: 08b6c9cd994c4078a638ca5a84349ec2, type: 2}
   m_ModifiedSerializedProperties: 18
   m_ValidKeywords: []
   m_InvalidKeywords:
