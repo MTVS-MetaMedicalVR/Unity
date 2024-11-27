@@ -10,7 +10,7 @@ public class ActionHandler : MonoBehaviour
     //private const float AccuracyThreshold = 0.8f; // 최소 인식률 (80%)
     // 명령어 리스트
     private readonly List<string> openMouthCommands = new List<string> { "아 해보세요", "아 해 보세요", "입 벌려 보세요", "아해 보세요", "해보세요" };
-    private readonly List<string> closeMouthCommands = new List<string> { "다 물어보세요", "입 다물어 보세요", "다물어 보세요", "다물어보세요", "물어보세요" };
+    private readonly List<string> closeMouthCommands = new List<string> { "다 물어보세요", "입 다물어 보세요", "다물어 보세요", "다물어보세요", "끝났습니다" };
     private readonly List<string> turnLeftCommands = new List<string> { "좌측으로 돌려 보세요", "왼쪽으로 돌려 보세요", "좌측으로" };
     private readonly List<string> turnRightCommands = new List<string> { "우측으로 돌려 보세요", "오른쪽으로 돌려 보세요", "우측으로" };
 
