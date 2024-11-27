@@ -51,8 +51,8 @@ EditorBuildSettings:
     path: Assets/01. Scenes/JAEHYEON/Beta-Jae(STT).unity
     guid: 16fa121704298bf4c8d4ce6dac92e257
   - enabled: 1
-    path: Assets/00_Merge/0_MergeScene/00.LOBBY.unity
-    guid: 45c2f93b60b0ff44f9a58ac9702eb8ef
+    path: Assets/00_Merge/Scenes/0_Lobby.unity
+    guid: 00f4a282913dddb48871fb5bc430fc77
   - enabled: 1
     path: Assets/00_Merge/0_MergeScene/01.PRACTICE.unity
     guid: 592c6f4d552594c4c9eea974ffb24ddc
