@@ -389,7 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc918d54764d0d049b125dc894e4c634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderTexture: {fileID: 8400000, guid: 14c9074e9192c41429aa577aa0c8df80, type: 2}
+  renderTexture: {fileID: 8400000, guid: 78c51af42f476e74e88466de1e37fc24, type: 2}
 --- !u!328 &62779044
 VideoPlayer:
   m_ObjectHideFlags: 0
@@ -417,7 +417,7 @@ VideoPlayer:
   m_DirectAudioVolumes:
   - 1
   m_Url: rtsp://192.168.204.27:554/live
-  m_EnabledAudioTracks: 01
+  m_EnabledAudioTracks: 00
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
@@ -4309,21 +4309,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 5786158296676510900, guid: 9ae4f82b92c7c6e4bacc5b5651a9afd1,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5786158296676510900, guid: 9ae4f82b92c7c6e4bacc5b5651a9afd1,
-        type: 3}
-      propertyPath: _autoAOIOverride
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5786158296676510900, guid: 9ae4f82b92c7c6e4bacc5b5651a9afd1,
-        type: 3}
-      propertyPath: DisableSharedModeInterpolation
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8309980821603331038, guid: 9ae4f82b92c7c6e4bacc5b5651a9afd1,
         type: 3}
