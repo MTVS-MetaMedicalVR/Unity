@@ -7,7 +7,7 @@ public class PhotonRoomButton : MonoBehaviour
 {
     [Header("UI Components")]
     [SerializeField] private TextMeshProUGUI roomNameText;
-    [SerializeField] private TextMeshProUGUI practicePlayersText;
+    //[SerializeField] private TextMeshProUGUI practicePlayersText;
     [SerializeField] private TextMeshProUGUI spectatorPlayersText;
     [SerializeField] private Toggle practiceToggle;
     [SerializeField] private Toggle spectatorToggle;
@@ -20,7 +20,7 @@ public class PhotonRoomButton : MonoBehaviour
 
         // 텍스트 업데이트
         roomNameText.text = info.RoomName;
-        practicePlayersText.text = $"Players: {info.PracticeCurrentPlayers}/{RoomSettings.PRACTICE_ROOM_MAX_PLAYERS}";
+        //practicePlayersText.text = $"Players: {info.PracticeCurrentPlayers}/{RoomSettings.PRACTICE_ROOM_MAX_PLAYERS}";
         spectatorPlayersText.text = $"Spectators: {info.SpectatorCurrentPlayers}/{RoomSettings.SPECTATOR_ROOM_MAX_PLAYERS}";
 
         // 토글 이벤트 설정
