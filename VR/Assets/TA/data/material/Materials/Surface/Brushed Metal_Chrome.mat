@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Brushed Metal_Chrome
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: 2100000, guid: 59ed75e0e914d284db1d77c5ed2b9762, type: 2}
+  m_Parent: {fileID: 2100000, guid: 203a1708bb68aee4bb0aa463ff4d68ae, type: 2}
   m_ModifiedSerializedProperties: 2
   m_ValidKeywords:
   - _EMISSION
@@ -52,9 +52,9 @@ Material:
     - _GlossMapScale: 0.513
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Metallic: 0.78
+    - _Metallic: 0.74
     - _Parallax: 0.02
-    - _Smoothness: 0.61
+    - _Smoothness: 0.51
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
