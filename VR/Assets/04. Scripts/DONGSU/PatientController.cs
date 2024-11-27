@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PatientController : MonoBehaviour
 {
-    UnitChairController unitChairController;
-    public Transform patient;
-    Quaternion originalRotate;
+    
+    public Animator riggedAnimator;
+    public UnitChairController unitChairController;
 
 
 
@@ -14,8 +14,7 @@ public class PatientController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        unitChairController = GetComponent<UnitChairController>();
-        originalRotate = patient.transform.rotation;
+        
     }
 
     // Update is called once per frame
@@ -23,12 +22,11 @@ public class PatientController : MonoBehaviour
     {
         if (unitChairController.isBack == true)
         {
-            // 기존 y, z 회전을 유지하면서 x 회전만 수정
-            patient.transform.rotation = Quaternion.Euler(61f, patient.eulerAngles.y, patient.eulerAngles.z);
+
         }
         else
         {
-            patient.transform.rotation = originalRotate;
+            
         }
     }
 }

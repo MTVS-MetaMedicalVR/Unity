@@ -5,7 +5,7 @@ using UnityEngine;
 public class ClothController : MonoBehaviour
 {
     public GameObject cloth;
-    UnitChairController unitChairController;
+    public UnitChairController unitChairController;
 
     // 코루틴 중복 실행 방지용
     private bool isCoroutineRunning = false;
@@ -13,7 +13,6 @@ public class ClothController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        unitChairController = GetComponent<UnitChairController>();
         cloth.SetActive(false);
     }
 
@@ -41,8 +40,5 @@ public class ClothController : MonoBehaviour
         isCoroutineRunning = true;
         yield return new WaitForSeconds(delay);
         cloth.SetActive(true);
-
-        // 고개 돌리는 기준이 되면 Neck 하위 오브젝트로 넣쟈
-        cloth.transform.SetParent(GameObject.Find("NeckTwist02").transform);
     }
 }
