@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/00_Merge/0_MergeScene/00.LOBBY.unity
     guid: 45c2f93b60b0ff44f9a58ac9702eb8ef
   - enabled: 1
     path: Assets/01. Scenes/JAEHYEON/Beta-Jae Finall.unity
     guid: 71dcc5dcf7f7bf64ca849f3e774346e9
-  - enabled: 0
+  - enabled: 1
     path: Assets/01. Scenes/JAEHYEON/Beta_Jae(Conference Room).unity
     guid: 802e51163538ff14185bab6300e21287
   m_configObjects:
