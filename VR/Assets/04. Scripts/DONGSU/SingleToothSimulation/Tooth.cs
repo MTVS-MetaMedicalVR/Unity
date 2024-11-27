@@ -38,9 +38,10 @@ public class Tooth : MonoBehaviour
             rb.drag = 10f;
             rb.angularDrag = 10f;
         }
-
+        //승언 수정(에러 임시 수정)
+        Rigidbody tempRigidBody  = this.transform.parent.GetComponent<Rigidbody>();
         // Joint 설정
-        SetupSimpleJoint();
+        SetupSimpleJoint(tempRigidBody);
     }
 
     void SetupSimpleJoint(Rigidbody parentRb)
