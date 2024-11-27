@@ -40,7 +40,7 @@ public class Tooth : MonoBehaviour
         }
 
         // Joint 설정
-        SetupSimpleJoint();
+        //SetupSimpleJoint();                      <<<<<<<<< 얘 수정해야 함.
     }
 
     void SetupSimpleJoint(Rigidbody parentRb)
