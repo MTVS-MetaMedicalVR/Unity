@@ -7,7 +7,7 @@ using System.Net;
 
 public class SignUpManager : MonoBehaviour
 {
-    private string signUpUrl = "http://192.168.0.33:8081/api/auth/commands/signup/doctor";
+    private string signUpUrl = "http://192.168.0.9:8081/api/auth/commands/signup/doctor";
 
     // UI 요소 연결
     [Header("Step 1 Fields")]

@@ -15,6 +15,7 @@ public class SuctionTool : MonoBehaviour
     {
         // 석션 도구 끝부분과 특정 영역 사이의 거리 계산
         float distanceToTarget = Vector3.Distance(suctionTip.position, targetArea.position);
+        //Debug.Log($"Distance to target: {distanceToTarget}, Detection Radius: {detectionRadius}");
 
         // 특정 영역 안에 들어왔을 때 Suction Sound 재생
         if (distanceToTarget <= detectionRadius)
