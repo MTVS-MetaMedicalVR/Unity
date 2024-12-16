@@ -5,7 +5,7 @@ using System.Text;
 
 public class STTClient : MonoBehaviour
 {
-    private string apiUrl = "http://192.168.39.27:9027/hoonjang_stt"; // Python 서버 URL
+    private string apiUrl = "http://192.168.35.9:9027/hoonjang_stt"; // Python 서버 URL
     public static event System.Action<string, string> OnSTTResponseReceived; // STT 응답 이벤트 (인식된 텍스트와 인식률)
 
     public void SendAudioData(byte[] wavData, string expectedText)
